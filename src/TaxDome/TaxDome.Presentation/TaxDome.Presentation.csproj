@@ -9,15 +9,15 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="ViewModels\" />
-    </ItemGroup>
-
-    <ItemGroup>
       <Page Update="Views\DocumentHistoryView.xaml">
         <Generator>MSBuild:Compile</Generator>
         <XamlRuntime>Wpf</XamlRuntime>
         <SubType>Designer</SubType>
       </Page>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\TaxDome.Application\TaxDome.Application.csproj" />
     </ItemGroup>
 
 </Project>
