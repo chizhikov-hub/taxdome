@@ -42,13 +42,13 @@ public partial class App : System.Windows.Application
     {
         // Настройка DbContext с использованием базы данных (пример с SQLite):
         services.AddDbContext<ApplicationDbContext>(options =>
-            options.UseSqlite("Data Source=app.db")); // или UseSqlServer, UseInMemoryDatabase
+            options.UseSqlite("Data Source=app.db"));
 
         // Регистрация репозитория
-        services.AddSingleton<IDocumentRepository, DocumentRepository>(); 
+        services.AddScoped<IDocumentRepository, DocumentRepository>(); 
 
         // Регистрация сервисов
-        services.AddSingleton<DocumentService>();
+        services.AddScoped<DocumentService>();
 
         // Регистрация ViewModel
         services.AddTransient<DocumentHistoryViewModel>();

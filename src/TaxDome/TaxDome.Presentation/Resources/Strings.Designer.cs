@@ -60,6 +60,15 @@ namespace TaxDome.Presentation.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add.
+        /// </summary>
+        internal static string DocumentHistory_Add {
+            get {
+                return ResourceManager.GetString("DocumentHistory_Add", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Created At.
         /// </summary>
         internal static string DocumentHistory_Column_CreatedAt {

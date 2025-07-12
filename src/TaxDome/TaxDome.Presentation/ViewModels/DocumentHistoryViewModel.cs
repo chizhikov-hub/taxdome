@@ -1,10 +1,14 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Data;
+using System.Windows.Input;
+using CommunityToolkit.Mvvm.Input;
 using TaxDome.Application.DTOs;
 using TaxDome.Application.Services;
+using TaxDome.Domain.Entities;
 
 namespace TaxDome.Presentation.ViewModels;
 
@@ -39,6 +43,8 @@ public class DocumentHistoryViewModel : INotifyPropertyChanged
             OnPropertyChanged();
         }
     }
+    
+    public IAsyncRelayCommand AddCommand { get; private set; }
 
     public DocumentHistoryViewModel(DocumentService documentService)
     {
@@ -46,8 +52,46 @@ public class DocumentHistoryViewModel : INotifyPropertyChanged
         _documents = new ObservableCollection<DocumentDto>();
         Documents = CollectionViewSource.GetDefaultView(_documents);
         Documents.Filter = FilterDocuments;
+        InitializeCommands();
         
         LoadDocumentsAsync().ConfigureAwait(false);
+    }
+
+    private void InitializeCommands()
+    {
+        AddCommand = new AsyncRelayCommand(ExecuteAddCommand);
+    }
+    
+    private async Task ExecuteAddCommand()
+    {
+        var document = new Document(Path.ChangeExtension(Path.GetRandomFileName(), ".pdf"), "PDF", "chizhikov");
+        await _documentService.AddAsync(document, CancellationToken.None);
+        
+        
+        
+        await LoadDocumentsAsync();
+    }
+
+    private async Task GenerateDocumentAsync()
+    {
+        try
+        {
+            IsLoading = true;
+            var documents = await _documentService.GetAllDocumentsAsync(CancellationToken.None);
+            
+            System.Windows.Application.Current.Dispatcher.Invoke(() =>
+            {
+                _documents.Clear();
+                foreach (var doc in documents)
+                {
+                    _documents.Add(doc);
+                }
+            });
+        }
+        finally
+        {
+            IsLoading = false;
+        }
     }
 
     private bool FilterDocuments(object obj)

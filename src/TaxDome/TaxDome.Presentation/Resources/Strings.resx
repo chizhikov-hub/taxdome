@@ -39,4 +39,7 @@
     <data name="DocumentHistory_Column_Status" xml:space="preserve">
         <value>Status</value>
     </data>
+    <data name="DocumentHistory_Add" xml:space="preserve">
+        <value>Add</value>
+    </data>
 </root>

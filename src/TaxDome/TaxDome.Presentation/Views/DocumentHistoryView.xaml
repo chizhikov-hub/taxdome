@@ -21,6 +21,7 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
         
             <TextBlock Text="{Binding [DocumentHistory_Search], Source={x:Static localization:LocalizedStrings.Instance}}"
@@ -30,6 +31,9 @@
             <TextBox Grid.Column="1"
                      Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
                      VerticalAlignment="Center"/>
+            <Button Grid.Column="2" Margin="5 0 0 0" MinWidth="80" 
+                    Command="{Binding AddCommand}" 
+                    Content="{Binding Path=[DocumentHistory_Add], Source={x:Static localization:LocalizedStrings.Instance}}"/>
         </Grid>
         
         <DataGrid Grid.Row="1"
