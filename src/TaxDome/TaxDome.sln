@@ -1,0 +1,16 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaxDome.Presentation", "TaxDome.Presentation\TaxDome.Presentation.csproj", "{44C7EAC8-0240-47A1-91FF-22A701EF8ABA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{44C7EAC8-0240-47A1-91FF-22A701EF8ABA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{44C7EAC8-0240-47A1-91FF-22A701EF8ABA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{44C7EAC8-0240-47A1-91FF-22A701EF8ABA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{44C7EAC8-0240-47A1-91FF-22A701EF8ABA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
