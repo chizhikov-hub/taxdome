@@ -12,57 +12,55 @@
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
     </Window.Resources>
     <Grid Margin="10">
-        <!-- <Grid.RowDefinitions> -->
-        <!--     <RowDefinition Height="Auto"/> -->
-        <!--     <RowDefinition Height="*"/> -->
-        <!-- </Grid.RowDefinitions> -->
-        <!-- -->
-        <!-- <Grid Grid.Row="0" Margin="0,0,0,10"> -->
-        <!--     <Grid.ColumnDefinitions> -->
-        <!--         <ColumnDefinition Width="Auto"/> -->
-        <!--         <ColumnDefinition Width="*"/> -->
-        <!--     </Grid.ColumnDefinitions> -->
-        <!--      -->
-        <!--     <TextBlock Text="{DynamicResource DocumentHistory_Search}"  -->
-        <!--                VerticalAlignment="Center"  -->
-        <!--                Margin="0,0,10,0"/> -->
-        <!--      -->
-        <!--     <TextBox Grid.Column="1"  -->
-        <!--              Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" -->
-        <!--              VerticalAlignment="Center"/> -->
-        <!-- </Grid> -->
-        <!-- -->
-        <!-- <DataGrid Grid.Row="1"  -->
-        <!--           ItemsSource="{Binding Documents}" -->
-        <!--           AutoGenerateColumns="False" -->
-        <!--           IsReadOnly="True" -->
-        <!--           VirtualizingPanel.IsVirtualizing="True" -->
-        <!--           VirtualizingPanel.VirtualizationMode="Recycling"> -->
-        <!--     <DataGrid.Columns> -->
-        <!--         <DataGridTextColumn Header="{DynamicResource DocumentHistory_Column_Name}"  -->
-        <!--                           Binding="{Binding Name}" -->
-        <!--                           Width="*"/> -->
-        <!--         <DataGridTextColumn Header="{DynamicResource DocumentHistory_Column_Type}"  -->
-        <!--                           Binding="{Binding Type}" -->
-        <!--                           Width="100"/> -->
-        <!--         <DataGridTextColumn Header="{DynamicResource DocumentHistory_Column_CreatedAt}"  -->
-        <!--                           Binding="{Binding CreatedAt, StringFormat={}{0:g}}" -->
-        <!--                           Width="150"/> -->
-        <!--         <DataGridTextColumn Header="{DynamicResource DocumentHistory_Column_CreatedBy}"  -->
-        <!--                           Binding="{Binding CreatedBy}" -->
-        <!--                           Width="150"/> -->
-        <!--         <DataGridTextColumn Header="{DynamicResource DocumentHistory_Column_Status}"  -->
-        <!--                           Binding="{Binding Status}" -->
-        <!--                           Width="100"/> -->
-        <!--     </DataGrid.Columns> -->
-        <!-- </DataGrid> -->
-        <!-- -->
-        <!-- <Grid Grid.Row="1"  -->
-        <!--       Background="#80000000" -->
-        <!--       Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}}"> -->
-        <!--     <ProgressBar IsIndeterminate="True"  -->
-        <!--                  Width="200"  -->
-        <!--                  Height="20"/> -->
-        <!-- </Grid> -->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        
+        <Grid Grid.Row="0" Margin="0,0,0,10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+        
+            <TextBlock Text="{Binding [DocumentHistory_Search], Source={x:Static localization:LocalizedStrings.Instance}}"
+                       VerticalAlignment="Center"
+                       Margin="0,0,10,0"/>
+        
+            <TextBox Grid.Column="1"
+                     Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
+                     VerticalAlignment="Center"/>
+        </Grid>
+        
+        <DataGrid Grid.Row="1"
+                  ItemsSource="{Binding Documents}"
+                  AutoGenerateColumns="False"
+                  IsReadOnly="True"
+                  VirtualizingPanel.IsVirtualizing="True"
+                  VirtualizingPanel.VirtualizationMode="Recycling">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="{Binding [DocumentHistory_Column_Name], Source={x:Static localization:LocalizedStrings.Instance}}"
+                                  Binding="{Binding Name}"
+                                  Width="*"/>
+                <DataGridTextColumn Header="{Binding [DocumentHistory_Column_Type], Source={x:Static localization:LocalizedStrings.Instance}}"
+                                  Binding="{Binding Type}"
+                                  Width="100"/>
+                <DataGridTextColumn Header="{Binding [DocumentHistory_Column_CreatedAt], Source={x:Static localization:LocalizedStrings.Instance}}"
+                                  Binding="{Binding CreatedAt, StringFormat={}{0:g}}"
+                                  Width="150"/>
+                <DataGridTextColumn Header="{Binding [DocumentHistory_Column_CreatedBy], Source={x:Static localization:LocalizedStrings.Instance}}"
+                                  Binding="{Binding CreatedBy}"
+                                  Width="150"/>
+                <DataGridTextColumn Header="{Binding [DocumentHistory_Column_Status], Source={x:Static localization:LocalizedStrings.Instance}}"
+                                  Binding="{Binding Status}"
+                                  Width="100"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        
+        <Grid Grid.Row="1"
+              Background="#80000000"
+              Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <ProgressBar IsIndeterminate="True" Width="200" Height="20"/>
+        </Grid>
     </Grid>
 </Window>

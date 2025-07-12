@@ -60,6 +60,60 @@ namespace TaxDome.Presentation.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Created At.
+        /// </summary>
+        internal static string DocumentHistory_Column_CreatedAt {
+            get {
+                return ResourceManager.GetString("DocumentHistory_Column_CreatedAt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Created By.
+        /// </summary>
+        internal static string DocumentHistory_Column_CreatedBy {
+            get {
+                return ResourceManager.GetString("DocumentHistory_Column_CreatedBy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Name.
+        /// </summary>
+        internal static string DocumentHistory_Column_Name {
+            get {
+                return ResourceManager.GetString("DocumentHistory_Column_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Status.
+        /// </summary>
+        internal static string DocumentHistory_Column_Status {
+            get {
+                return ResourceManager.GetString("DocumentHistory_Column_Status", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Type.
+        /// </summary>
+        internal static string DocumentHistory_Column_Type {
+            get {
+                return ResourceManager.GetString("DocumentHistory_Column_Type", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Search:.
+        /// </summary>
+        internal static string DocumentHistory_Search {
+            get {
+                return ResourceManager.GetString("DocumentHistory_Search", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Document History.
         /// </summary>
         internal static string DocumentHistory_Title {
