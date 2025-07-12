@@ -1,4 +1,6 @@
 ﻿using System.Windows;
+using TaxDome.Application.Services;
+using TaxDome.Presentation.ViewModels;
 
 namespace TaxDome.Presentation.Views;
 
@@ -7,8 +9,9 @@ namespace TaxDome.Presentation.Views;
 /// </summary>
 public partial class DocumentHistoryView : Window
 {
-    public DocumentHistoryView()
+    public DocumentHistoryView(DocumentHistoryViewModel viewModel)
     {
         InitializeComponent();
+        DataContext = viewModel;
     }
 }

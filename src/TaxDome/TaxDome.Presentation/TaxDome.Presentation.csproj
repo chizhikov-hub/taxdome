@@ -18,6 +18,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\TaxDome.Application\TaxDome.Application.csproj" />
+      <ProjectReference Include="..\TaxDome.Infrastructure\TaxDome.Infrastructure.csproj" />
     </ItemGroup>
 
     <ItemGroup>
@@ -60,6 +61,12 @@
         <AutoGen>True</AutoGen>
         <DependentUpon>Strings.ru.resx</DependentUpon>
       </Compile>
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.7" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.7" />
+      <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.7" />
     </ItemGroup>
 
 </Project>
