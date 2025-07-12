@@ -4,6 +4,5 @@
              xmlns:local="clr-namespace:TaxDome.Presentation"
              StartupUri="Views/DocumentHistoryView.xaml">
     <Application.Resources>
-         
     </Application.Resources>
 </Application>
