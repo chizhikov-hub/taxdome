@@ -11,7 +11,7 @@ public class Document
     public string CreatedBy { get; private set; }
     public DocumentStatus Status { get; private set; }
 
-    private Document() { } // For EF Core
+    private Document() { } 
 
     public Document(string name, string type, string createdBy)
     {
