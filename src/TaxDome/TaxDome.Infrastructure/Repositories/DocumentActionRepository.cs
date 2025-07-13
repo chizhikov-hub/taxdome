@@ -12,4 +12,10 @@ public class DocumentActionRepository(ApplicationDbContext dbContext) : IDocumen
             .Where(action => ids.Contains(action.Id))
             .ToListAsync();
     }
+
+    public async Task<IReadOnlyCollection<DocumentAction>> GetAllAsync(CancellationToken cancellationToken)
+    {
+        return await dbContext.Set<DocumentAction>()
+            .ToListAsync(cancellationToken);
+    }
 }

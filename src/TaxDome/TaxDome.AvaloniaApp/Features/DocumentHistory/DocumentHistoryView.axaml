@@ -73,11 +73,32 @@
                 </TextBox.InnerLeftContent>
             </TextBox>
             
-            <ComboBox PlaceholderText="{Binding [DocumentHistory_AllClients], Source={x:Static localization:LocalizedStrings.Instance}}" Margin="10 0 0 0" MinWidth="200"/>
+            <ComboBox 
+                PlaceholderText="{Binding [DocumentHistory_AllClients], Source={x:Static localization:LocalizedStrings.Instance}}"
+                ItemsSource="{Binding Clients}"
+                DisplayMemberBinding="{Binding Name}"
+                SelectedItem="{Binding SelectedClient}"
+                Classes="ClearButton"
+                Margin="10 0 0 0" 
+                Width="250"/>
             
-            <ComboBox PlaceholderText="{Binding [DocumentHistory_AllAppliedActions], Source={x:Static localization:LocalizedStrings.Instance}}" Margin="10 0 0 0" MinWidth="200"/>
+            <ComboBox 
+                PlaceholderText="{Binding [DocumentHistory_AllAppliedActions], Source={x:Static localization:LocalizedStrings.Instance}}"
+                ItemsSource="{Binding DocumentActions}"
+                DisplayMemberBinding="{Binding Name}"
+                SelectedItem="{Binding SelectedAppliedAction}"
+                Classes="ClearButton"
+                Margin="10 0 0 0" 
+                Width="250"/>
             
-            <ComboBox PlaceholderText="{Binding [DocumentHistory_AllFolders], Source={x:Static localization:LocalizedStrings.Instance}}" Margin="10 0 0 0" MinWidth="200"/>
+            <ComboBox 
+                PlaceholderText="{Binding [DocumentHistory_AllFolders], Source={x:Static localization:LocalizedStrings.Instance}}"
+                ItemsSource="{Binding Folders}"
+                DisplayMemberBinding="{Binding Name}"
+                SelectedItem="{Binding SelectedFolder}"
+                Classes="ClearButton"
+                Margin="10 0 0 0"
+                Width="250"/>
         </StackPanel>
 
         <DataGrid Grid.Row="2"

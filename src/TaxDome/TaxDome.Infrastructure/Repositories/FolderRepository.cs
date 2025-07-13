@@ -20,4 +20,10 @@ public class FolderRepository(ApplicationDbContext dbContext) : IFolderRepositor
 
         return newFolder;
     }
+    
+    public async Task<IReadOnlyCollection<Folder>> GetAllAsync(CancellationToken cancellationToken)
+    {
+        return await dbContext.Set<Folder>()
+            .ToListAsync(cancellationToken);
+    }
 }

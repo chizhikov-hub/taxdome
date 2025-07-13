@@ -20,4 +20,10 @@ public class ClientRepository(ApplicationDbContext dbContext) : IClientRepositor
 
         return newClient;
     }
+
+    public async Task<IReadOnlyCollection<Client>> GetAllAsync(CancellationToken cancellationToken)
+    {
+        return await dbContext.Set<Client>()
+            .ToListAsync(cancellationToken);
+    }
 }

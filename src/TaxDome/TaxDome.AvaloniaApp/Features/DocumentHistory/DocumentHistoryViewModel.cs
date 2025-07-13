@@ -13,12 +13,101 @@ namespace TaxDome.AvaloniaApp.Features.DocumentHistory;
 
 public class DocumentHistoryViewModel : ObservableObject
 {
-    public DocumentHistoryViewModel(DocumentService documentService)
+    public DocumentHistoryViewModel(DocumentService documentService, ClientService clientService, FolderService folderService, DocumentActionService documentActionService)
     {
         _documentService = documentService;
+        _clientService = clientService;
+        _folderService = folderService;
+        _documentActionService = documentActionService;
         InitializeCommands();
+        LoadReferencesAsync().ConfigureAwait(false);
         LoadDocumentsAsync().ConfigureAwait(false);
     }
+
+    #region Fields
+
+    private readonly DocumentService _documentService;
+    private readonly ClientService _clientService;
+    private readonly FolderService _folderService;
+    private readonly DocumentActionService _documentActionService;
+    private readonly ObservableCollection<DocumentDto> _allItems = new ObservableCollection<DocumentDto>();
+
+    #endregion
+
+    #region Properties
+
+    private ObservableCollection<DocumentDto> _filteredItems = new ObservableCollection<DocumentDto>();
+    public ObservableCollection<DocumentDto> FilteredItems => _filteredItems;
+
+    private string _searchText = string.Empty;
+    public string SearchText
+    {
+        get => _searchText;
+        set
+        {
+            if (SetProperty(ref _searchText, value))
+            {
+                UpdateFilter();
+            }
+        }
+    }
+
+    private bool _isLoading;
+    public bool IsLoading
+    {
+        get => _isLoading;
+        private set
+        {
+            _isLoading = value;
+            OnPropertyChanged();
+        }
+    }
+    
+    private ObservableCollection<ClientDto> _clients = new();
+    public ObservableCollection<ClientDto> Clients
+    {
+        get => _clients;
+        set => SetProperty(ref _clients, value);
+    }
+
+    private ObservableCollection<FolderDto> _folders = new();
+    public ObservableCollection<FolderDto> Folders
+    {
+        get => _folders;
+        set => SetProperty(ref _folders, value);
+    }
+    
+    private ObservableCollection<DocumentActionDto> _documentActions = new();
+    public ObservableCollection<DocumentActionDto> DocumentActions
+    {
+        get => _documentActions;
+        set => SetProperty(ref _documentActions, value);
+    }
+    
+    private ClientDto _selectedClient;
+    public ClientDto SelectedClient
+    {
+        get => _selectedClient;
+        set => SetProperty(ref _selectedClient, value);
+    }
+
+    private FolderDto _selectedFolder;
+    public FolderDto SelectedFolder
+    {
+        get => _selectedFolder;
+        set => SetProperty(ref _selectedFolder, value);
+    }
+    
+    private DocumentActionDto _selectedAppliedAction;
+    public DocumentActionDto SelectedAppliedAction
+    {
+        get => _selectedAppliedAction;
+        set => SetProperty(ref _selectedAppliedAction, value);
+    }
+
+    #endregion
+
+    #region Commands
 
     public IAsyncRelayCommand AddCommand { get; private set; }
 
@@ -26,6 +115,10 @@ public class DocumentHistoryViewModel : ObservableObject
     {
         AddCommand = new AsyncRelayCommand(ExecuteAddCommand);
     }
+
+    #endregion
+
+    #region Methods
 
     private async Task ExecuteAddCommand()
     {
@@ -76,38 +169,7 @@ public class DocumentHistoryViewModel : ObservableObject
         }        
 
         await LoadDocumentsAsync();
-    }
-
-    private readonly DocumentService _documentService;
-    private readonly ObservableCollection<DocumentDto> _allItems = new ObservableCollection<DocumentDto>();
-    private ObservableCollection<DocumentDto> _filteredItems = new ObservableCollection<DocumentDto>();
-    public ObservableCollection<DocumentDto> FilteredItems => _filteredItems;
-
-    private string _searchText = string.Empty;
-
-    public string SearchText
-    {
-        get => _searchText;
-        set
-        {
-            if (SetProperty(ref _searchText, value))
-            {
-                UpdateFilter();
-            }
-        }
-    }
-
-    private bool _isLoading;
-
-    public bool IsLoading
-    {
-        get => _isLoading;
-        private set
-        {
-            _isLoading = value;
-            OnPropertyChanged();
-        }
-    }
+    }    
 
     private void UpdateFilter()
     {
@@ -152,4 +214,31 @@ public class DocumentHistoryViewModel : ObservableObject
 
         UpdateFilter();
     }
+    
+    public async Task LoadReferencesAsync()
+    {
+        try
+        {
+            IsLoading = true;
+
+            var loadClientsTask = _clientService.GetAllClientsAsync(CancellationToken.None);
+            var loadFoldersTask = _folderService.GetAllFoldersAsync(CancellationToken.None);
+            var loadDocumentActionsTask = _documentActionService.GetAllDocumentActionsAsync(CancellationToken.None);
+
+            await Task.WhenAll(loadClientsTask, loadFoldersTask, loadDocumentActionsTask);
+
+            await Avalonia.Threading.Dispatcher.UIThread.InvokeAsync(() =>
+            {
+                Clients = new ObservableCollection<ClientDto>(loadClientsTask.Result);
+                Folders = new ObservableCollection<FolderDto>(loadFoldersTask.Result);
+                DocumentActions = new ObservableCollection<DocumentActionDto>(loadDocumentActionsTask.Result);
+            });
+        }
+        finally
+        {
+            IsLoading = false;
+        }
+    }
+
+    #endregion
 }

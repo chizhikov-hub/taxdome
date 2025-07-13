@@ -32,6 +32,9 @@ public static class ServicesExtensions
     public static IServiceCollection AddApplicationServices(this IServiceCollection services)
     {
         services.AddScoped<DocumentService>();
+        services.AddScoped<ClientService>();
+        services.AddScoped<FolderService>();
+        services.AddScoped<DocumentActionService>();
         
         return services;
     }
