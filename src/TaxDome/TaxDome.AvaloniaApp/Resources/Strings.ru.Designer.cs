@@ -60,6 +60,51 @@ namespace TaxDome.AvaloniaApp.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Примененные действия.
+        /// </summary>
+        internal static string DocumentHistory_Column_AppliedActions {
+            get {
+                return ResourceManager.GetString("DocumentHistory_Column_AppliedActions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Доступные действия.
+        /// </summary>
+        internal static string DocumentHistory_Column_AvailableActions {
+            get {
+                return ResourceManager.GetString("DocumentHistory_Column_AvailableActions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Клиент и папка.
+        /// </summary>
+        internal static string DocumentHistory_Column_ClientAndFolder {
+            get {
+                return ResourceManager.GetString("DocumentHistory_Column_ClientAndFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Документ.
+        /// </summary>
+        internal static string DocumentHistory_Column_Document {
+            get {
+                return ResourceManager.GetString("DocumentHistory_Column_Document", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Поиск:.
+        /// </summary>
+        internal static string DocumentHistory_Search {
+            get {
+                return ResourceManager.GetString("DocumentHistory_Search", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to История документов.
         /// </summary>
         internal static string DocumentHistory_Title {

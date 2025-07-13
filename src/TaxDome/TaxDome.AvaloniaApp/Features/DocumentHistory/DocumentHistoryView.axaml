@@ -1,0 +1,234 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:converters="clr-namespace:TaxDome.AvaloniaApp.Common.Converters"
+        xmlns:localization="clr-namespace:TaxDome.AvaloniaApp.Common.Localization"
+        xmlns:vm="clr-namespace:TaxDome.AvaloniaApp.Features.DocumentHistory"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450" Height="800" Width="1000"
+        x:Class="TaxDome.AvaloniaApp.Features.DocumentHistory.DocumentHistoryView"
+        x:DataType="vm:DocumentHistoryViewModel"
+        Title="{Binding Path=[DocumentHistory_Title], Source={x:Static localization:LocalizedStrings.Instance}}">
+    <Window.Resources>
+        <converters:FileSizeConverter x:Key="FileSizeConverter"/>
+    </Window.Resources>
+    <Window.Styles>
+        <Style Selector="TextBlock.Document">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="DemiBold"/>
+        </Style>
+        <Style Selector="TextBlock.FileSize">
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Foreground" Value="#6e7681"/>
+        </Style>
+        <Style Selector="TextBlock.Client">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Foreground" Value="#5383ef"/>
+        </Style>
+        <Style Selector="TextBlock.Folder">
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Foreground" Value="#6e7681"/>
+        </Style>
+    </Window.Styles>
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" Margin="0,0,0,10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <TextBlock
+                Text="{Binding Source={x:Static localization:LocalizedStrings.Instance}, Path=[DocumentHistory_Search]}"
+                VerticalAlignment="Center"
+                Margin="0,0,10,0" />
+
+            <!-- <TextBox Grid.Column="1" -->
+            <!--          Text="{Binding SearchText}" -->
+            <!--          VerticalAlignment="Center"/> -->
+            <!--           -->
+            <!-- <Button Grid.Column="2"  -->
+            <!--         Margin="5 0 0 0"  -->
+            <!--         MinWidth="80"  -->
+            <!--         Command="{Binding AddCommand}" -->
+            <!--         Content="{Binding Source={x:Static localization:LocalizedStrings.Instance}, Path=[DocumentHistory_Add]}"/> -->
+        </Grid>
+
+        <DataGrid Grid.Row="1"
+                  ItemsSource="{Binding Items}"
+                  IsReadOnly="True"
+                  CanUserReorderColumns="True"
+                  CanUserResizeColumns="True"
+                  CanUserSortColumns="False"
+                  GridLinesVisibility="None">
+            <DataGrid.Styles>
+                <Style Selector="DataGridRow">
+                    <Setter Property="Height" Value="60"/>
+                </Style>
+                <Style Selector="DataGridColumnHeader">
+                    <Setter Property="BorderThickness" Value="0"/>
+                    <Setter Property="Background" Value="Transparent"/>
+                    <Setter Property="SeparatorBrush" Value="Transparent"/>
+                </Style>
+                <Style Selector="DataGrid">
+                    <Setter Property="HorizontalGridLinesBrush" Value="Transparent"/>
+                    <Setter Property="VerticalGridLinesBrush" Value="Transparent"/>
+                </Style>
+            </DataGrid.Styles>
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Header="{Binding [DocumentHistory_Column_Document], Source={x:Static localization:LocalizedStrings.Instance}}" Width="1.5*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <TextBlock Text="{Binding Document}" 
+                                           Classes="Document"/>
+                                <TextBlock Text="{Binding FileSize, Converter={StaticResource FileSizeConverter}}" 
+                                           Classes="FileSize"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                
+                <DataGridTemplateColumn Header="{Binding [DocumentHistory_Column_ClientAndFolder], Source={x:Static localization:LocalizedStrings.Instance}}" Width="*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <TextBlock Text="{Binding Client}" 
+                                           Classes="Client"/>
+                                <TextBlock Text="{Binding Folder}" 
+                                           Classes="Folder"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                     
+                
+                <DataGridTemplateColumn Header="{Binding [DocumentHistory_Column_AppliedActions], Source={x:Static localization:LocalizedStrings.Instance}}" Width="*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel></StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn> 
+                
+                <DataGridTemplateColumn Header="{Binding [DocumentHistory_Column_AvailableActions], Source={x:Static localization:LocalizedStrings.Instance}}" Width="*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel></StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                    
+                
+                <!-- <DataGridTextColumn -->
+                <!--     Header="DateGroup" -->
+                <!--     Binding="{Binding DateGroup}" -->
+                <!-- /> -->
+             
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <!-- <Panel Grid.Row="1" -->
+        <!--        IsVisible="{Binding IsLoading}"> -->
+        <!--     <Panel Background="Black" Opacity="0.5"/> -->
+        <!--     <ProgressBar IsIndeterminate="True"  -->
+        <!--                 Width="200"  -->
+        <!--                 Height="20" -->
+        <!--                 VerticalAlignment="Center" -->
+        <!--                 HorizontalAlignment="Center"/> -->
+        <!-- </Panel> -->
+    </Grid>
+
+    <!-- <Grid RowDefinitions="Auto, *, Auto" x:Name="Root"> -->
+    <!--     <DataGrid Name="DocumentsGrid" -->
+    <!--               ItemsSource="{Binding GroupedItems}" -->
+    <!--               IsReadOnly="True" -->
+    <!--               AutoGenerateColumns="False" -->
+    <!--               CanUserResizeColumns="True" -->
+    <!--               CanUserSortColumns="True" -->
+    <!--               GridLinesVisibility="All" -->
+    <!--               > -->
+    <!--         ~1~ VirtualizationMode="Simple" @1@ -->
+    <!-- -->
+    <!--         <DataGrid.Styles> -->
+    <!--             <Style Selector="DataGridRow"> -->
+    <!--                 <Setter Property="Height" Value="40" /> -->
+    <!--             </Style> -->
+    <!--         </DataGrid.Styles> -->
+    <!-- -->
+    <!--         ~1~ <DataGrid.GroupStyle> @1@ -->
+    <!--         ~1~     <GroupStyle> @1@ -->
+    <!--         ~1~         <GroupStyle.HeaderTemplate> @1@ -->
+    <!--         ~1~             <DataTemplate> @1@ -->
+    <!--         ~1~                 <StackPanel Orientation="Horizontal" Background="#F0F0F0" Margin="0,5"> @1@ -->
+    <!--         ~1~                     <TextBlock Text="{Binding Name}" @1@ -->
+    <!--         ~1~                                FontWeight="Bold" @1@ -->
+    <!--         ~1~                                Margin="5" /> @1@ -->
+    <!--         ~1~                     <TextBlock Text="{Binding ItemCount, StringFormat='({0} элементов)'}" @1@ -->
+    <!--         ~1~                                Margin="5" /> @1@ -->
+    <!--         ~1~                 </StackPanel> @1@ -->
+    <!--         ~1~             </DataTemplate> @1@ -->
+    <!--         ~1~         </GroupStyle.HeaderTemplate> @1@ -->
+    <!--         ~1~     </GroupStyle> @1@ -->
+    <!--         ~1~ </DataGrid.GroupStyle> @1@ -->
+    <!-- -->
+    <!--         <DataGrid.Columns> -->
+    <!--             <DataGridTextColumn Header="Document" -->
+    <!--                                 Binding="{Binding Document}" -->
+    <!--                                 Width="*" /> -->
+    <!-- -->
+    <!--             <DataGridTemplateColumn Header="Client &amp; Folder" -->
+    <!--                                     Width="2*"> -->
+    <!--                 <DataGridTemplateColumn.CellTemplate> -->
+    <!--                     <DataTemplate> -->
+    <!--                         <StackPanel> -->
+    <!--                             <TextBlock Text="{Binding Client}" /> -->
+    <!--                             <TextBlock Text="{Binding Folder}" -->
+    <!--                                        FontSize="11" -->
+    <!--                                        Opacity="0.7" /> -->
+    <!--                         </StackPanel> -->
+    <!--                     </DataTemplate> -->
+    <!--                 </DataGridTemplateColumn.CellTemplate> -->
+    <!--             </DataGridTemplateColumn> -->
+    <!-- -->
+    <!--             <DataGridTemplateColumn Header="Applied Actions" -->
+    <!--                                     Width="*"> -->
+    <!--                 ~1~ <DataGridTemplateColumn.CellTemplate> @1@ -->
+    <!--                 ~1~     <DataTemplate> @1@ -->
+    <!--                 ~1~         <ItemsRepeater ItemsSource="{Binding AppliedActions}"> @1@ -->
+    <!--                 ~1~             <ItemsRepeater.ItemTemplate> @1@ -->
+    <!--                 ~1~                 <DataTemplate> @1@ -->
+    <!--                 ~1~                     <TextBlock Text="{Binding}" @1@ -->
+    <!--                 ~1~                                Margin="2" /> @1@ -->
+    <!--                 ~1~                 </DataTemplate> @1@ -->
+    <!--                 ~1~             </ItemsRepeater.ItemTemplate> @1@ -->
+    <!--                 ~1~         </ItemsRepeater> @1@ -->
+    <!--                 ~1~     </DataTemplate> @1@ -->
+    <!--                 ~1~ </DataGridTemplateColumn.CellTemplate> @1@ -->
+    <!--             </DataGridTemplateColumn> -->
+    <!-- -->
+    <!--             <DataGridTemplateColumn Header="Available Actions" -->
+    <!--                                     Width="*"> -->
+    <!--                 ~1~ <DataGridTemplateColumn.CellTemplate> @1@ -->
+    <!--                 ~1~     <DataTemplate> @1@ -->
+    <!--                 ~1~         <ItemsRepeater ItemsSource="{Binding AvailableActions}"> @1@ -->
+    <!--                 ~1~             <ItemsRepeater.ItemTemplate> @1@ -->
+    <!--                 ~1~                 <DataTemplate> @1@ -->
+    <!--                 ~1~                     <Button Content="{Binding}" @1@ -->
+    <!--                 ~1~                             Margin="2" @1@ -->
+    <!--                 ~1~                             Padding="5,2" /> @1@ -->
+    <!--                 ~1~                 </DataTemplate> @1@ -->
+    <!--                 ~1~             </ItemsRepeater.ItemTemplate> @1@ -->
+    <!--                 ~1~         </ItemsRepeater> @1@ -->
+    <!--                 ~1~     </DataTemplate> @1@ -->
+    <!--                 ~1~ </DataGridTemplateColumn.CellTemplate> @1@ -->
+    <!--             </DataGridTemplateColumn> -->
+    <!--         </DataGrid.Columns> -->
+    <!--     </DataGrid> -->
+    <!-- </Grid> -->
+</Window>

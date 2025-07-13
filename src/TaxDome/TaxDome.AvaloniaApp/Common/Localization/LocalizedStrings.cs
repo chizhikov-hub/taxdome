@@ -2,7 +2,7 @@
 using System.Globalization;
 using TaxDome.AvaloniaApp.Resources;
 
-namespace TaxDome.AvaloniaApp.Localization;
+namespace TaxDome.AvaloniaApp.Common.Localization;
 
 public class LocalizedStrings : INotifyPropertyChanged
 {

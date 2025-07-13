@@ -21,4 +21,19 @@
     <data name="DocumentHistory_Title" xml:space="preserve">
         <value>История документов</value>
     </data>
+    <data name="DocumentHistory_Search" xml:space="preserve">
+        <value>Поиск:</value>
+    </data>
+    <data name="DocumentHistory_Column_Document" xml:space="preserve">
+        <value>Документ</value>
+    </data>
+    <data name="DocumentHistory_Column_ClientAndFolder" xml:space="preserve">
+        <value>Клиент и папка</value>
+    </data>
+    <data name="DocumentHistory_Column_AppliedActions" xml:space="preserve">
+        <value>Примененные действия</value>
+    </data>
+    <data name="DocumentHistory_Column_AvailableActions" xml:space="preserve">
+        <value>Доступные действия</value>
+    </data>
 </root>

@@ -1,7 +1,7 @@
 ﻿using System.Globalization;
 using System.Threading;
 
-namespace TaxDome.AvaloniaApp.Localization;
+namespace TaxDome.AvaloniaApp.Common.Localization;
 
 public class LocalizationManager
 {
