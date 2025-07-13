@@ -8,6 +8,8 @@ public class DocumentRepository(ApplicationDbContext dbContext) : IDocumentRepos
 {
     public async Task<IReadOnlyCollection<Document>> GetAllAsync(CancellationToken cancellationToken)
     {
+        await Task.Delay(3000, cancellationToken);
+
         var result = new List<Document>();
         for (int i = 0; i < 1000; i++)
         {
@@ -18,7 +20,7 @@ public class DocumentRepository(ApplicationDbContext dbContext) : IDocumentRepos
             result.Add(new Document($"Bank_Statements_Q1_{i}.xslx", 363111,  "Leslie Alexander", "Private",            [],                                                       ["Pending Signature", "Approved"], DateTime.Today.AddDays(-1)));
         }
 
-        await Task.CompletedTask;
+        // await Task.CompletedTask;
         return result;
         // return await dbContext.Set<Document>()
         //     .ToListAsync(cancellationToken);
