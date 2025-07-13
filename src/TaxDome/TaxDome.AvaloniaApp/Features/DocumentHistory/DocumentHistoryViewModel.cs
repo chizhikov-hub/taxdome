@@ -29,8 +29,17 @@ public class DocumentHistoryViewModel : ObservableObject
 
     private async Task ExecuteAddCommand()
     {
-        var clients = new [] { new ClientDto(Guid.NewGuid(), "Jane Cooper"), new ClientDto(Guid.NewGuid(), "Esther Howard"), new ClientDto(Guid.NewGuid(), "Leslie Alexander")};
-        var folders = new [] { new FolderDto(Guid.NewGuid(), "Shared with Client"), new FolderDto(Guid.NewGuid(), "Private")};
+        var clients = new []
+        {
+            new ClientDto(new Guid("A3CAC9C5-C924-444F-A4C0-38823E3C9BD6"), "Jane Cooper"), 
+            new ClientDto(new Guid("9BAAB71D-8A1C-413B-93FE-B996EBA47C6D"), "Esther Howard"), 
+            new ClientDto(new Guid("0888D441-F5FD-403F-A43A-FD7FA5D6BCA2"), "Leslie Alexander")
+        };
+        var folders = new []
+        {
+            new FolderDto(new Guid("C5DAC252-7961-4638-BFBE-8291EF99D3C7"), "Shared with Client"), 
+            new FolderDto(new Guid("F796EF33-5B93-40FD-9EB5-D34668843F45"), "Private")
+        };
         var actions = new[]
         {
             new DocumentActionDto(new Guid("7AC3BF0E-5B3D-47DE-B0A0-68AC68DFBBA2"), "Pending Signature"),
@@ -41,27 +50,30 @@ public class DocumentHistoryViewModel : ObservableObject
             new DocumentActionDto(new Guid("5C0E250A-FD43-4FD4-A5EC-00575B08EDF6"), "Invoice Linked"),
             new DocumentActionDto(new Guid("FF7B2E8B-93DD-471D-8DAF-0EE8C35F4371"), "Job Linked")
         };
-        
-        var startDate = DateTime.Now.AddDays(-10); 
-        var endDate = DateTime.Now;
-        
         var random = new Random();
-        var shuffledActions = actions.OrderBy(_ => random.Next()).ToList();
-        var count = random.Next(0, actions.Length + 1);
-        var appliedActions = shuffledActions.Take(count).ToList();
-        var availableActions = shuffledActions.Skip(count).ToList();
 
-        var document = new DocumentDto
+        //for (var i = 0; i < 1000; i++)
         {
-            Document = Path.ChangeExtension(Path.GetRandomFileName(), ".pdf"), 
-            FileSize = new Random().NextInt64(0, 1024 * 1024 * 1024),  
-            Client = clients[new Random().Next(clients.Length)],
-            Folder = folders[new Random().Next(folders.Length)],
-            Date = startDate.AddDays(new Random().Next((endDate - startDate).Days + 1)),
-            AppliedActions = appliedActions,
-            AvailableActions = availableActions
-        };
-        await _documentService.AddAsync(document, CancellationToken.None);
+            var startDate = DateTime.Now.AddDays(-10); 
+            var endDate = DateTime.Now;
+
+            var shuffledActions = actions.OrderBy(_ => random.Next()).ToList();
+            var count = random.Next(0, actions.Length + 1);
+            var appliedActions = shuffledActions.Take(count).ToList();
+            var availableActions = shuffledActions.Skip(count).ToList();
+
+            var document = new DocumentDto
+            {
+                Document = Path.ChangeExtension(Path.GetRandomFileName(), ".pdf"), 
+                FileSize = random.NextInt64(0, 10 * 1024 * 1024),  
+                Client = clients[random.Next(clients.Length)],
+                Folder = folders[random.Next(folders.Length)],
+                Date = startDate.AddDays(random.Next((endDate - startDate).Days + 1)),
+                AppliedActions = appliedActions,
+                AvailableActions = availableActions
+            };
+            await _documentService.AddAsync(document, CancellationToken.None);
+        }        
 
         await LoadDocumentsAsync();
     }

@@ -28,6 +28,12 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
                 .OnDelete(DeleteBehavior.Restrict);
         });
         
+        modelBuilder.Entity<Client>().HasData(
+            new Client(new Guid("A3CAC9C5-C924-444F-A4C0-38823E3C9BD6"), "Jane Cooper"), 
+            new Client(new Guid("9BAAB71D-8A1C-413B-93FE-B996EBA47C6D"), "Esther Howard"), 
+            new Client(new Guid("0888D441-F5FD-403F-A43A-FD7FA5D6BCA2"), "Leslie Alexander")
+        );
+        
         modelBuilder.Entity<Folder>(builder =>
         {
             builder.HasKey(d => d.Id);
@@ -41,6 +47,11 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
                 .HasForeignKey(d => d.FolderId)
                 .OnDelete(DeleteBehavior.Restrict);
         });
+        
+        modelBuilder.Entity<Folder>().HasData(
+            new Folder(new Guid("C5DAC252-7961-4638-BFBE-8291EF99D3C7"), "Shared with Client"), 
+            new Folder(new Guid("F796EF33-5B93-40FD-9EB5-D34668843F45"), "Private")
+        );
         
         modelBuilder.Entity<DocumentAction>(builder =>
         {
