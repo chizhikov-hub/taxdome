@@ -59,6 +59,16 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
                 .UsingEntity("DocumentAvailableActions");
         });
         
+        modelBuilder.Entity<DocumentAction>().HasData(
+            new DocumentAction(new Guid("7AC3BF0E-5B3D-47DE-B0A0-68AC68DFBBA2"), "Pending Signature"),
+            new DocumentAction(new Guid("9FB03BCF-D42E-497D-A756-2AB2CF13C6B7"), "Approved"),
+            new DocumentAction(new Guid("7D3B3075-E252-473C-9FD1-A1E7213DC75D"), "Retry"),
+            new DocumentAction(new Guid("3BE186F1-17A4-42D9-AA8B-CFEBA27EECD6"), "Pending Approval"),
+            new DocumentAction(new Guid("7D76BE70-9B0A-4942-9A89-3A05C99CD907"), "Job Processing"),
+            new DocumentAction(new Guid("5C0E250A-FD43-4FD4-A5EC-00575B08EDF6"), "Invoice Linked"),
+            new DocumentAction(new Guid("FF7B2E8B-93DD-471D-8DAF-0EE8C35F4371"), "Job Linked")
+        );
+        
         modelBuilder.Entity<Document>(builder =>
         {
             builder.HasKey(d => d.Id);

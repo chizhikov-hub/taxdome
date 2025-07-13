@@ -31,9 +31,25 @@ public class DocumentHistoryViewModel : ObservableObject
     {
         var clients = new [] { new ClientDto(Guid.NewGuid(), "Jane Cooper"), new ClientDto(Guid.NewGuid(), "Esther Howard"), new ClientDto(Guid.NewGuid(), "Leslie Alexander")};
         var folders = new [] { new FolderDto(Guid.NewGuid(), "Shared with Client"), new FolderDto(Guid.NewGuid(), "Private")};
+        var actions = new[]
+        {
+            new DocumentActionDto(new Guid("7AC3BF0E-5B3D-47DE-B0A0-68AC68DFBBA2"), "Pending Signature"),
+            new DocumentActionDto(new Guid("9FB03BCF-D42E-497D-A756-2AB2CF13C6B7"), "Approved"),
+            new DocumentActionDto(new Guid("7D3B3075-E252-473C-9FD1-A1E7213DC75D"), "Retry"),
+            new DocumentActionDto(new Guid("3BE186F1-17A4-42D9-AA8B-CFEBA27EECD6"), "Pending Approval"),
+            new DocumentActionDto(new Guid("7D76BE70-9B0A-4942-9A89-3A05C99CD907"), "Job Processing"),
+            new DocumentActionDto(new Guid("5C0E250A-FD43-4FD4-A5EC-00575B08EDF6"), "Invoice Linked"),
+            new DocumentActionDto(new Guid("FF7B2E8B-93DD-471D-8DAF-0EE8C35F4371"), "Job Linked")
+        };
         
         var startDate = DateTime.Now.AddDays(-10); 
         var endDate = DateTime.Now;
+        
+        var random = new Random();
+        var shuffledActions = actions.OrderBy(_ => random.Next()).ToList();
+        var count = random.Next(0, actions.Length + 1);
+        var appliedActions = shuffledActions.Take(count).ToList();
+        var availableActions = shuffledActions.Skip(count).ToList();
 
         var document = new DocumentDto
         {
@@ -42,8 +58,8 @@ public class DocumentHistoryViewModel : ObservableObject
             Client = clients[new Random().Next(clients.Length)],
             Folder = folders[new Random().Next(folders.Length)],
             Date = startDate.AddDays(new Random().Next((endDate - startDate).Days + 1)),
-            AppliedActions = [],
-            AvailableActions = []
+            AppliedActions = appliedActions,
+            AvailableActions = availableActions
         };
         await _documentService.AddAsync(document, CancellationToken.None);
 
