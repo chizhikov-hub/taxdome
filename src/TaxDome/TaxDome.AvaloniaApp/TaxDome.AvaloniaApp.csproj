@@ -34,6 +34,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <AvaloniaResource Include="Assets\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Update="Resources\Strings.ru.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -61,6 +65,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Assets\Icons\" />
     <Folder Include="Common\" />
     <Folder Include="Features\UploadReview\" />
   </ItemGroup>
