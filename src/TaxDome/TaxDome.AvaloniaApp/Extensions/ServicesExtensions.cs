@@ -20,8 +20,11 @@ public static class ServicesExtensions
     
     public static IServiceCollection AddRepositories(this IServiceCollection services)
     {
-        // services.AddScoped<IDocumentRepository, DocumentRepository>();
-        services.AddScoped<IDocumentRepository, DocumentRepositoryStub>();
+        services.AddScoped<IClientRepository, ClientRepository>();
+        services.AddScoped<IFolderRepository, FolderRepository>();
+        services.AddScoped<IDocumentActionRepository, DocumentActionRepository>();
+        services.AddScoped<IDocumentRepository, DocumentRepository>();
+        // services.AddScoped<IDocumentRepository, DocumentRepositoryStub>();
         
         return services;
     }

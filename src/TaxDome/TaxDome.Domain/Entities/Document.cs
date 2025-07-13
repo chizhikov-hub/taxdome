@@ -1,29 +1,33 @@
-﻿using TaxDome.Domain.Enums;
-
-namespace TaxDome.Domain.Entities;
+﻿namespace TaxDome.Domain.Entities;
 
 public class Document
 {
     public Guid Id { get; private set; }
     public DateTime Date { get; private set; }
-    public string FileName { get; private set; }
+    public string FileName { get; private set; } = null!;
     public long FileSize { get; private set; }
-    public string Client { get; private set; }
-    public string Folder { get; private set; }
-    public List<string> AppliedActions { get; private set; }
-    public List<string> AvailableActions { get; private set; }
+    public Guid ClientId { get; private set; }
+    public Guid FolderId { get; private set; }
+    
+    public virtual Client Client { get; private set; } = null!;
+    public virtual Folder Folder { get; private set; } = null!;
+    public virtual List<DocumentAction> AppliedActions { get; private set; } = [];
+    public virtual List<DocumentAction> AvailableActions { get; private set; } = [];
 
+    //For EF Core
     private Document() { } 
 
-    public Document(string fileName, long fileSize, string client, string folder, List<string> appliedActions, List<string> availableActions, DateTime? date = null)
+    public Document(string fileName, long fileSize, Client client, Folder folder, ICollection<DocumentAction> appliedActions, ICollection<DocumentAction> availableActions, DateTime? date = null)
     {
         Id = Guid.NewGuid();
         Date = date ?? DateTime.UtcNow;
         FileName = fileName;
         FileSize = fileSize;
+        ClientId = client.Id;
         Client = client;
+        FolderId = folder.Id;
         Folder = folder;
-        AppliedActions = appliedActions;
-        AvailableActions = availableActions;
+        AppliedActions = appliedActions.ToList();
+        AvailableActions = availableActions.ToList();
     }
 }

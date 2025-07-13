@@ -9,6 +9,10 @@ public class DocumentRepository(ApplicationDbContext dbContext) : IDocumentRepos
     public async Task<IReadOnlyCollection<Document>> GetAllAsync(CancellationToken cancellationToken)
     {
         return await dbContext.Set<Document>()
+            .Include(x => x.Client)
+            .Include(x => x.Folder)
+            .Include(x => x.AppliedActions)
+            .Include(x => x.AvailableActions)
             .ToListAsync(cancellationToken);
     }
 

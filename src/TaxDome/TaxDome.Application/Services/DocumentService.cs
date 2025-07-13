@@ -4,7 +4,7 @@ using TaxDome.Domain.Repositories;
 
 namespace TaxDome.Application.Services;
 
-public class DocumentService(IDocumentRepository documentRepository)
+public class DocumentService(IDocumentRepository documentRepository, IClientRepository clientRepository, IFolderRepository folderRepository, IDocumentActionRepository actionRepository)
 {
     public async Task<IReadOnlyCollection<DocumentDto>> GetAllDocumentsAsync(CancellationToken cancellationToken)
     {
@@ -15,15 +15,50 @@ public class DocumentService(IDocumentRepository documentRepository)
             Document = d.FileName,
             FileSize = d.FileSize,
             Date = d.Date,
-            Client = d.Client,
-            Folder = d.Folder,
-            AppliedActions = d.AppliedActions,
-            AvailableActions = d.AvailableActions
+            Client = new ClientDto(d.Client.Id, d.Client.Name),            
+            Folder = new FolderDto(d.Folder.Id, d.Folder.Name),
+            AppliedActions = d.AppliedActions.Select(a => new DocumentActionDto(a.Id, a.Name)).ToList(),
+            AvailableActions = d.AvailableActions.Select(a => new DocumentActionDto(a.Id, a.Name)).ToList()
         }).ToList();
     }
 
-    public Task AddAsync(Document document, CancellationToken cancellationToken)
+    public async Task AddAsync(DocumentDto documentDto, CancellationToken cancellationToken)
     {
-        return documentRepository.AddAsync(document, cancellationToken);
+        var document = new Document(
+            documentDto.Document,
+            documentDto.FileSize,
+            await GetClientById(documentDto.Client.Id) ?? await CreateClient(documentDto.Client.Id, documentDto.Client.Name),
+            await GetFolderById(documentDto.Folder.Id) ?? await Createfolder(documentDto.Folder.Id, documentDto.Folder.Name),
+            await GetDocumentActionsByIds(documentDto.AppliedActions.Select(x => x.Id)),
+            await GetDocumentActionsByIds(documentDto.AvailableActions.Select(x => x.Id)),
+            documentDto.Date
+        );
+    
+        await documentRepository.AddAsync(document, cancellationToken);
+    }
+    
+    private Task<Client> GetClientById(Guid clientId)
+    {
+        return clientRepository.GetByIdAsync(clientId);
+    }
+    
+    private Task<Client> CreateClient(Guid id, string name)
+    {
+        return clientRepository.CreateAsync(id, name);
+    }
+
+    private Task<Folder> GetFolderById(Guid folderId)
+    {
+        return folderRepository.GetByIdAsync(folderId);
+    }
+    
+    private Task<Folder> Createfolder(Guid id, string name)
+    {
+        return folderRepository.CreateAsync(id, name);
+    }
+
+    private async Task<List<DocumentAction>> GetDocumentActionsByIds(IEnumerable<Guid> actionIds)
+    {        
+        return (await actionRepository.GetByIdsAsync(actionIds)).ToList();
     }
 }
