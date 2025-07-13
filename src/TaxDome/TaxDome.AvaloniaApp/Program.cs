@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using TaxDome.Application.Services;
+using TaxDome.AvaloniaApp.Extensions;
 using TaxDome.AvaloniaApp.Features.DocumentHistory;
 using TaxDome.Domain.Repositories;
 using TaxDome.Infrastructure;
@@ -38,21 +39,12 @@ class Program
     {
         var services = new ServiceCollection();
 
-        // Настройка DbContext с использованием базы данных (пример с SQLite):
-        services.AddDbContext<ApplicationDbContext>(options =>
-           options.UseSqlite("Data Source=app.db"));
-
-        // Регистрация репозитория
-        services.AddScoped<IDocumentRepository, DocumentRepository>(); 
-
-        // Регистрация сервисов
-        services.AddScoped<DocumentService>();
-
-        // Регистрация ViewModel
-        services.AddTransient<DocumentHistoryViewModel>();
-
-        // Регистрация View
-        services.AddTransient<DocumentHistoryView>();
+        services
+            .AddDatabase()
+            .AddRepositories()
+            .AddApplicationServices()
+            .AddViewModels()
+            .AddViews();        
 
         return services.BuildServiceProvider();
     }
