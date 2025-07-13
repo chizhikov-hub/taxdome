@@ -36,4 +36,13 @@
     <data name="DocumentHistory_Column_AvailableActions" xml:space="preserve">
         <value>Доступные действия</value>
     </data>
+    <data name="Application_Name" xml:space="preserve">
+        <value>TaxDome</value>
+    </data>
+    <data name="DocumentHistory_SelectDocuments" xml:space="preserve">
+        <value>Выделить документы</value>
+    </data>
+    <data name="DocumentHistory_UploadFiles" xml:space="preserve">
+        <value>Загрузить файлы</value>
+    </data>
 </root>

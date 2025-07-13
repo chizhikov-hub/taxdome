@@ -8,35 +8,53 @@
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450" Height="800" Width="1000"
         x:Class="TaxDome.AvaloniaApp.Features.DocumentHistory.DocumentHistoryView"
         x:DataType="vm:DocumentHistoryViewModel"
-        Title="{Binding Path=[DocumentHistory_Title], Source={x:Static localization:LocalizedStrings.Instance}}">
+        Title="{Binding Path=[Application_Name], Source={x:Static localization:LocalizedStrings.Instance}}">
     <Window.Resources>
-        <converters:FileSizeConverter x:Key="FileSizeConverter"/>
+        <converters:FileSizeConverter x:Key="FileSizeConverter" />
     </Window.Resources>
     <Window.Styles>
         <Style Selector="TextBlock.Document">
-            <Setter Property="FontSize" Value="14"/>
-            <Setter Property="FontWeight" Value="DemiBold"/>
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="FontWeight" Value="DemiBold" />
         </Style>
         <Style Selector="TextBlock.FileSize">
-            <Setter Property="FontSize" Value="12"/>
-            <Setter Property="Foreground" Value="#6e7681"/>
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="Foreground" Value="#6e7681" />
         </Style>
         <Style Selector="TextBlock.Client">
-            <Setter Property="FontSize" Value="14"/>
-            <Setter Property="Foreground" Value="#5383ef"/>
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="Foreground" Value="#5383ef" />
         </Style>
         <Style Selector="TextBlock.Folder">
-            <Setter Property="FontSize" Value="12"/>
-            <Setter Property="Foreground" Value="#6e7681"/>
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="Foreground" Value="#6e7681" />
         </Style>
     </Window.Styles>
     <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <Grid Grid.Row="0" Margin="0,0,0,10">
+        <DockPanel Grid.Row="0" Margin="0,0,0,10" LastChildFill="False">
+            <TextBlock DockPanel.Dock="Left" 
+                       Text="{Binding Path=[DocumentHistory_Title], Source={x:Static localization:LocalizedStrings.Instance}}" 
+                       FontSize="20" 
+                       VerticalAlignment="Center"/>
+               
+            <StackPanel DockPanel.Dock="Right" 
+                        Orientation="Horizontal">
+                <Button Content="{Binding [DocumentHistory_SelectDocuments], Source={x:Static localization:LocalizedStrings.Instance}}" 
+                        Margin="0,0,10,0" 
+                        Padding="10,5"/>
+                <Button Content="{Binding [DocumentHistory_UploadFiles], Source={x:Static localization:LocalizedStrings.Instance}}" 
+                        Classes="accent"
+                        Padding="10,5"/>
+            </StackPanel>
+        </DockPanel>
+        
+        <Grid Grid.Row="1" Margin="0,0,0,10">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
@@ -59,7 +77,7 @@
             <!--         Content="{Binding Source={x:Static localization:LocalizedStrings.Instance}, Path=[DocumentHistory_Add]}"/> -->
         </Grid>
 
-        <DataGrid Grid.Row="1"
+        <DataGrid Grid.Row="2"
                   ItemsSource="{Binding Items}"
                   IsReadOnly="True"
                   CanUserReorderColumns="True"
@@ -68,68 +86,109 @@
                   GridLinesVisibility="None">
             <DataGrid.Styles>
                 <Style Selector="DataGridRow">
-                    <Setter Property="Height" Value="60"/>
+                    <Setter Property="Height" Value="60" />
                 </Style>
+                
                 <Style Selector="DataGridColumnHeader">
-                    <Setter Property="BorderThickness" Value="0"/>
-                    <Setter Property="Background" Value="Transparent"/>
-                    <Setter Property="SeparatorBrush" Value="Transparent"/>
+                    <Setter Property="BorderThickness" Value="0" />
+                    <Setter Property="Background" Value="Transparent" />
+                    <Setter Property="SeparatorBrush" Value="Transparent" />
                 </Style>
+                
                 <Style Selector="DataGrid">
-                    <Setter Property="HorizontalGridLinesBrush" Value="Transparent"/>
-                    <Setter Property="VerticalGridLinesBrush" Value="Transparent"/>
+                    <Setter Property="HorizontalGridLinesBrush" Value="Transparent" />
+                    <Setter Property="VerticalGridLinesBrush" Value="Transparent" />
+                </Style>
+                
+                <!-- Стиль для строки при наведении -->
+                <Style Selector="DataGridRow:pointerover /template/ Rectangle#BackgroundRectangle">
+                    <Setter Property="Fill" Value="#15000000"/>
+                </Style>
+        
+                <!-- Стиль для выбранной строки -->
+                <Style Selector="DataGridRow:selected /template/ Rectangle#BackgroundRectangle">
+                    <Setter Property="Fill" Value="#200078D4"/>
+                </Style>
+        
+                <!-- Стиль для выбранной строки при наведении -->
+                <Style Selector="DataGridRow:selected:pointerover /template/ Rectangle#BackgroundRectangle">
+                    <Setter Property="Fill" Value="#300078D4"/>
+                </Style>
+                
+                <Style Selector="DataGridCell">
+                    <Setter Property="Background" Value="Transparent"/>
+                    <Setter Property="BorderThickness" Value="0"/>
+                    <Setter Property="Template">
+                        <ControlTemplate>
+                            <Grid Background="{TemplateBinding Background}">
+                                <ContentPresenter Margin="{TemplateBinding Padding}"
+                                                  Content="{TemplateBinding Content}"
+                                                  ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter>
                 </Style>
             </DataGrid.Styles>
             <DataGrid.Columns>
-                <DataGridTemplateColumn Header="{Binding [DocumentHistory_Column_Document], Source={x:Static localization:LocalizedStrings.Instance}}" Width="1.5*">
+                <DataGridTemplateColumn
+                    Header="{Binding [DocumentHistory_Column_Document], Source={x:Static localization:LocalizedStrings.Instance}}"
+                    Width="1.5*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel>
-                                <TextBlock Text="{Binding Document}" 
-                                           Classes="Document"/>
-                                <TextBlock Text="{Binding FileSize, Converter={StaticResource FileSizeConverter}}" 
-                                           Classes="FileSize"/>
+                                <TextBlock Text="{Binding Document}"
+                                           Classes="Document" />
+                                <TextBlock Text="{Binding FileSize, Converter={StaticResource FileSizeConverter}}"
+                                           Classes="FileSize" />
                             </StackPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                
-                <DataGridTemplateColumn Header="{Binding [DocumentHistory_Column_ClientAndFolder], Source={x:Static localization:LocalizedStrings.Instance}}" Width="*">
+
+                <DataGridTemplateColumn
+                    Header="{Binding [DocumentHistory_Column_ClientAndFolder], Source={x:Static localization:LocalizedStrings.Instance}}"
+                    Width="*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel>
-                                <TextBlock Text="{Binding Client}" 
-                                           Classes="Client"/>
-                                <TextBlock Text="{Binding Folder}" 
-                                           Classes="Folder"/>
+                                <TextBlock Text="{Binding Client}"
+                                           Classes="Client" />
+                                <TextBlock Text="{Binding Folder}"
+                                           Classes="Folder" />
                             </StackPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                     
-                
-                <DataGridTemplateColumn Header="{Binding [DocumentHistory_Column_AppliedActions], Source={x:Static localization:LocalizedStrings.Instance}}" Width="*">
+
+
+                <DataGridTemplateColumn
+                    Header="{Binding [DocumentHistory_Column_AppliedActions], Source={x:Static localization:LocalizedStrings.Instance}}"
+                    Width="*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel></StackPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn> 
-                
-                <DataGridTemplateColumn Header="{Binding [DocumentHistory_Column_AvailableActions], Source={x:Static localization:LocalizedStrings.Instance}}" Width="*">
+                </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn
+                    Header="{Binding [DocumentHistory_Column_AvailableActions], Source={x:Static localization:LocalizedStrings.Instance}}"
+                    Width="*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel></StackPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                    
-                
+
+
                 <!-- <DataGridTextColumn -->
                 <!--     Header="DateGroup" -->
                 <!--     Binding="{Binding DateGroup}" -->
                 <!-- /> -->
-             
+
             </DataGrid.Columns>
         </DataGrid>
 
