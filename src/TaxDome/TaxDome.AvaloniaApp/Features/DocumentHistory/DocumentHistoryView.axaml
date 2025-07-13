@@ -5,7 +5,6 @@
         xmlns:converters="clr-namespace:TaxDome.AvaloniaApp.Common.Converters"
         xmlns:localization="clr-namespace:TaxDome.AvaloniaApp.Common.Localization"
         xmlns:vm="clr-namespace:TaxDome.AvaloniaApp.Features.DocumentHistory"
-        xmlns:sa="clr-namespace:Semi.Avalonia;assembly=Semi.Avalonia"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450" 
         Height="900" Width="1200"
         x:Class="TaxDome.AvaloniaApp.Features.DocumentHistory.DocumentHistoryView"
@@ -61,6 +60,7 @@
             <StackPanel DockPanel.Dock="Right" 
                         Orientation="Horizontal">
                 <Button Content="{Binding [DocumentHistory_SelectDocuments], Source={x:Static localization:LocalizedStrings.Instance}}"
+                        Command="{Binding ChangeSelectModeCommand}"
                         Classes="Tertiary" 
                         Margin="0,0,10,0" 
                         Padding="10,5"/>
@@ -113,10 +113,10 @@
 
         <DataGrid Grid.Row="2"
                   ItemsSource="{Binding FilteredItems}"
-                  IsReadOnly="True"
                   CanUserReorderColumns="True"
                   CanUserResizeColumns="True"
                   CanUserSortColumns="False"
+                  SelectionMode="Single"
                   GridLinesVisibility="None"
                   AreRowGroupHeadersFrozen="True">
             <DataGrid.Styles>
@@ -171,6 +171,26 @@
                 </Style>
             </DataGrid.Styles>
             <DataGrid.Columns>
+                <DataGridTemplateColumn
+                    Header="{Binding [DocumentHistory_Column_Select], Source={x:Static localization:LocalizedStrings.Instance}}"
+                    x:DataType="vm:DocumentViewModel"
+                    IsVisible="{Binding $parent[Window].((vm:DocumentHistoryViewModel)DataContext).AllowSelectDocuments}">
+                    <DataTemplate x:DataType="vm:DocumentViewModel">
+                        <Grid Background="Transparent">
+                            <CheckBox
+                                IsChecked="{Binding IsSelected, Mode=OneWay}"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"/>
+                            <Interaction.Behaviors>
+                                <EventTriggerBehavior EventName="Tapped">
+                                    <InvokeCommandAction Command="{Binding ToggleSelectionCommand}" PassEventArgsToCommand="True"/>
+                                </EventTriggerBehavior>
+                            </Interaction.Behaviors>
+                        </Grid>
+                    </DataTemplate>
+
+                </DataGridTemplateColumn>
+                
                 <DataGridTemplateColumn
                     Header="{Binding [DocumentHistory_Column_Document], Source={x:Static localization:LocalizedStrings.Instance}}"
                     Width="1.5*">

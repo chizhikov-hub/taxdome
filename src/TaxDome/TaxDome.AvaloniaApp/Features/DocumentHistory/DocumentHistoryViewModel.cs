@@ -129,16 +129,35 @@ public class DocumentHistoryViewModel : ObservableObject
             }
         }
     }
+    
+    private bool _allowSelectDocuments;
+    public bool AllowSelectDocuments
+    {
+        get => _allowSelectDocuments;
+        set => SetProperty(ref _allowSelectDocuments, value);
+    }
 
     #endregion
 
     #region Commands
 
     public IAsyncRelayCommand AddCommand { get; private set; }
+    public IRelayCommand ChangeSelectModeCommand { get; private set; }
 
     private void InitializeCommands()
     {
         AddCommand = new AsyncRelayCommand(ExecuteAddCommand);
+        ChangeSelectModeCommand = new RelayCommand(() =>
+        {
+            AllowSelectDocuments = !AllowSelectDocuments;
+            if (!AllowSelectDocuments)
+            {
+                foreach (var item in _allItems)
+                {
+                    item.IsSelected = false;
+                }
+            }            
+        });
     }
 
     #endregion

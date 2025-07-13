@@ -1,12 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Windows.Input;
+using Avalonia.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using TaxDome.Application.DTOs;
 
 namespace TaxDome.AvaloniaApp.Features.DocumentHistory;
 
 public class DocumentViewModel : ObservableObject
 {
+    public DocumentViewModel()
+    {
+        ToggleSelectionCommand = new RelayCommand<TappedEventArgs>(args =>
+        {
+            IsSelected = !IsSelected;
+            args.Handled = true;
+        });
+    }
+
     public Guid Id { get; set; }
     public DateTime Date { get; init; }
     public string Document { get; init; }
@@ -27,6 +39,20 @@ public class DocumentViewModel : ObservableObject
             OnPropertyChanged();
         }
     }
+    
+    private bool isSelected;
+    public bool IsSelected
+    {
+        get => isSelected;
+        set
+        {
+            if (value == isSelected) return;
+            isSelected = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public ICommand ToggleSelectionCommand { get; } 
     
     public static DocumentViewModel FromDto(DocumentDto dto)
     {
