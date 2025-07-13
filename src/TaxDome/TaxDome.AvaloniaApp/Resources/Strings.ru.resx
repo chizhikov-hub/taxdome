@@ -45,4 +45,16 @@
     <data name="DocumentHistory_UploadFiles" xml:space="preserve">
         <value>Загрузить файлы</value>
     </data>
+    <data name="DocumentHistory_SearchTextWatermark" xml:space="preserve">
+        <value>Поиск по имени файла, клиенту...</value>
+    </data>
+    <data name="DocumentHistory_AllClients" xml:space="preserve">
+        <value>Все клиенты</value>
+    </data>
+    <data name="DocumentHistory_AllAppliedActions" xml:space="preserve">
+        <value>Все примененные действия</value>
+    </data>
+    <data name="DocumentHistory_AllFolders" xml:space="preserve">
+        <value>Все папки</value>
+    </data>
 </root>

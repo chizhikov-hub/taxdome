@@ -5,7 +5,9 @@
         xmlns:converters="clr-namespace:TaxDome.AvaloniaApp.Common.Converters"
         xmlns:localization="clr-namespace:TaxDome.AvaloniaApp.Common.Localization"
         xmlns:vm="clr-namespace:TaxDome.AvaloniaApp.Features.DocumentHistory"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450" Height="800" Width="1000"
+        xmlns:sa="clr-namespace:Semi.Avalonia;assembly=Semi.Avalonia"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450" 
+        Height="900" Width="1200"
         x:Class="TaxDome.AvaloniaApp.Features.DocumentHistory.DocumentHistoryView"
         x:DataType="vm:DocumentHistoryViewModel"
         Icon="/Assets/Icons/favicon.ico"
@@ -42,41 +44,44 @@
             <TextBlock DockPanel.Dock="Left" 
                        Text="{Binding Path=[DocumentHistory_Title], Source={x:Static localization:LocalizedStrings.Instance}}" 
                        FontSize="20" 
+                       Classes="H2"
+                       Theme="{StaticResource TitleTextBlock}"
                        VerticalAlignment="Center"/>
                
             <StackPanel DockPanel.Dock="Right" 
                         Orientation="Horizontal">
-                <Button Content="{Binding [DocumentHistory_SelectDocuments], Source={x:Static localization:LocalizedStrings.Instance}}" 
+                <Button Content="{Binding [DocumentHistory_SelectDocuments], Source={x:Static localization:LocalizedStrings.Instance}}"
+                        Classes="Tertiary" 
                         Margin="0,0,10,0" 
                         Padding="10,5"/>
                 <Button Content="{Binding [DocumentHistory_UploadFiles], Source={x:Static localization:LocalizedStrings.Instance}}" 
-                        Classes="accent"
+                        Classes="Primary" 
+                        Theme="{DynamicResource SolidButton}"
                         Padding="10,5"/>
             </StackPanel>
         </DockPanel>
         
-        <Grid Grid.Row="1" Margin="0,0,0,10">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
-
-            <TextBlock
-                Text="{Binding Source={x:Static localization:LocalizedStrings.Instance}, Path=[DocumentHistory_Search]}"
-                VerticalAlignment="Center"
-                Margin="0,0,10,0" />
-
-            <!-- <TextBox Grid.Column="1" -->
-            <!--          Text="{Binding SearchText}" -->
-            <!--          VerticalAlignment="Center"/> -->
-            <!--           -->
+        <StackPanel Grid.Row="1" Margin="0,0,0,10" Orientation="Horizontal">
+            <TextBox 
+                Watermark="{Binding [DocumentHistory_SearchTextWatermark], Source={x:Static localization:LocalizedStrings.Instance}}"
+                MinWidth="400">
+                <TextBox.InnerLeftContent>
+                    <PathIcon Data="{StaticResource SemiIconSearch}" Width="14" Height="14" Opacity="0.6" />
+                </TextBox.InnerLeftContent>
+            </TextBox>
+            
+            <ComboBox PlaceholderText="{Binding [DocumentHistory_AllClients], Source={x:Static localization:LocalizedStrings.Instance}}" Margin="10 0 0 0" MinWidth="200"/>
+            
+            <ComboBox PlaceholderText="{Binding [DocumentHistory_AllAppliedActions], Source={x:Static localization:LocalizedStrings.Instance}}" Margin="10 0 0 0" MinWidth="200"/>
+            
+            <ComboBox PlaceholderText="{Binding [DocumentHistory_AllFolders], Source={x:Static localization:LocalizedStrings.Instance}}" Margin="10 0 0 0" MinWidth="200"/>
+            
             <!-- <Button Grid.Column="2"  -->
             <!--         Margin="5 0 0 0"  -->
             <!--         MinWidth="80"  -->
             <!--         Command="{Binding AddCommand}" -->
             <!--         Content="{Binding Source={x:Static localization:LocalizedStrings.Instance}, Path=[DocumentHistory_Add]}"/> -->
-        </Grid>
+        </StackPanel>
 
         <DataGrid Grid.Row="2"
                   ItemsSource="{Binding Items}"
@@ -88,6 +93,10 @@
             <DataGrid.Styles>
                 <Style Selector="DataGridRow">
                     <Setter Property="Height" Value="60" />
+                </Style>
+                
+                <Style Selector="DataGridCell">
+                    <Setter Property="Padding" Value="10" />
                 </Style>
                 
                 <Style Selector="DataGridColumnHeader">

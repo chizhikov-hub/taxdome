@@ -45,4 +45,16 @@
     <data name="DocumentHistory_UploadFiles" xml:space="preserve">
         <value>Upload Files</value>
     </data>
+    <data name="DocumentHistory_SearchTextWatermark" xml:space="preserve">
+        <value>Search by file name, client name...</value>
+    </data>
+    <data name="DocumentHistory_AllClients" xml:space="preserve">
+        <value>All Clients</value>
+    </data>
+    <data name="DocumentHistory_AllAppliedActions" xml:space="preserve">
+        <value>All Applied Actions</value>
+    </data>
+    <data name="DocumentHistory_AllFolders" xml:space="preserve">
+        <value>All Folders</value>
+    </data>
 </root>

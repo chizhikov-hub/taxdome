@@ -69,6 +69,33 @@ namespace TaxDome.AvaloniaApp.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to All Applied Actions.
+        /// </summary>
+        internal static string DocumentHistory_AllAppliedActions {
+            get {
+                return ResourceManager.GetString("DocumentHistory_AllAppliedActions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to All Clients.
+        /// </summary>
+        internal static string DocumentHistory_AllClients {
+            get {
+                return ResourceManager.GetString("DocumentHistory_AllClients", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to All Folders.
+        /// </summary>
+        internal static string DocumentHistory_AllFolders {
+            get {
+                return ResourceManager.GetString("DocumentHistory_AllFolders", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Applied Actions.
         /// </summary>
         internal static string DocumentHistory_Column_AppliedActions {
@@ -110,6 +137,15 @@ namespace TaxDome.AvaloniaApp.Resources {
         internal static string DocumentHistory_Search {
             get {
                 return ResourceManager.GetString("DocumentHistory_Search", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Search by file name, client name....
+        /// </summary>
+        internal static string DocumentHistory_SearchTextWatermark {
+            get {
+                return ResourceManager.GetString("DocumentHistory_SearchTextWatermark", resourceCulture);
             }
         }
         
