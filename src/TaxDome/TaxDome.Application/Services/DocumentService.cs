@@ -11,12 +11,14 @@ public class DocumentService(IDocumentRepository documentRepository)
         var documents = await documentRepository.GetAllAsync(cancellationToken);
         return documents.Select(d => new DocumentDto
         {
-            // Id = d.Id,
-            // Name = d.Name,
-            // Type = d.Type,
-            // CreatedAt = d.CreatedAt,
-            // CreatedBy = d.CreatedBy,
-            // Status = d.Status
+            Id = d.Id,
+            Document = d.FileName,
+            FileSize = d.FileSize,
+            Date = d.Date,
+            Client = d.Client,
+            Folder = d.Folder,
+            AppliedActions = d.AppliedActions,
+            AvailableActions = d.AvailableActions
         }).ToList();
     }
 

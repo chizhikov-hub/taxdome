@@ -1,30 +1,90 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using TaxDome.Application.DTOs;
+using TaxDome.Application.Services;
 
 namespace TaxDome.AvaloniaApp.Features.DocumentHistory;
 
 public class DocumentHistoryViewModel : ObservableObject
 {
-    public DocumentHistoryViewModel()
+    public DocumentHistoryViewModel(DocumentService documentService)
     {
-        _items = new ObservableCollection<DocumentDto>();
-        Initialize();
+        _documentService = documentService;
+        LoadDocumentsAsync().ConfigureAwait(false);
+    }
+    
+    private readonly DocumentService _documentService;
+    private readonly ObservableCollection<DocumentDto> _allItems = new ObservableCollection<DocumentDto>();
+    private ObservableCollection<DocumentDto> _filteredItems = new ObservableCollection<DocumentDto>();
+    public ObservableCollection<DocumentDto> FilteredItems => _filteredItems;
+    
+    private string _searchText = string.Empty;
+    public string SearchText
+    {
+        get => _searchText;
+        set
+        {
+            if (SetProperty(ref _searchText, value))
+            {
+                UpdateFilter();
+            }
+        }
+    }
+    
+    private bool _isLoading;
+    public bool IsLoading
+    {
+        get => _isLoading;
+        private set
+        {
+            _isLoading = value;
+            OnPropertyChanged();
+        }
+    }
+    
+    private void UpdateFilter()
+    {
+        if (string.IsNullOrWhiteSpace(_searchText))
+        {
+            _filteredItems = new ObservableCollection<DocumentDto>(_allItems);
+            OnPropertyChanged(nameof(FilteredItems));
+            return;
+        }
+
+        var searchText = _searchText.ToLower();
+        var filtered = _allItems.Where(doc =>
+        {
+            var docSearchText = (doc.Document + doc.Client).ToLower();
+            return docSearchText.Contains(searchText);
+        });
+
+        _filteredItems = new ObservableCollection<DocumentDto>(filtered);
+        OnPropertyChanged(nameof(FilteredItems));
     }
 
-    private void Initialize()
+    private async Task LoadDocumentsAsync()
     {
-        Items.Add(new DocumentDto{Document = "Tax_Return_2024.pdf",     Client = "Jane Cooper",      Folder = "Shared with Client", AppliedActions = ["Pending Signature", "Job Linked"],                      AvailableActions = ["Approved", "Invoice Linked"],    Date = DateTime.Today,             FileSize = 2411725 /*2.3m * 1024 * 1024*/});
-        Items.Add(new DocumentDto{Document = "Invoice_March_2024.pdf",  Client = "Jane Cooper",      Folder = "Shared with Client", AppliedActions = ["Approved", "Job Linked", "Invoice Linked"],             AvailableActions = ["Pending Signature"],             Date = DateTime.Today,             FileSize = 345703 /*337.6m * 1024*/});
-        Items.Add(new DocumentDto{Document = "Contract_Amendment.pdf",  Client = "Esther Howard",    Folder = "Shared with Client", AppliedActions = [],                                                       AvailableActions = ["Retry"],                         Date = DateTime.Today,             FileSize = 1258292 /*1.2m * 1024 * 1024*/});
-        Items.Add(new DocumentDto{Document = "Financial_Summary.xslx",  Client = "Esther Howard",    Folder = "Private",            AppliedActions = ["Pending Approval", "Job Processing", "Invoice Linked"], AvailableActions = ["Pending Signature"],             Date = DateTime.Today.AddDays(-1), FileSize = 1258292 /*1.2m * 1024 * 1024*/});
-        Items.Add(new DocumentDto{Document = "Bank_Statements_Q1.xslx", Client = "Leslie Alexander", Folder = "Private",            AppliedActions = [],                                                       AvailableActions = ["Pending Signature", "Approved"], Date = DateTime.Today.AddDays(-1), FileSize = 363111 /*354.6m * 1024*/});
+        try
+        {
+            IsLoading = true;
+            var documents = await _documentService.GetAllDocumentsAsync(CancellationToken.None);
+            
+            await Avalonia.Threading.Dispatcher.UIThread.InvokeAsync(() =>
+            {
+                _allItems.Clear();
+                foreach (var doc in documents)
+                {
+                    _allItems.Add(doc);
+                }
+            });
+        }
+        finally
+        {
+            IsLoading = false;
+        }
+        UpdateFilter();
     }
-
-    private readonly ObservableCollection<DocumentDto> _items;
-    public ObservableCollection<DocumentDto> Items => _items;
-
-    // public IEnumerable<IGrouping<string, DocumentDto>> GroupedItems => 
-    //     _items.GroupBy(x => x.DateGroup);
 }

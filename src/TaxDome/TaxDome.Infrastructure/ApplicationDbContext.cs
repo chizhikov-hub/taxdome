@@ -20,9 +20,11 @@ public class ApplicationDbContext : DbContext
         modelBuilder.Entity<Document>(entity =>
         {
             entity.HasKey(d => d.Id);
-            entity.Property(d => d.Name).IsRequired().HasMaxLength(255);
-            entity.Property(d => d.Type).IsRequired().HasMaxLength(100);
-            entity.Property(d => d.CreatedBy).IsRequired().HasMaxLength(100);
+            entity.Property(d => d.FileName).IsRequired().HasMaxLength(255);
+            entity.Property(d => d.FileSize).IsRequired();
+            entity.Property(d => d.Date).IsRequired();
+            entity.Property(d => d.Client).IsRequired().HasMaxLength(100);
+            entity.Property(d => d.Folder).IsRequired().HasMaxLength(100);
         });
     }
 }

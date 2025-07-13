@@ -16,13 +16,12 @@ public class DocumentHistoryViewModel : INotifyPropertyChanged
 {
     private readonly DocumentService _documentService;
     private readonly ObservableCollection<DocumentDto> _documents;
-    private string _searchText = string.Empty;
-    private bool _isLoading;
 
     public event PropertyChangedEventHandler? PropertyChanged;
 
     public ICollectionView Documents { get; }
     
+    private string _searchText = string.Empty;
     public string SearchText
     {
         get => _searchText;
@@ -34,6 +33,7 @@ public class DocumentHistoryViewModel : INotifyPropertyChanged
         }
     }
 
+    private bool _isLoading;
     public bool IsLoading
     {
         get => _isLoading;
@@ -64,12 +64,12 @@ public class DocumentHistoryViewModel : INotifyPropertyChanged
     
     private async Task ExecuteAddCommand()
     {
-        var document = new Document(Path.ChangeExtension(Path.GetRandomFileName(), ".pdf"), "PDF", "chizhikov");
-        await _documentService.AddAsync(document, CancellationToken.None);
-        
-        
-        
-        await LoadDocumentsAsync();
+        // var document = new Document(Path.ChangeExtension(Path.GetRandomFileName(), ".pdf"), "PDF", "chizhikov");
+        // await _documentService.AddAsync(document, CancellationToken.None);
+        //
+        //
+        //
+        // await LoadDocumentsAsync();
     }
 
     private async Task GenerateDocumentAsync()

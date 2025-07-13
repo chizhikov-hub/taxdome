@@ -20,6 +20,8 @@
       <PrivateAssets Condition="'$(Configuration)' != 'Debug'">All</PrivateAssets>
     </PackageReference>
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.7" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.7" />
     <PackageReference Include="Semi.Avalonia" Version="11.2.1.9" />
     <PackageReference Include="Semi.Avalonia.AvaloniaEdit" Version="11.2.0.1" />
     <PackageReference Include="Semi.Avalonia.DataGrid" Version="11.2.1.9" />
@@ -59,6 +61,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\TaxDome.Application\TaxDome.Application.csproj" />
+    <ProjectReference Include="..\TaxDome.Infrastructure\TaxDome.Infrastructure.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -4,6 +4,7 @@ namespace TaxDome.Application.DTOs;
 
 public record DocumentDto
 {
+    public Guid Id { get; init; }
     public DateTime Date { get; init; }
     public string Document { get; init; }
     public long FileSize { get; init; }

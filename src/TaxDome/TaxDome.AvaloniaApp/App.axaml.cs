@@ -1,4 +1,4 @@
-using Avalonia;
+using System;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using TaxDome.AvaloniaApp.Common.Localization;
@@ -8,13 +8,13 @@ namespace TaxDome.AvaloniaApp;
 
 public partial class App : Avalonia.Application
 {
+    public static IServiceProvider Services { get; set; }
+    
     public override void Initialize()
     {
         LocalizationManager.SetCulture("ru-RU");
         AvaloniaXamlLoader.Load(this);
     }
-
-    private readonly DocumentHistoryViewModel documentHistoryViewModel = new DocumentHistoryViewModel();
 
     public override void OnFrameworkInitializationCompleted()
     {
@@ -22,7 +22,7 @@ public partial class App : Avalonia.Application
         {
             desktop.MainWindow = new DocumentHistoryView
             {
-                DataContext = documentHistoryViewModel
+                DataContext = Services.GetService(typeof(DocumentHistoryViewModel))
             };
             desktop.ShutdownRequested += DesktopOnShutdownRequested;
         }

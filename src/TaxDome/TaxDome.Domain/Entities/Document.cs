@@ -5,21 +5,25 @@ namespace TaxDome.Domain.Entities;
 public class Document
 {
     public Guid Id { get; private set; }
-    public string Name { get; private set; }
-    public string Type { get; private set; }
-    public DateTime CreatedAt { get; private set; }
-    public string CreatedBy { get; private set; }
-    public DocumentStatus Status { get; private set; }
+    public DateTime Date { get; private set; }
+    public string FileName { get; private set; }
+    public long FileSize { get; private set; }
+    public string Client { get; private set; }
+    public string Folder { get; private set; }
+    public List<string> AppliedActions { get; private set; }
+    public List<string> AvailableActions { get; private set; }
 
     private Document() { } 
 
-    public Document(string name, string type, string createdBy)
+    public Document(string fileName, long fileSize, string client, string folder, List<string> appliedActions, List<string> availableActions, DateTime? date = null)
     {
         Id = Guid.NewGuid();
-        Name = name;
-        Type = type;
-        CreatedAt = DateTime.UtcNow;
-        CreatedBy = createdBy;
-        Status = DocumentStatus.Active;
+        Date = date ?? DateTime.UtcNow;
+        FileName = fileName;
+        FileSize = fileSize;
+        Client = client;
+        Folder = folder;
+        AppliedActions = appliedActions;
+        AvailableActions = availableActions;
     }
 }
