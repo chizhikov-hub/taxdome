@@ -5,11 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TaxDome.Presentation"
         xmlns:localization="clr-namespace:TaxDome.Presentation.Localization"
+        xmlns:converters="clr-namespace:TaxDome.Presentation.Common.Converters"
         Title="{Binding Path=[DocumentHistory_Title], Source={x:Static localization:LocalizedStrings.Instance}}"
         mc:Ignorable="d" 
         Height="450" Width="800">
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        <converters:FileSizeConverter x:Key="FileSizeConverter" />
+        <converters:DateFormatConverter x:Key="DateFormatConverter" />
     </Window.Resources>
     <Grid Margin="10">
         <Grid.RowDefinitions>
@@ -44,20 +47,35 @@
                   VirtualizingPanel.VirtualizationMode="Recycling">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="{Binding [DocumentHistory_Column_Name], Source={x:Static localization:LocalizedStrings.Instance}}"
-                                  Binding="{Binding Name}"
+                                  Binding="{Binding Document}"
                                   Width="*"/>
-                <DataGridTextColumn Header="{Binding [DocumentHistory_Column_Type], Source={x:Static localization:LocalizedStrings.Instance}}"
-                                  Binding="{Binding Type}"
-                                  Width="100"/>
+                <DataGridTextColumn Header="{Binding [DocumentHistory_Column_FileSize], Source={x:Static localization:LocalizedStrings.Instance}}"
+                                  Binding="{Binding FileSize, Converter={StaticResource FileSizeConverter}}"
+                                  Width="90">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="HorizontalAlignment" Value="Right" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                                  
                 <DataGridTextColumn Header="{Binding [DocumentHistory_Column_CreatedAt], Source={x:Static localization:LocalizedStrings.Instance}}"
-                                  Binding="{Binding CreatedAt, StringFormat={}{0:g}}"
-                                  Width="150"/>
+                                  Binding="{Binding Date, Converter={StaticResource DateFormatConverter}}"
+                                  Width="140">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="HorizontalAlignment" Value="Right" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                
                 <DataGridTextColumn Header="{Binding [DocumentHistory_Column_CreatedBy], Source={x:Static localization:LocalizedStrings.Instance}}"
-                                  Binding="{Binding CreatedBy}"
+                                  Binding="{Binding Client.Name}"
                                   Width="150"/>
-                <DataGridTextColumn Header="{Binding [DocumentHistory_Column_Status], Source={x:Static localization:LocalizedStrings.Instance}}"
-                                  Binding="{Binding Status}"
-                                  Width="100"/>
+                
+                <DataGridTextColumn Header="{Binding [DocumentHistory_Column_Folder], Source={x:Static localization:LocalizedStrings.Instance}}"
+                                  Binding="{Binding Folder.Name}"
+                                  Width="150"/>
             </DataGrid.Columns>
         </DataGrid>
         

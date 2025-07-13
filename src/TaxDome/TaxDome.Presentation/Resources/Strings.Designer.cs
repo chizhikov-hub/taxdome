@@ -78,11 +78,29 @@ namespace TaxDome.Presentation.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Created By.
+        ///   Looks up a localized string similar to Client.
         /// </summary>
         internal static string DocumentHistory_Column_CreatedBy {
             get {
                 return ResourceManager.GetString("DocumentHistory_Column_CreatedBy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to File Size.
+        /// </summary>
+        internal static string DocumentHistory_Column_FileSize {
+            get {
+                return ResourceManager.GetString("DocumentHistory_Column_FileSize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Folder.
+        /// </summary>
+        internal static string DocumentHistory_Column_Folder {
+            get {
+                return ResourceManager.GetString("DocumentHistory_Column_Folder", resourceCulture);
             }
         }
         
@@ -101,15 +119,6 @@ namespace TaxDome.Presentation.Resources {
         internal static string DocumentHistory_Column_Status {
             get {
                 return ResourceManager.GetString("DocumentHistory_Column_Status", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Type.
-        /// </summary>
-        internal static string DocumentHistory_Column_Type {
-            get {
-                return ResourceManager.GetString("DocumentHistory_Column_Type", resourceCulture);
             }
         }
         

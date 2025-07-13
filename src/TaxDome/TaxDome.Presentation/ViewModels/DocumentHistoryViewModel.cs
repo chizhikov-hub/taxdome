@@ -100,10 +100,9 @@ public class DocumentHistoryViewModel : INotifyPropertyChanged
         
         if (obj is DocumentDto doc)
         {
-            return true;
-            // return doc.Name.Contains(SearchText, StringComparison.OrdinalIgnoreCase) ||
-            //        doc.Type.Contains(SearchText, StringComparison.OrdinalIgnoreCase) ||
-            //        doc.CreatedBy.Contains(SearchText, StringComparison.OrdinalIgnoreCase);
+            return doc.Document.Contains(SearchText, StringComparison.OrdinalIgnoreCase) ||
+                   doc.Folder.Name.Contains(SearchText, StringComparison.OrdinalIgnoreCase) ||
+                   doc.Client.Name.Contains(SearchText, StringComparison.OrdinalIgnoreCase);
         }
         return false;
     }

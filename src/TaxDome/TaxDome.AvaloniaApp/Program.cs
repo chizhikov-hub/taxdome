@@ -44,7 +44,7 @@ class Program
             .AddRepositories()
             .AddApplicationServices()
             .AddViewModels()
-            .AddViews();        
+            .AddViews();
 
         return services.BuildServiceProvider();
     }

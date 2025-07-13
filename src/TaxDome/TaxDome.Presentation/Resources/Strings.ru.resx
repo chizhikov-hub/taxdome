@@ -27,19 +27,22 @@
     <data name="DocumentHistory_Column_Name" xml:space="preserve">
         <value>Название</value>
     </data>
-    <data name="DocumentHistory_Column_Type" xml:space="preserve">
-        <value>Тип</value>
+    <data name="DocumentHistory_Column_Folder" xml:space="preserve">
+        <value>Папка</value>
     </data>
     <data name="DocumentHistory_Column_CreatedAt" xml:space="preserve">
         <value>Дата создания</value>
     </data>
     <data name="DocumentHistory_Column_CreatedBy" xml:space="preserve">
-        <value>Создал</value>
+        <value>Клиент</value>
     </data>
     <data name="DocumentHistory_Column_Status" xml:space="preserve">
         <value>Статус</value>
     </data>
     <data name="DocumentHistory_Add" xml:space="preserve">
         <value>Добавить</value>
+    </data>
+    <data name="DocumentHistory_Column_FileSize" xml:space="preserve">
+        <value>Размер файла</value>
     </data>
 </root>

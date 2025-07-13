@@ -27,19 +27,22 @@
     <data name="DocumentHistory_Column_Name" xml:space="preserve">
         <value>Name</value>
     </data>
-    <data name="DocumentHistory_Column_Type" xml:space="preserve">
-        <value>Type</value>
+    <data name="DocumentHistory_Column_Folder" xml:space="preserve">
+        <value>Folder</value>
     </data>
     <data name="DocumentHistory_Column_CreatedAt" xml:space="preserve">
         <value>Created At</value>
     </data>
     <data name="DocumentHistory_Column_CreatedBy" xml:space="preserve">
-        <value>Created By</value>
+        <value>Client</value>
     </data>
     <data name="DocumentHistory_Column_Status" xml:space="preserve">
         <value>Status</value>
     </data>
     <data name="DocumentHistory_Add" xml:space="preserve">
         <value>Add</value>
+    </data>
+    <data name="DocumentHistory_Column_FileSize" xml:space="preserve">
+        <value>File Size</value>
     </data>
 </root>
