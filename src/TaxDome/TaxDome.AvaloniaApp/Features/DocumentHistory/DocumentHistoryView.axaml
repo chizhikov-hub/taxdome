@@ -16,6 +16,16 @@
         <converters:FileSizeConverter x:Key="FileSizeConverter" />
     </Window.Resources>
     <Window.Styles>
+        <Style Selector="TextBlock.AppliedAction">
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="Foreground" Value="#6e7681" />
+            <Setter Property="Margin" Value="0 0 10 0" />
+        </Style>
+        <Style Selector="TextBlock.AvailableAction">
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="Foreground" Value="#6e7681" />
+            <Setter Property="Margin" Value="0 0 10 0" />
+        </Style>
         <Style Selector="TextBlock.Document">
             <Setter Property="FontSize" Value="14" />
             <Setter Property="FontWeight" Value="DemiBold" />
@@ -110,7 +120,7 @@
                   GridLinesVisibility="None">
             <DataGrid.Styles>
                 <Style Selector="DataGridRow">
-                    <Setter Property="Height" Value="60" />
+                    <Setter Property="Height" Value="70" />
                 </Style>
                 
                 <Style Selector="DataGridCell">
@@ -195,7 +205,19 @@
                     Width="*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <StackPanel></StackPanel>
+                            <ItemsControl ItemsSource="{Binding AppliedActions}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <WrapPanel Orientation="Horizontal"/>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Name}" 
+                                                   Classes="AppliedAction"/>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
@@ -205,7 +227,19 @@
                     Width="*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <StackPanel></StackPanel>
+                            <ItemsControl ItemsSource="{Binding AvailableActions}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <WrapPanel Orientation="Horizontal"/>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Name}" 
+                                                   Classes="AvailableAction"/>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

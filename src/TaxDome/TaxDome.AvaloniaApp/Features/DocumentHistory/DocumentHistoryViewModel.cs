@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
@@ -88,21 +89,45 @@ public class DocumentHistoryViewModel : ObservableObject
     public ClientDto SelectedClient
     {
         get => _selectedClient;
-        set => SetProperty(ref _selectedClient, value);
+        set
+        {
+            if (_selectedClient != value)
+            {
+                _selectedClient = value;
+                OnPropertyChanged();
+                UpdateFilter();
+            }
+        }
     }
 
     private FolderDto _selectedFolder;
     public FolderDto SelectedFolder
     {
         get => _selectedFolder;
-        set => SetProperty(ref _selectedFolder, value);
+        set
+        {
+            if (_selectedFolder != value)
+            {
+                _selectedFolder = value;
+                OnPropertyChanged();
+                UpdateFilter();
+            }
+        }
     }
     
     private DocumentActionDto _selectedAppliedAction;
     public DocumentActionDto SelectedAppliedAction
     {
         get => _selectedAppliedAction;
-        set => SetProperty(ref _selectedAppliedAction, value);
+        set
+        {
+            if (_selectedAppliedAction != value)
+            {
+                _selectedAppliedAction = value;
+                OnPropertyChanged();
+                UpdateFilter();
+            }
+        }
     }
 
     #endregion
@@ -173,19 +198,33 @@ public class DocumentHistoryViewModel : ObservableObject
 
     private void UpdateFilter()
     {
-        if (string.IsNullOrWhiteSpace(_searchText))
+        IEnumerable<DocumentDto> filtered = _allItems;
+        
+        if (!string.IsNullOrWhiteSpace(_searchText))
         {
-            _filteredItems = new ObservableCollection<DocumentDto>(_allItems);
-            OnPropertyChanged(nameof(FilteredItems));
-            return;
+            var searchText = _searchText.ToLower();
+            filtered = filtered.Where(doc =>
+            {
+                var docSearchText = (doc.Document + doc.Client.Name).ToLower();
+                return docSearchText.Contains(searchText);
+            });
+        }
+        
+        if (SelectedClient != null)
+        {
+            filtered = filtered.Where(doc => doc.Client.Id == SelectedClient.Id);
         }
 
-        var searchText = _searchText.ToLower();
-        var filtered = _allItems.Where(doc =>
+        if (SelectedFolder != null)
         {
-            var docSearchText = (doc.Document + doc.Client).ToLower();
-            return docSearchText.Contains(searchText);
-        });
+            filtered = filtered.Where(doc => doc.Folder.Id == SelectedFolder.Id);
+        }
+
+        if (SelectedAppliedAction != null)
+        {
+            filtered = filtered.Where(doc => 
+                doc.AppliedActions.Any(action => action.Id == SelectedAppliedAction.Id));
+        }
 
         _filteredItems = new ObservableCollection<DocumentDto>(filtered);
         OnPropertyChanged(nameof(FilteredItems));
