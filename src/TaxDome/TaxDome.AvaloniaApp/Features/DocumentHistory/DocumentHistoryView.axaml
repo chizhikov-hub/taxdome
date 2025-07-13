@@ -117,7 +117,8 @@
                   CanUserReorderColumns="True"
                   CanUserResizeColumns="True"
                   CanUserSortColumns="False"
-                  GridLinesVisibility="None">
+                  GridLinesVisibility="None"
+                  AreRowGroupHeadersFrozen="True">
             <DataGrid.Styles>
                 <Style Selector="DataGridRow">
                     <Setter Property="Height" Value="70" />
@@ -176,9 +177,11 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel>
-                                <TextBlock Text="{Binding Document}"
+                                <TextBlock x:DataType="vm:DocumentViewModel"
+                                           Text="{Binding Document}"
                                            Classes="Document" />
-                                <TextBlock Text="{Binding FileSize, Converter={StaticResource FileSizeConverter}}"
+                                <TextBlock x:DataType="vm:DocumentViewModel"
+                                           Text="{Binding FileSize, Converter={StaticResource FileSizeConverter}}"
                                            Classes="FileSize" />
                             </StackPanel>
                         </DataTemplate>
@@ -191,9 +194,11 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel>
-                                <TextBlock Text="{Binding Client.Name}"
+                                <TextBlock x:DataType="vm:DocumentViewModel" 
+                                           Text="{Binding Client.Name}"
                                            Classes="Client" />
-                                <TextBlock Text="{Binding Folder.Name}"
+                                <TextBlock x:DataType="vm:DocumentViewModel"
+                                           Text="{Binding Folder.Name}"
                                            Classes="Folder" />
                             </StackPanel>
                         </DataTemplate>
@@ -205,7 +210,8 @@
                     Width="*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <ItemsControl ItemsSource="{Binding AppliedActions}">
+                            <ItemsControl x:DataType="vm:DocumentViewModel"
+                                          ItemsSource="{Binding AppliedActions}">
                                 <ItemsControl.ItemsPanel>
                                     <ItemsPanelTemplate>
                                         <WrapPanel Orientation="Horizontal"/>
@@ -227,7 +233,8 @@
                     Width="*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <ItemsControl ItemsSource="{Binding AvailableActions}">
+                            <ItemsControl x:DataType="vm:DocumentViewModel"
+                                          ItemsSource="{Binding AvailableActions}">
                                 <ItemsControl.ItemsPanel>
                                     <ItemsPanelTemplate>
                                         <WrapPanel Orientation="Horizontal"/>

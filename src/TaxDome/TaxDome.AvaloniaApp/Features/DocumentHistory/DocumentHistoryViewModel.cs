@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Avalonia.Collections;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using TaxDome.Application.DTOs;
@@ -31,14 +32,13 @@ public class DocumentHistoryViewModel : ObservableObject
     private readonly ClientService _clientService;
     private readonly FolderService _folderService;
     private readonly DocumentActionService _documentActionService;
-    private readonly ObservableCollection<DocumentDto> _allItems = new ObservableCollection<DocumentDto>();
+    private readonly ObservableCollection<DocumentViewModel> _allItems = new ObservableCollection<DocumentViewModel>();
 
     #endregion
 
     #region Properties
 
-    private ObservableCollection<DocumentDto> _filteredItems = new ObservableCollection<DocumentDto>();
-    public ObservableCollection<DocumentDto> FilteredItems => _filteredItems;
+    public DataGridCollectionView FilteredItems { get; set; }    
 
     private string _searchText = string.Empty;
     public string SearchText
@@ -198,7 +198,7 @@ public class DocumentHistoryViewModel : ObservableObject
 
     private void UpdateFilter()
     {
-        IEnumerable<DocumentDto> filtered = _allItems;
+        IEnumerable<DocumentViewModel> filtered = _allItems;
         
         if (!string.IsNullOrWhiteSpace(_searchText))
         {
@@ -226,7 +226,8 @@ public class DocumentHistoryViewModel : ObservableObject
                 doc.AppliedActions.Any(action => action.Id == SelectedAppliedAction.Id));
         }
 
-        _filteredItems = new ObservableCollection<DocumentDto>(filtered);
+        FilteredItems = new DataGridCollectionView(filtered);
+        FilteredItems.GroupDescriptions.Add(new DataGridPathGroupDescription("Group"));
         OnPropertyChanged(nameof(FilteredItems));
     }
 
@@ -235,7 +236,10 @@ public class DocumentHistoryViewModel : ObservableObject
         try
         {
             IsLoading = true;
-            var documents = await _documentService.GetAllDocumentsAsync(CancellationToken.None);
+            var dtos = await _documentService.GetAllDocumentsAsync(CancellationToken.None);
+            var documents = new ObservableCollection<DocumentViewModel>(
+                dtos.Select(DocumentViewModel.FromDto).OrderByDescending(x => x.Date)
+            );
 
             await Avalonia.Threading.Dispatcher.UIThread.InvokeAsync(() =>
             {
