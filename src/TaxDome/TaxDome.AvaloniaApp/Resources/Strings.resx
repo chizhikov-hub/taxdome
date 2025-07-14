@@ -57,7 +57,4 @@
     <data name="DocumentHistory_AllFolders" xml:space="preserve">
         <value>All Folders</value>
     </data>
-    <data name="DocumentHistory_Column_Select" xml:space="preserve">
-        <value>Select</value>
-    </data>
 </root>

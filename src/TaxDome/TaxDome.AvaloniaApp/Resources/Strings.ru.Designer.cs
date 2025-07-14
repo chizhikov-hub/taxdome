@@ -132,15 +132,6 @@ namespace TaxDome.AvaloniaApp.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Выбрать.
-        /// </summary>
-        internal static string DocumentHistory_Column_Select {
-            get {
-                return ResourceManager.GetString("DocumentHistory_Column_Select", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Поиск:.
         /// </summary>
         internal static string DocumentHistory_Search {
