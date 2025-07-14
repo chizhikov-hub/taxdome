@@ -1,0 +1,66 @@
+﻿<ResourceDictionary
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="clr-namespace:ShadUI.Demo.Controls"
+    xmlns:editor="https://github.com/avaloniaui/avaloniaedit"
+    xmlns:shadui="clr-namespace:ShadUI;assembly=ShadUI">
+    <Design.PreviewWith>
+        <Border Width="500" Height="250">
+            <controls:CodeTextBlock>
+                <Run Text="&lt;controls:Window.Hosts&gt;" />
+                <LineBreak />
+                <Run Text="    &lt;dialogs:DialogHost Manager=&quot;{Binding DialogManager}&quot;" />
+                <LineBreak />
+                <Run Text="                        Owner=&quot;{Binding RelativeSource={RelativeSource AncestorType=controls:Window}}&quot; /&gt;" />
+                <LineBreak />
+                <Run Text="&lt;/controls:Window.Hosts&gt;" />
+            </controls:CodeTextBlock>
+        </Border>
+    </Design.PreviewWith>
+
+    <ControlTheme x:Key="{x:Type controls:CodeTextBlock}" TargetType="controls:CodeTextBlock">
+        <Setter Property="Padding" Value="8" />
+        <Setter Property="MinHeight" Value="50" />
+        <Setter Property="CornerRadius" Value="{DynamicResource XlCornerRadius}" />
+        <Setter Property="Background" Value="{DynamicResource CodeBackgroundColor}" />
+        <Setter Property="Foreground" Value="{DynamicResource CodeForegroundColor}" />
+        <Setter Property="FontSize" Value="13" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border
+                    Padding="{TemplateBinding Padding}"
+                    Background="{TemplateBinding Background}"
+                    BorderBrush="{TemplateBinding BorderBrush}"
+                    BorderThickness="{TemplateBinding BorderThickness}"
+                    CornerRadius="{TemplateBinding CornerRadius}">
+                    <Panel>
+                        <editor:TextEditor
+                            Name="PART_Editor"
+                            MinHeight="{TemplateBinding MinHeight}"
+                            MaxHeight="{TemplateBinding MaxHeight}"
+                            Margin="{TemplateBinding Padding}"
+                            FontFamily="{StaticResource JetbrainsFont}"
+                            HorizontalScrollBarVisibility="Auto"
+                            ShowLineNumbers="False"
+                            VerticalScrollBarVisibility="Auto" />
+                        <Button
+                            Name="PART_ClipBoardButton"
+                            Margin="8"
+                            Padding="8"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Top"
+                            shadui:ButtonAssist.HoverBackground="{DynamicResource CodeForegroundColor50}">
+                            <Viewbox Width="16" Height="16">
+                                <PathIcon
+                                    Name="PART_ClipBoardIcon"
+                                    Data="{x:Static shadui:Icons.ClipBoard}"
+                                    Foreground="#FAFAFA" />
+                            </Viewbox>
+                        </Button>
+                    </Panel>
+                </Border>
+            </ControlTemplate>
+        </Setter>
+    </ControlTheme>
+</ResourceDictionary>
