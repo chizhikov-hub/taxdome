@@ -13,6 +13,7 @@
         Title="{Binding Path=[Application_Name], Source={x:Static localization:LocalizedStrings.Instance}}">
     <Window.Resources>
         <converters:FileSizeConverter x:Key="FileSizeConverter" />
+        <converters:SelectDocumentConverter x:Key="SelectDocumentConverter" />
     </Window.Resources>
     <Window.Styles>
         <Style Selector="TextBlock.AppliedAction">
@@ -59,11 +60,14 @@
                
             <StackPanel DockPanel.Dock="Right" 
                         Orientation="Horizontal">
-                <Button Content="{Binding [DocumentHistory_SelectDocuments], Source={x:Static localization:LocalizedStrings.Instance}}"
+                <Button 
+                        Content="{Binding AllowSelectDocuments, Converter={StaticResource SelectDocumentConverter}}"
                         Command="{Binding ChangeSelectionModeCommand}"
                         Classes="Tertiary" 
                         Margin="0,0,10,0" 
-                        Padding="10,5"/>
+                        Padding="10,5"
+                        Width="200">
+                </Button>
                 <Button Content="{Binding [DocumentHistory_UploadFiles], Source={x:Static localization:LocalizedStrings.Instance}}"
                         Command="{Binding OpenUploadPreviewCommand}"
                         CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"

@@ -57,4 +57,7 @@
     <data name="DocumentHistory_AllFolders" xml:space="preserve">
         <value>All Folders</value>
     </data>
+    <data name="DocumentHistory_HideSelectionDocuments" xml:space="preserve">
+        <value>Hide Selection</value>
+    </data>
 </root>

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Windows.Input;
 using Avalonia.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -10,7 +9,7 @@ namespace TaxDome.AvaloniaApp.Features.DocumentHistory;
 
 public partial class DocumentViewModel : ObservableObject
 {
-    public Guid Id { get; set; }
+    public Guid Id { get; init; }
     public DateTime Date { get; init; }
     public string Document { get; init; }
     public long FileSize { get; init; }
@@ -18,30 +17,12 @@ public partial class DocumentViewModel : ObservableObject
     public FolderDto Folder { get; init; }
     public List<DocumentActionDto> AppliedActions { get; init; }
     public List<DocumentActionDto> AvailableActions { get; init; }
+   
+    [ObservableProperty]
+    private string _group;
     
-    private string group;
-    public string Group
-    {
-        get => group;
-        set
-        {
-            if (value == group) return;
-            group = value;
-            OnPropertyChanged();
-        }
-    }
-    
-    private bool isSelected;
-    public bool IsSelected
-    {
-        get => isSelected;
-        set
-        {
-            if (value == isSelected) return;
-            isSelected = value;
-            OnPropertyChanged();
-        }
-    }
+    [ObservableProperty]
+    private bool _isSelected;
 
     [RelayCommand]
     private void ToggleSelection(TappedEventArgs args)

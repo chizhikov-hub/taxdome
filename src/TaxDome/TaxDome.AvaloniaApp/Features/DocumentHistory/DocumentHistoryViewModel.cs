@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -23,7 +24,6 @@ public partial class DocumentHistoryViewModel : ObservableObject
         _clientService = clientService;
         _folderService = folderService;
         _documentActionService = documentActionService;
-        InitializeCommands();
         _ = InitializeAsync();
     }
 
@@ -33,7 +33,7 @@ public partial class DocumentHistoryViewModel : ObservableObject
     private readonly ClientService _clientService;
     private readonly FolderService _folderService;
     private readonly DocumentActionService _documentActionService;
-    private readonly ObservableCollection<DocumentViewModel> _allItems = new ObservableCollection<DocumentViewModel>();
+    private readonly List<DocumentViewModel> _originalItems = [];
 
     #endregion
 
@@ -54,37 +54,17 @@ public partial class DocumentHistoryViewModel : ObservableObject
         }
     }
 
+    [ObservableProperty]
     private bool _isLoading;
-    public bool IsLoading
-    {
-        get => _isLoading;
-        private set
-        {
-            _isLoading = value;
-            OnPropertyChanged();
-        }
-    }
     
+    [ObservableProperty]
     private ObservableCollection<ClientDto> _clients = new();
-    public ObservableCollection<ClientDto> Clients
-    {
-        get => _clients;
-        set => SetProperty(ref _clients, value);
-    }
-
-    private ObservableCollection<FolderDto> _folders = new();
-    public ObservableCollection<FolderDto> Folders
-    {
-        get => _folders;
-        set => SetProperty(ref _folders, value);
-    }
     
+    [ObservableProperty]
+    private ObservableCollection<FolderDto> _folders = new();
+    
+    [ObservableProperty]
     private ObservableCollection<DocumentActionDto> _documentActions = new();
-    public ObservableCollection<DocumentActionDto> DocumentActions
-    {
-        get => _documentActions;
-        set => SetProperty(ref _documentActions, value);
-    }
     
     private ClientDto _selectedClient;
     public ClientDto SelectedClient
@@ -131,12 +111,8 @@ public partial class DocumentHistoryViewModel : ObservableObject
         }
     }
     
+    [ObservableProperty]
     private bool _allowSelectDocuments;
-    public bool AllowSelectDocuments
-    {
-        get => _allowSelectDocuments;
-        set => SetProperty(ref _allowSelectDocuments, value);
-    }
     
     [ObservableProperty]
     private bool? _selectAll = false;
@@ -145,74 +121,54 @@ public partial class DocumentHistoryViewModel : ObservableObject
 
     #region Commands
 
-    public IAsyncRelayCommand AddCommand { get; private set; }
-    public IAsyncRelayCommand OpenUploadPreviewCommand { get; private set; }
-    public IRelayCommand ChangeSelectionModeCommand { get; private set; }
-
-    private void InitializeCommands()
-    {
-        AddCommand = new AsyncRelayCommand(ExecuteAddCommand);
-        OpenUploadPreviewCommand = new AsyncRelayCommand<Window>(OpenUploadPreview);
-        ChangeSelectionModeCommand = new RelayCommand(() =>
-        {
-            AllowSelectDocuments = !AllowSelectDocuments;
-            if (!AllowSelectDocuments)
-            {
-                foreach (var item in _allItems)
-                {
-                    item.IsSelected = false;
-                }
-            }            
-        });
-    }
-    
     [RelayCommand]
-    private void ToggleSelection(bool? selectAll)
-    {
-        // if (FilteredItems.SourceCollection is IList items)
-        // {
-        //     foreach (var item in _originalItems)
-        //     {
-        //         item.PropertyChanged -= OnItemsChanged;
-        //     }
-        //
-        //     foreach (var item in items.OfType<DocumentViewModel>())
-        //     {
-        //         item.IsSelected = selectAll ?? false;
-        //     }
-        //
-        //     foreach (var item in _originalItems)
-        //     {
-        //         item.PropertyChanged += OnItemsChanged;
-        //     }
-        //
-        //     UpdateSelectAllStatus();
-        // }
-
-        
-        // foreach (var item in FilteredItems.OfType<DocumentViewModel>())
-        // {
-        //     item.IsSelected = selectAll ?? false;
-        // }
-    }
-
-    #endregion
-
-    #region Methods
-    
-    private async Task InitializeAsync()
-    {
-        await LoadReferencesAsync();
-        await LoadDocumentsAsync();
-    }
-    
     private async Task OpenUploadPreview(Window window)
     {
         var view = new UploadReviewView();
         await view.ShowDialog(window);
     }
 
-    private async Task ExecuteAddCommand()
+    [RelayCommand]
+    private void ChangeSelectionMode()
+    {
+        AllowSelectDocuments = !AllowSelectDocuments;
+        if (!AllowSelectDocuments)
+        {
+            foreach (var item in _originalItems)
+            {
+                item.IsSelected = false;
+            }
+        }
+    }
+
+    [RelayCommand]
+    private async Task ToggleSelection(bool? selectAll)
+    {
+        foreach (var item in _originalItems)
+        {
+            item.PropertyChanged -= OnItemsChanged;
+        }
+        
+        foreach (var item in FilteredItems.OfType<DocumentViewModel>())
+        {
+            item.IsSelected = selectAll ?? false;
+        }
+        
+        foreach (var item in _originalItems)
+        {
+            item.PropertyChanged += OnItemsChanged;
+        }
+        
+        UpdateSelectAllStatus();
+            
+        await Avalonia.Threading.Dispatcher.UIThread.InvokeAsync(() =>
+        {
+            OnPropertyChanged(nameof(FilteredItems));
+        });
+    }
+    
+    [RelayCommand]
+    private async Task GenerateItems()
     {
         var clients = new []
         {
@@ -261,11 +217,21 @@ public partial class DocumentHistoryViewModel : ObservableObject
         }        
 
         await LoadDocumentsAsync();
-    }    
+    }
+
+    #endregion
+
+    #region Methods
+    
+    private async Task InitializeAsync()
+    {
+        await LoadReferencesAsync();
+        await LoadDocumentsAsync();
+    }
 
     private void UpdateFilter()
     {
-        IEnumerable<DocumentViewModel> filtered = _allItems;
+        IEnumerable<DocumentViewModel> filtered = _originalItems;
         
         if (!string.IsNullOrWhiteSpace(_searchText))
         {
@@ -295,6 +261,7 @@ public partial class DocumentHistoryViewModel : ObservableObject
 
         FilteredItems = new DataGridCollectionView(filtered);
         FilteredItems.GroupDescriptions.Add(new DataGridPathGroupDescription("Group"));
+        UpdateSelectAllStatus();
         OnPropertyChanged(nameof(FilteredItems));
     }
 
@@ -310,11 +277,12 @@ public partial class DocumentHistoryViewModel : ObservableObject
 
             await Avalonia.Threading.Dispatcher.UIThread.InvokeAsync(() =>
             {
-                _allItems.Clear();
+                _originalItems.Clear();
                 foreach (var doc in documents)
                 {
-                    _allItems.Add(doc);
+                    _originalItems.Add(doc);
                 }
+                foreach (var i in _originalItems) i.PropertyChanged += OnItemsChanged;
             });
         }
         finally
@@ -325,7 +293,32 @@ public partial class DocumentHistoryViewModel : ObservableObject
         UpdateFilter();
     }
     
-    public async Task LoadReferencesAsync()
+    private void OnItemsChanged(object sender, PropertyChangedEventArgs e)
+    {
+        UpdateSelectAllStatus();
+    }
+
+    private void UpdateSelectAllStatus()
+    {
+        var items = FilteredItems.OfType<DocumentViewModel>().ToArray();
+        var selectedAll = items.All(item => item.IsSelected);
+        var notSelectedCount = items.Count(item => !item.IsSelected);
+        
+        if (selectedAll)
+        {
+            SelectAll = true;
+        }
+        else if (notSelectedCount == items.Length)
+        {
+            SelectAll = false;
+        }
+        else
+        {
+            SelectAll = null;
+        }
+    }
+    
+    private async Task LoadReferencesAsync()
     {
         try
         {

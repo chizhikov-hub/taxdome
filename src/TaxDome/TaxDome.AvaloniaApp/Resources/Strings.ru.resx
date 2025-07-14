@@ -57,4 +57,7 @@
     <data name="DocumentHistory_AllFolders" xml:space="preserve">
         <value>Все папки</value>
     </data>
+    <data name="DocumentHistory_HideSelectionDocuments" xml:space="preserve">
+        <value>Скрыть выделение</value>
+    </data>
 </root>

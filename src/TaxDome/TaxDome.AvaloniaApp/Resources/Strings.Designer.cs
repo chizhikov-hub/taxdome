@@ -132,6 +132,15 @@ namespace TaxDome.AvaloniaApp.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Hide Selection.
+        /// </summary>
+        internal static string DocumentHistory_HideSelectionDocuments {
+            get {
+                return ResourceManager.GetString("DocumentHistory_HideSelectionDocuments", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Search:.
         /// </summary>
         internal static string DocumentHistory_Search {
