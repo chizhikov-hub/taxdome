@@ -5,12 +5,14 @@ using System.Runtime.InteropServices;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using ShadUI.Demo.ViewModels;
+using DocumentHistoryViewModel = TaxDome.ShadUI.Features.DocumentHistory.DocumentHistoryViewModel;
 
 namespace ShadUI.Demo;
 
 public sealed partial class MainWindowViewModel : ViewModelBase
 {
     private readonly ThemeWatcher _themeWatcher;
+    private readonly DocumentHistoryViewModel _documentHistoryViewModel;
     private readonly AboutViewModel _aboutViewModel;
     private readonly DashboardViewModel _dashboardViewModel;
     private readonly ThemeViewModel _themeViewModel;
@@ -66,7 +68,8 @@ public sealed partial class MainWindowViewModel : ViewModelBase
         ToastViewModel toastViewModel,
         ToggleViewModel toggleViewModel,
         ToolTipViewModel toolTipViewModel,
-        MiscellaneousViewModel miscellaneousViewModel)
+        MiscellaneousViewModel miscellaneousViewModel,
+        DocumentHistoryViewModel documentHistoryViewModel)
     {
         _dialogManager = dialogManager;
         _toastManager = toastManager;
@@ -96,12 +99,13 @@ public sealed partial class MainWindowViewModel : ViewModelBase
         _toggleViewModel = toggleViewModel;
         _toolTipViewModel = toolTipViewModel;
         _miscellaneousViewModel = miscellaneousViewModel;
+        _documentHistoryViewModel = documentHistoryViewModel;
 
         pageManager.OnNavigate = SwitchPage;
     }
 
     [ObservableProperty]
-    private string _currentRoute = "dashboard";
+    private string _currentRoute = "document-history";
 
     [ObservableProperty]
     private DialogManager _dialogManager;
@@ -115,7 +119,7 @@ public sealed partial class MainWindowViewModel : ViewModelBase
     private void SwitchPage(INavigable page, string route = "")
     {
         var pageType = page.GetType();
-        if (string.IsNullOrEmpty(route)) route = pageType.GetCustomAttribute<PageAttribute>()?.Route ?? "dashboard";
+        if (string.IsNullOrEmpty(route)) route = pageType.GetCustomAttribute<PageAttribute>()?.Route ?? "document-history";
         CurrentRoute = route;
 
         if (SelectedPage == page) return;
@@ -128,6 +132,12 @@ public sealed partial class MainWindowViewModel : ViewModelBase
     private void OpenDashboard()
     {
         SwitchPage(_dashboardViewModel);
+    }
+    
+    [RelayCommand]
+    private void OpenDocumentHistory()
+    {
+        SwitchPage(_documentHistoryViewModel);
     }
 
     [RelayCommand]
@@ -287,7 +297,7 @@ public sealed partial class MainWindowViewModel : ViewModelBase
 
     public void Initialize()
     {
-        SwitchPage(_dashboardViewModel);
+        SwitchPage(_documentHistoryViewModel);
     }
 
     [RelayCommand]

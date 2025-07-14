@@ -4,6 +4,7 @@ using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Data.Core.Plugins;
 using Avalonia.Markup.Xaml;
+using TaxDome.ShadUI.Common.Localization;
 
 namespace ShadUI.Demo;
 
@@ -14,6 +15,7 @@ public class App : Application
 
     public override void Initialize()
     {
+        LocalizationManager.SetCulture("ru-RU");
         AvaloniaXamlLoader.Load(this);
     }
 

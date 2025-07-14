@@ -89,9 +89,23 @@
                 <StackPanel Spacing="4">
                     <shadui:SidebarItemLabel AsSeparator="True" Text="Get Started" />
                     <shadui:SidebarItem
+                        Command="{Binding OpenDocumentHistoryCommand}"
+                        Content="Document History"
+                        IsChecked="True"
+                        Route="document-history"
+                        ToolTip.Tip="{Binding $parent[shadui:Sidebar].Expanded, Converter={x:Static converters:BooleanConverters.NullOrString}, ConverterParameter='DocumentHistory'}">
+                        <shadui:SidebarItem.Icon>
+                            <Viewbox>
+                                <TextBlock
+                                    Classes="LucideIcon"
+                                    Foreground="{DynamicResource ForegroundColor}"
+                                    Text="&#57793;" />
+                            </Viewbox>
+                        </shadui:SidebarItem.Icon>
+                    </shadui:SidebarItem>
+                    <shadui:SidebarItem
                         Command="{Binding OpenDashboardCommand}"
                         Content="Dashboard"
-                        IsChecked="True"
                         Route="dashboard"
                         ToolTip.Tip="{Binding $parent[shadui:Sidebar].Expanded, Converter={x:Static converters:BooleanConverters.NullOrString}, ConverterParameter='Dashboard'}">
                         <shadui:SidebarItem.Icon>

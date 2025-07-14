@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<root>
+    <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+        <xsd:element name="root" msdata:IsDataSet="true">
+            
+        </xsd:element>
+    </xsd:schema>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="DocumentHistory_Title" xml:space="preserve">
+        <value>Document History</value>
+    </data>
+    <data name="DocumentHistory_Search" xml:space="preserve">
+        <value>Search:</value>
+    </data>
+    <data name="DocumentHistory_Column_Document" xml:space="preserve">
+        <value>Document</value>
+    </data>
+    <data name="DocumentHistory_Column_ClientAndFolder" xml:space="preserve">
+        <value>Client &amp; Folder</value>
+    </data>
+    <data name="DocumentHistory_Column_AppliedActions" xml:space="preserve">
+        <value>Applied Actions</value>
+    </data>
+    <data name="DocumentHistory_Column_AvailableActions" xml:space="preserve">
+        <value>Available Actions</value>
+    </data>
+    <data name="Application_Name" xml:space="preserve">
+        <value>TaxDome</value>
+    </data>
+    <data name="DocumentHistory_SelectDocuments" xml:space="preserve">
+        <value>Select Documents</value>
+    </data>
+    <data name="DocumentHistory_UploadFiles" xml:space="preserve">
+        <value>Upload Files</value>
+    </data>
+    <data name="DocumentHistory_SearchTextWatermark" xml:space="preserve">
+        <value>Search by file name, client name...</value>
+    </data>
+    <data name="DocumentHistory_AllClients" xml:space="preserve">
+        <value>All Clients</value>
+    </data>
+    <data name="DocumentHistory_AllAppliedActions" xml:space="preserve">
+        <value>All Applied Actions</value>
+    </data>
+    <data name="DocumentHistory_AllFolders" xml:space="preserve">
+        <value>All Folders</value>
+    </data>
+    <data name="DocumentHistory_HideSelectionDocuments" xml:space="preserve">
+        <value>Hide Selection</value>
+    </data>
+</root>

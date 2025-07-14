@@ -1,0 +1,47 @@
+﻿<UserControl
+    x:Class="TaxDome.ShadUI.Features.DocumentHistory.DocumentHistoryPage"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="clr-namespace:ShadUI.Demo.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:shadui="clr-namespace:ShadUI;assembly=ShadUI"    
+    xmlns:documentHistory="clr-namespace:TaxDome.ShadUI.Features.DocumentHistory"
+    xmlns:l="clr-namespace:TaxDome.ShadUI.Common.Localization"
+    d:DesignWidth="800"
+    x:DataType="documentHistory:DocumentHistoryViewModel"
+    mc:Ignorable="d">
+    <DockPanel LastChildFill="True">
+        <StackPanel
+            MaxWidth="{StaticResource PageMaxWidth}"
+            Margin="{StaticResource PageMargin}"
+            DockPanel.Dock="Top"
+            Spacing="4">
+            <Grid ColumnDefinitions="* Auto">
+                <TextBlock Classes="h2" Text="{Binding Path=[DocumentHistory_Title], Source={x:Static l:LocalizedStrings.Instance}}" />
+                <StackPanel
+                    Grid.Column="1"
+                    Orientation="Horizontal"
+                    Spacing="8">
+                    <Button
+                        Width="28"
+                        Height="28"
+                        Background="{DynamicResource GhostHoverColor}"
+                        Classes="Icon"
+                        Command="{Binding NextPageCommand}">
+                        <Viewbox Margin="6">
+                            <TextBlock Classes="LucideIcon" Text="&#57421;" />
+                        </Viewbox>
+                    </Button>
+                </StackPanel>
+            </Grid>
+        </StackPanel>
+        <ScrollViewer>
+            <StackPanel
+                MaxWidth="{StaticResource PageMaxWidth}"
+                Margin="{StaticResource PageMargin}"
+                Spacing="32">
+            </StackPanel>
+        </ScrollViewer>
+    </DockPanel>
+</UserControl>

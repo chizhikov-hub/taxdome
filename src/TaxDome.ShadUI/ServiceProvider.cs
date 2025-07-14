@@ -13,6 +13,7 @@ using ShadUI.Demo.ViewModels.Examples.ListBox;
 using ShadUI.Demo.ViewModels.Examples.Numeric;
 using ShadUI.Demo.ViewModels.Examples.Time;
 using ShadUI.Demo.ViewModels.Examples.Typography;
+using DocumentHistoryViewModel = TaxDome.ShadUI.Features.DocumentHistory.DocumentHistoryViewModel;
 
 namespace ShadUI.Demo;
 
@@ -57,6 +58,7 @@ namespace ShadUI.Demo;
 [Transient<SelectableTextBlockViewModel>]
 [Transient<LabelViewModel>]
 [Transient<MainWindowViewModel>]
+[Transient<DocumentHistoryViewModel>]
 [Import<IUtilitiesModule>]
 [Singleton<IMessenger, WeakReferenceMessenger>]
 [Singleton(typeof(ThemeWatcher), Factory = nameof(ThemeWatcherFactory))]
