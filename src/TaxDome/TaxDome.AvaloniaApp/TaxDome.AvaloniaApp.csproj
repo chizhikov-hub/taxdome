@@ -58,6 +58,10 @@
       <DependentUpon>DocumentHistoryView.axaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Features\UploadReview\UploadReviewView.axaml.cs">
+      <DependentUpon>UploadReviewView.axaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>
@@ -74,6 +78,5 @@
   <ItemGroup>
     <Folder Include="Assets\Icons\" />
     <Folder Include="Common\" />
-    <Folder Include="Features\UploadReview\" />
   </ItemGroup>
 </Project>

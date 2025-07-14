@@ -1,0 +1,67 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:localization="clr-namespace:TaxDome.AvaloniaApp.Common.Localization"
+        xmlns:vm="clr-namespace:TaxDome.AvaloniaApp.Features.UploadReview"
+        mc:Ignorable="d" d:DesignWidth="750" d:DesignHeight="400" 
+        Height="800" Width="1100" CanResize="False"
+        x:Class="TaxDome.AvaloniaApp.Features.UploadReview.UploadReviewView"
+        x:DataType="vm:UploadReviewViewModel" WindowStartupLocation="CenterOwner" ShowInTaskbar="False"
+        Title="{Binding Path=[Application_Name], Source={x:Static localization:LocalizedStrings.Instance}}">    
+    <Grid RowDefinitions="Auto, * ,Auto" Background="#FAFAFA">
+        <!-- Step 1 -->
+        <StackPanel Spacing="4">
+            <TextBlock Text="Step 1: Select a client to proceed" FontWeight="Bold"/>
+            <TextBox Watermark="Search and select client..." />
+        </StackPanel>
+
+        <!-- Step 2 -->
+        <Grid Grid.Row="1" ColumnDefinitions="3*,2*" Margin="0,20,0,20">
+            
+            <!-- Left: File list -->
+            <StackPanel>
+                <TextBlock Text="Step 2: Configure files and folders" FontWeight="Bold"/>
+                <ItemsControl ItemsSource="{Binding SelectedFiles}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border Background="White" CornerRadius="6" Margin="0,5,0,5"
+                                    BorderBrush="LightGray" BorderThickness="1" Padding="10">
+                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                    <Image Source="{Binding Icon}" Width="24" Height="24"/>
+                                    <StackPanel Margin="10,0">
+                                        <TextBlock Text="{Binding FileName}" FontWeight="Bold"/>
+                                        <TextBlock Text="{Binding SizeText}" FontSize="11" Foreground="Gray"/>
+                                    </StackPanel>
+                                    <Button Content="🗑"
+                                            HorizontalAlignment="Right"/>
+                                    <!-- <Button Content="🗑"  -->
+                                    <!--         Command="{Binding DataContext.DeleteFileCommand, RelativeSource={RelativeSource AncestorType=Window}}"  -->
+                                    <!--         CommandParameter="{Binding}" HorizontalAlignment="Right"/> -->
+                                </StackPanel>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+
+            <!-- Right: Preview -->
+            <Border Grid.Column="1" Background="White" BorderBrush="#DDD" BorderThickness="1" CornerRadius="6" Padding="20" Margin="20,0">
+                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10">
+                    <Image Source="{Binding SelectedPreview.Icon}" Width="48" Height="48"/>
+                    <TextBlock Text="{Binding SelectedPreview.FileName}" FontSize="14" FontWeight="Bold" />
+                    <TextBlock Text="{Binding SelectedPreview.SizeText}" FontSize="12" />
+                    <TextBlock Text="{Binding SelectedPreview.MimeType}" FontSize="12" Foreground="Gray"/>
+                    <TextBlock Text="PDF preview will be available after upload"
+                               Foreground="Blue" FontSize="11"/>
+                </StackPanel>
+            </Border>
+        </Grid>
+
+        <!-- Footer -->
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Spacing="10">
+            <Button Content="Cancel" Command="{Binding CancelCommand}" />
+            <Button Content="{Binding UploadButtonText}" Command="{Binding UploadCommand}" IsEnabled="{Binding CanUpload}" Background="#3B82F6" Foreground="White"/>
+        </StackPanel>
+    </Grid>
+</Window>

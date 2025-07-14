@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using TaxDome.Application.Services;
 using TaxDome.AvaloniaApp.Features.DocumentHistory;
+using TaxDome.AvaloniaApp.Features.UploadReview;
 using TaxDome.Domain.Repositories;
 using TaxDome.Infrastructure;
 using TaxDome.Infrastructure.Repositories;
@@ -42,6 +43,7 @@ public static class ServicesExtensions
     public static IServiceCollection AddViewModels(this IServiceCollection services)
     {
         services.AddTransient<DocumentHistoryViewModel>();
+        services.AddTransient<UploadReviewViewModel>();
         
         return services;
     }
@@ -49,6 +51,7 @@ public static class ServicesExtensions
     public static IServiceCollection AddViews(this IServiceCollection services)
     {
         services.AddTransient<DocumentHistoryView>();
+        services.AddTransient<UploadReviewView>();
         
         return services;
     }

@@ -6,10 +6,12 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Avalonia.Collections;
+using Avalonia.Controls;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using TaxDome.Application.DTOs;
 using TaxDome.Application.Services;
+using TaxDome.AvaloniaApp.Features.UploadReview;
 
 namespace TaxDome.AvaloniaApp.Features.DocumentHistory;
 
@@ -142,11 +144,13 @@ public class DocumentHistoryViewModel : ObservableObject
     #region Commands
 
     public IAsyncRelayCommand AddCommand { get; private set; }
+    public IAsyncRelayCommand OpenUploadPreviewCommand { get; private set; }
     public IRelayCommand ChangeSelectModeCommand { get; private set; }
 
     private void InitializeCommands()
     {
         AddCommand = new AsyncRelayCommand(ExecuteAddCommand);
+        OpenUploadPreviewCommand = new AsyncRelayCommand<Window>(OpenUploadPreview);
         ChangeSelectModeCommand = new RelayCommand(() =>
         {
             AllowSelectDocuments = !AllowSelectDocuments;
@@ -163,6 +167,12 @@ public class DocumentHistoryViewModel : ObservableObject
     #endregion
 
     #region Methods
+    
+    private async Task OpenUploadPreview(Window window)
+    {
+        var view = new UploadReviewView();
+        await view.ShowDialog(window);
+    }
 
     private async Task ExecuteAddCommand()
     {
