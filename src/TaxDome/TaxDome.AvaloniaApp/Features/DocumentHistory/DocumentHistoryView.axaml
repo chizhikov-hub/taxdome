@@ -60,7 +60,7 @@
             <StackPanel DockPanel.Dock="Right" 
                         Orientation="Horizontal">
                 <Button Content="{Binding [DocumentHistory_SelectDocuments], Source={x:Static localization:LocalizedStrings.Instance}}"
-                        Command="{Binding ChangeSelectModeCommand}"
+                        Command="{Binding ChangeSelectionModeCommand}"
                         Classes="Tertiary" 
                         Margin="0,0,10,0" 
                         Padding="10,5"/>
@@ -172,25 +172,20 @@
                 </Style>
             </DataGrid.Styles>
             <DataGrid.Columns>
-                <DataGridTemplateColumn
-                    Header="{Binding [DocumentHistory_Column_Select], Source={x:Static localization:LocalizedStrings.Instance}}"
-                    x:DataType="vm:DocumentViewModel"
-                    IsVisible="{Binding $parent[Window].((vm:DocumentHistoryViewModel)DataContext).AllowSelectDocuments}">
-                    <DataTemplate x:DataType="vm:DocumentViewModel">
-                        <Grid Background="Transparent">
-                            <CheckBox
-                                IsChecked="{Binding IsSelected, Mode=OneWay}"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"/>
-                            <Interaction.Behaviors>
-                                <EventTriggerBehavior EventName="Tapped">
-                                    <InvokeCommandAction Command="{Binding ToggleSelectionCommand}" PassEventArgsToCommand="True"/>
-                                </EventTriggerBehavior>
-                            </Interaction.Behaviors>
-                        </Grid>
-                    </DataTemplate>
-
-                </DataGridTemplateColumn>
+                <DataGridCheckBoxColumn 
+                    x:DataType="vm:DocumentViewModel" 
+                    Binding="{Binding IsSelected}"
+                    IsVisible="{Binding $parent[Window].((vm:DocumentHistoryViewModel)DataContext).AllowSelectDocuments}"
+                    CanUserSort="False">
+                    <DataGridCheckBoxColumn.Header>
+                        <CheckBox
+                            x:Name="SelectToggler"
+                            x:DataType="vm:DocumentHistoryViewModel"
+                            Command="{Binding ToggleSelectionCommand}"
+                            CommandParameter="{Binding #SelectToggler.IsChecked}"
+                            IsChecked="{Binding SelectAll}" />
+                    </DataGridCheckBoxColumn.Header>
+                </DataGridCheckBoxColumn>
                 
                 <DataGridTemplateColumn
                     Header="{Binding [DocumentHistory_Column_Document], Source={x:Static localization:LocalizedStrings.Instance}}"

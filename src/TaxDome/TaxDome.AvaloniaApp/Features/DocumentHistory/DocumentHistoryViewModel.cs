@@ -15,7 +15,7 @@ using TaxDome.AvaloniaApp.Features.UploadReview;
 
 namespace TaxDome.AvaloniaApp.Features.DocumentHistory;
 
-public class DocumentHistoryViewModel : ObservableObject
+public partial class DocumentHistoryViewModel : ObservableObject
 {
     public DocumentHistoryViewModel(DocumentService documentService, ClientService clientService, FolderService folderService, DocumentActionService documentActionService)
     {
@@ -138,20 +138,23 @@ public class DocumentHistoryViewModel : ObservableObject
         get => _allowSelectDocuments;
         set => SetProperty(ref _allowSelectDocuments, value);
     }
-
+    
+    [ObservableProperty]
+    private bool? _selectAll = false;
+    
     #endregion
 
     #region Commands
 
     public IAsyncRelayCommand AddCommand { get; private set; }
     public IAsyncRelayCommand OpenUploadPreviewCommand { get; private set; }
-    public IRelayCommand ChangeSelectModeCommand { get; private set; }
+    public IRelayCommand ChangeSelectionModeCommand { get; private set; }
 
     private void InitializeCommands()
     {
         AddCommand = new AsyncRelayCommand(ExecuteAddCommand);
         OpenUploadPreviewCommand = new AsyncRelayCommand<Window>(OpenUploadPreview);
-        ChangeSelectModeCommand = new RelayCommand(() =>
+        ChangeSelectionModeCommand = new RelayCommand(() =>
         {
             AllowSelectDocuments = !AllowSelectDocuments;
             if (!AllowSelectDocuments)
@@ -162,6 +165,36 @@ public class DocumentHistoryViewModel : ObservableObject
                 }
             }            
         });
+    }
+    
+    [RelayCommand]
+    private void ToggleSelection(bool? selectAll)
+    {
+        // if (FilteredItems.SourceCollection is IList items)
+        // {
+        //     foreach (var item in _originalItems)
+        //     {
+        //         item.PropertyChanged -= OnItemsChanged;
+        //     }
+        //
+        //     foreach (var item in items.OfType<DocumentViewModel>())
+        //     {
+        //         item.IsSelected = selectAll ?? false;
+        //     }
+        //
+        //     foreach (var item in _originalItems)
+        //     {
+        //         item.PropertyChanged += OnItemsChanged;
+        //     }
+        //
+        //     UpdateSelectAllStatus();
+        // }
+
+        
+        // foreach (var item in FilteredItems.OfType<DocumentViewModel>())
+        // {
+        //     item.IsSelected = selectAll ?? false;
+        // }
     }
 
     #endregion

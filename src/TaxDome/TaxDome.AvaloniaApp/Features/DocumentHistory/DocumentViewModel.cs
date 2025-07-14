@@ -8,7 +8,7 @@ using TaxDome.Application.DTOs;
 
 namespace TaxDome.AvaloniaApp.Features.DocumentHistory;
 
-public class DocumentViewModel : ObservableObject
+public partial class DocumentViewModel : ObservableObject
 {
     public DocumentViewModel()
     {
