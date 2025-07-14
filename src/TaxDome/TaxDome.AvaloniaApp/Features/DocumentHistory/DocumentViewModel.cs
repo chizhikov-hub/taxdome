@@ -10,15 +10,6 @@ namespace TaxDome.AvaloniaApp.Features.DocumentHistory;
 
 public partial class DocumentViewModel : ObservableObject
 {
-    public DocumentViewModel()
-    {
-        ToggleSelectionCommand = new RelayCommand<TappedEventArgs>(args =>
-        {
-            IsSelected = !IsSelected;
-            args.Handled = true;
-        });
-    }
-
     public Guid Id { get; set; }
     public DateTime Date { get; init; }
     public string Document { get; init; }
@@ -52,7 +43,12 @@ public partial class DocumentViewModel : ObservableObject
         }
     }
 
-    public ICommand ToggleSelectionCommand { get; } 
+    [RelayCommand]
+    private void ToggleSelection(TappedEventArgs args)
+    {
+        IsSelected = !IsSelected;
+        args.Handled = true;
+    }
     
     public static DocumentViewModel FromDto(DocumentDto dto)
     {

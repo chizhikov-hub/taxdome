@@ -24,8 +24,7 @@ public partial class DocumentHistoryViewModel : ObservableObject
         _folderService = folderService;
         _documentActionService = documentActionService;
         InitializeCommands();
-        LoadReferencesAsync().ConfigureAwait(false);
-        LoadDocumentsAsync().ConfigureAwait(false);
+        _ = InitializeAsync();
     }
 
     #region Fields
@@ -200,6 +199,12 @@ public partial class DocumentHistoryViewModel : ObservableObject
     #endregion
 
     #region Methods
+    
+    private async Task InitializeAsync()
+    {
+        await LoadReferencesAsync();
+        await LoadDocumentsAsync();
+    }
     
     private async Task OpenUploadPreview(Window window)
     {
