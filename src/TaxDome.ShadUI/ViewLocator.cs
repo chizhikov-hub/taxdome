@@ -3,6 +3,7 @@ using System.Collections.Concurrent;
 using System.Reflection;
 using Avalonia.Controls;
 using Avalonia.Controls.Templates;
+using CommunityToolkit.Mvvm.ComponentModel;
 using ShadUI.Demo.ViewModels;
 
 namespace ShadUI.Demo;
@@ -52,6 +53,6 @@ public class ViewLocator : IDataTemplate
 
     public bool Match(object? data)
     {
-        return data is ViewModelBase;
+        return data is ViewModelBase or ObservableObject;
     }
 }

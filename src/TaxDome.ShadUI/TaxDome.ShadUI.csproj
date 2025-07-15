@@ -84,6 +84,11 @@
       </EmbeddedResource>
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\TaxDome.Application\TaxDome.Application.csproj" />
+      <ProjectReference Include="..\TaxDome.Infrastructure\TaxDome.Infrastructure.csproj" />
+    </ItemGroup>
+
     <Target Name="GenerateXamlTextCopies" BeforeTargets="PrepareForRun">
         <ItemGroup>
             <XamlFiles Include="Views\**\*.axaml"/>
