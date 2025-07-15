@@ -26,7 +26,7 @@ public sealed partial class DocumentHistoryViewModel : ObservableObject, INaviga
         _clientService = clientService;
         _folderService = folderService;
         _documentActionService = documentActionService;
-        // _ = InitializeAsync();
+        _ = InitializeAsync();
     }
     
     #region Fields

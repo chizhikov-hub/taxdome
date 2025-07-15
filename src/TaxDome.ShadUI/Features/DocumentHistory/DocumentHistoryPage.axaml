@@ -21,7 +21,7 @@
             DockPanel.Dock="Top"
             Spacing="4">
             <Grid ColumnDefinitions="* Auto">
-                <TextBlock Classes="h4" Text="{Binding Path=[DocumentHistory_Title], Source={x:Static l:LocalizedStrings.Instance}}" />
+                <TextBlock Grid.Column="0" Classes="h4" Text="{Binding Path=[DocumentHistory_Title], Source={x:Static l:LocalizedStrings.Instance}}" />
                 <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="8"> 
                     <Button
                         Content="{Binding AllowSelectDocuments, Converter={StaticResource SelectDocumentConverter}}"
@@ -52,6 +52,45 @@
                     </Button>
                 </StackPanel>
             </Grid>
+            
+            <StackPanel Grid.Row="1" Margin="0,16,0,10" Orientation="Horizontal">
+                <TextBox 
+                    Watermark="{Binding [DocumentHistory_SearchTextWatermark], Source={x:Static l:LocalizedStrings.Instance}}"
+                    Text="{Binding SearchText}"
+                    Classes="clearButton"
+                    MinWidth="400">
+                    <TextBox.InnerLeftContent>
+                        <PathIcon Data="{StaticResource SemiIconSearch}" Width="14" Height="14" Opacity="0.6" />
+                    </TextBox.InnerLeftContent>
+                </TextBox>
+            
+                <ComboBox 
+                    PlaceholderText="{Binding [DocumentHistory_AllClients], Source={x:Static l:LocalizedStrings.Instance}}"
+                    ItemsSource="{Binding Clients}"
+                    DisplayMemberBinding="{Binding Name}"
+                    SelectedItem="{Binding SelectedClient}"
+                    Classes="ClearButton"
+                    Margin="10 0 0 0" 
+                    Width="250"/>
+            
+                <ComboBox 
+                    PlaceholderText="{Binding [DocumentHistory_AllAppliedActions], Source={x:Static l:LocalizedStrings.Instance}}"
+                    ItemsSource="{Binding DocumentActions}"
+                    DisplayMemberBinding="{Binding Name}"
+                    SelectedItem="{Binding SelectedAppliedAction}"
+                    Classes="ClearButton"
+                    Margin="10 0 0 0" 
+                    Width="250"/>
+            
+                <ComboBox 
+                    PlaceholderText="{Binding [DocumentHistory_AllFolders], Source={x:Static l:LocalizedStrings.Instance}}"
+                    ItemsSource="{Binding Folders}"
+                    DisplayMemberBinding="{Binding Name}"
+                    SelectedItem="{Binding SelectedFolder}"
+                    Classes="ClearButton"
+                    Margin="10 0 0 0"
+                    Width="250"/>
+            </StackPanel>
         </StackPanel>
         <ScrollViewer>
             <StackPanel
