@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -12,6 +13,7 @@ using ShadUI.Demo;
 using ShadUI.Demo.ViewModels;
 using TaxDome.Application.DTOs;
 using TaxDome.Application.Services;
+using TaxDome.ShadUI.Common.Localization;
 
 namespace TaxDome.ShadUI.Features.DocumentHistory;
 
@@ -174,9 +176,23 @@ public sealed partial class DocumentHistoryViewModel : ObservableObject, INaviga
     
             await Avalonia.Threading.Dispatcher.UIThread.InvokeAsync(() =>
             {
-                Clients = new ObservableCollection<ClientDto>(loadClientsTask.Result);
-                Folders = new ObservableCollection<FolderDto>(loadFoldersTask.Result);
-                DocumentActions = new ObservableCollection<DocumentActionDto>(loadDocumentActionsTask.Result);
+                var clients = new ObservableCollection<ClientDto>(loadClientsTask.Result);
+                var allClientItem = new ClientDto(Guid.Empty, LocalizedStrings.Instance["DocumentHistory_AllClients"]);
+                clients.Insert(0, allClientItem);
+                Clients = clients;
+                SelectedClient = allClientItem;
+
+                var folders = new ObservableCollection<FolderDto>(loadFoldersTask.Result);
+                var allFolderItem = new FolderDto(Guid.Empty, LocalizedStrings.Instance["DocumentHistory_AllFolders"]);
+                folders.Insert(0, allFolderItem);
+                Folders = folders;
+                SelectedFolder = allFolderItem;
+
+                var documentActions = new ObservableCollection<DocumentActionDto>(loadDocumentActionsTask.Result);
+                var allAllAppliedActionItem = new DocumentActionDto(Guid.Empty, LocalizedStrings.Instance["DocumentHistory_AllAppliedActions"]);
+                documentActions.Insert(0, allAllAppliedActionItem);
+                DocumentActions = documentActions;
+                SelectedAppliedAction = allAllAppliedActionItem;
             });
         }
         finally

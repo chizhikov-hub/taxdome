@@ -60,12 +60,11 @@
                     Classes="clearButton"
                     MinWidth="400">
                     <TextBox.InnerLeftContent>
-                        <PathIcon Data="{StaticResource SemiIconSearch}" Width="14" Height="14" Opacity="0.6" />
+                        <PathIcon Data="{x:Static shadui:Icons.Search}" Width="14" Height="14" Opacity="0.6" Margin="10 0 0 0"/>
                     </TextBox.InnerLeftContent>
                 </TextBox>
             
-                <ComboBox 
-                    PlaceholderText="{Binding [DocumentHistory_AllClients], Source={x:Static l:LocalizedStrings.Instance}}"
+                <ComboBox
                     ItemsSource="{Binding Clients}"
                     DisplayMemberBinding="{Binding Name}"
                     SelectedItem="{Binding SelectedClient}"
@@ -74,7 +73,6 @@
                     Width="250"/>
             
                 <ComboBox 
-                    PlaceholderText="{Binding [DocumentHistory_AllAppliedActions], Source={x:Static l:LocalizedStrings.Instance}}"
                     ItemsSource="{Binding DocumentActions}"
                     DisplayMemberBinding="{Binding Name}"
                     SelectedItem="{Binding SelectedAppliedAction}"
@@ -82,8 +80,7 @@
                     Margin="10 0 0 0" 
                     Width="250"/>
             
-                <ComboBox 
-                    PlaceholderText="{Binding [DocumentHistory_AllFolders], Source={x:Static l:LocalizedStrings.Instance}}"
+                <ComboBox
                     ItemsSource="{Binding Folders}"
                     DisplayMemberBinding="{Binding Name}"
                     SelectedItem="{Binding SelectedFolder}"
