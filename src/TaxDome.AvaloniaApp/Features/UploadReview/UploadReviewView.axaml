@@ -31,7 +31,16 @@
             <Setter Property="Foreground" Value="#9a9fa9"/>
             <Setter Property="Width" Value="12"/>
             <Setter Property="Height" Value="12"/>
-            <Setter Property="Margin" Value="0 0 5 0"/>
+        </Style>
+        
+        <Style Selector="TextBlock.FooterHint">
+            <Setter Property="FontSize" Value="13"/>
+        </Style>
+        
+        <Style Selector="PathIcon.FooterHint">
+            <Setter Property="Foreground" Value="#487cee"/>
+            <Setter Property="Width" Value="14"/>
+            <Setter Property="Height" Value="14"/>
         </Style>
     </Window.Styles>
     <Grid RowDefinitions="Auto, * ,Auto" Margin="20">
@@ -66,6 +75,7 @@
                             Classes="Bordered"
                             Watermark="{Binding Path=[UploadFiles_ClientWatermark], Source={x:Static l:LocalizedStrings.Instance}}"
                             ItemsSource="{Binding Clients}"
+                            SelectedItem="{Binding SelectedClient}"
                             ValueMemberBinding="{ReflectionBinding Name}">
                             <AutoCompleteBox.InnerLeftContent>
                                 <PathIcon Data="{StaticResource SemiIconSearch}" Width="14" Height="14" Opacity="0.6" />
@@ -73,7 +83,7 @@
                         </AutoCompleteBox>
                     </Grid>
     
-                    <StackPanel Orientation="Horizontal">
+                    <StackPanel Orientation="Horizontal" Spacing="5">
                         <PathIcon Data="{StaticResource SemiIconIssueStroked}" Classes="Hint"/>
                         <TextBlock Text="{Binding Path=[UploadFiles_ClientHint], Source={x:Static l:LocalizedStrings.Instance}}" Classes="Hint"/>
                     </StackPanel>
@@ -83,7 +93,8 @@
             <!-- Step 2 -->
             <Border Grid.Row="1" BorderBrush="LightGray" BorderThickness="0 0 0 1" Margin="0 0 0 10">
                 <Grid ColumnDefinitions="3*,2*" RowDefinitions="Auto *" Margin="0,0 0 10">
-                    <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="{Binding Path=[UploadFiles_Step2], Source={x:Static l:LocalizedStrings.Instance}}" Classes="Step"/>
+                    <TextBlock Grid.Row="0" Grid.Column="0" Margin="0 0 0 5"
+                               Text="{Binding Path=[UploadFiles_Step2], Source={x:Static l:LocalizedStrings.Instance}}" Classes="Step"/>
                     <ContentControl Grid.Row="1" Grid.Column="0" Content="{Binding}">
                         <ContentControl.DataTemplates>
                             <DataTemplate x:DataType="vm:UploadReviewViewModel">
@@ -168,7 +179,10 @@
                     </ContentControl>
     
                     <!-- Right: Preview -->
-                    <Border Grid.Row="0" Grid.Column="1" Grid.RowSpan="2" Background="White" BorderBrush="#DDD" BorderThickness="1" CornerRadius="6" Padding="20" Margin="20,0">
+                    <TextBlock Grid.Row="0" Grid.Column="1" FontWeight="Bold" Margin="20 0 0 5"
+                               Text="{Binding Path=[UploadFiles_Preview], Source={x:Static l:LocalizedStrings.Instance}}"/>
+                    <Border Grid.Row="1" Grid.Column="1" Margin="20 0 0 0"
+                            BorderBrush="#DDD" BorderThickness="1" CornerRadius="6">
                         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10">
                             <Image Source="{Binding SelectedPreview.Icon}" Width="48" Height="48"/>
                             <TextBlock Text="{Binding SelectedPreview.FileName}" FontSize="14" FontWeight="Bold" />
@@ -193,18 +207,33 @@
         </Panel>
     
         <!-- Footer -->
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" Spacing="5">
+            <PathIcon Data="{StaticResource SemiIconIssueStroked}" Classes="FooterHint"/>
+            <TextBlock Text="{Binding Path=[UploadFiles_FooterHint], Source={x:Static l:LocalizedStrings.Instance}}" Classes="FooterHint"/>
+        </StackPanel>
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Spacing="10">
             <Button
                 Content="{Binding Path=[UploadFiles_Cancel], Source={x:Static l:LocalizedStrings.Instance}}"
                 Width="160"
-                Command="{Binding CancelCommand}" CommandParameter="{Binding ElementName=UploadFilesWindow}"/>
-            <!-- IsEnabled="{Binding CanUpload}" -->
+                Command="{Binding CancelCommand}" CommandParameter="{Binding ElementName=UploadFilesWindow}"/>            
             <Button
                 Classes="Primary"
                 Theme="{DynamicResource SolidButton}"
                 Width="200"
-                Content="{Binding [UploadFiles_Upload], Source={x:Static l:LocalizedStrings.Instance}}"
-                Command="{Binding CloseAndUploadCommand}" CommandParameter="{Binding ElementName=UploadFilesWindow}"/>
+                IsEnabled="{Binding CanUpload}"
+                Command="{Binding CloseAndUploadCommand}" CommandParameter="{Binding ElementName=UploadFilesWindow}">
+                <StackPanel Orientation="Horizontal" Spacing="5">
+                    <PathIcon Data="{StaticResource SemiIconCloudUploadStroked}" Width="18" Height="18"/>
+                    <TextBlock>
+                        <TextBlock.Text>
+                            <MultiBinding Converter="{StaticResource SelectedFilesConverter}">                                                    
+                                <Binding Path="SelectedFiles.Count" />
+                                <Binding Path="[UploadFiles_Upload]" Source="{x:Static l:LocalizedStrings.Instance}" />
+                            </MultiBinding>        
+                        </TextBlock.Text>
+                    </TextBlock>                    
+                </StackPanel>
+            </Button>
         </StackPanel>
     </Grid>
 </Window>

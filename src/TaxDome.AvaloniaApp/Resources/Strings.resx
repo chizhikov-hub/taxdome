@@ -97,6 +97,9 @@
         <value>Open Files</value>
     </data>
     <data name="UploadFiles_Upload" xml:space="preserve">
-        <value>Upload Files</value>
+        <value>Upload {0} Files</value>
+    </data>
+    <data name="UploadFiles_FooterHint" xml:space="preserve">
+        <value>Actions like signature requests, approvals, and linking will be available after upload.</value>
     </data>
 </root>

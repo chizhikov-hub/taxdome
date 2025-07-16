@@ -240,6 +240,15 @@ namespace TaxDome.AvaloniaApp.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Действия, такие как запросы подписи, утверждения и привязка, будут доступны после загрузки..
+        /// </summary>
+        internal static string UploadFiles_FooterHint {
+            get {
+                return ResourceManager.GetString("UploadFiles_FooterHint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Открыть файлы.
         /// </summary>
         internal static string UploadFiles_OpenFiles {
@@ -294,7 +303,7 @@ namespace TaxDome.AvaloniaApp.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Загрузить файлы.
+        ///   Looks up a localized string similar to Загрузить {0} файл(а).
         /// </summary>
         internal static string UploadFiles_Upload {
             get {

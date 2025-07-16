@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
@@ -10,7 +11,6 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using TaxDome.Application.DTOs;
 using TaxDome.Application.Services;
-using TaxDome.AvaloniaApp.Common;
 using TaxDome.AvaloniaApp.Common.Helpers;
 using TaxDome.AvaloniaApp.Common.Localization;
 
@@ -18,14 +18,16 @@ namespace TaxDome.AvaloniaApp.Features.UploadReview;
 
 public partial class UploadReviewViewModel : ObservableObject
 {
-    public UploadReviewViewModel(ClientService clientService)
+    public UploadReviewViewModel(DocumentService documentService, ClientService clientService)
     {
+        _documentService = documentService;
         _clientService = clientService;
         _ = InitializeAsync();
     }
 
     #region Fields
 
+    private readonly DocumentService _documentService;
     private readonly ClientService _clientService;
 
     #endregion
@@ -34,13 +36,22 @@ public partial class UploadReviewViewModel : ObservableObject
 
     public ObservableCollection<FileItemViewModel> SelectedFiles { get; } = new();
 
-    [ObservableProperty] private bool _hasFiles;
+    [ObservableProperty] 
+    private bool _hasFiles;
 
-    [ObservableProperty] private FileItemViewModel _selectedPreview;
+    [ObservableProperty] 
+    private FileItemViewModel _selectedPreview;
 
-    [ObservableProperty] private bool _isLoading;
+    [ObservableProperty] 
+    private bool _isLoading;
+    
+    public bool CanUpload => SelectedClient != default && SelectedFiles.Any();
 
-    [ObservableProperty] private ObservableCollection<ClientDto> _clients = new();
+    [ObservableProperty] 
+    private ObservableCollection<ClientDto> _clients = new();
+    
+    [ObservableProperty] 
+    private ClientDto _selectedClient;
 
     #endregion
 
@@ -53,8 +64,23 @@ public partial class UploadReviewViewModel : ObservableObject
     }
 
     [RelayCommand]
-    private void CloseAndUpload(Window window)
+    private async Task CloseAndUpload(Window window)
     {
+        foreach (var selectedFile in SelectedFiles)
+        {
+            var document = new DocumentDto
+            {
+                Id = Guid.NewGuid(),
+                Client = SelectedClient,
+                Folder = new FolderDto(new Guid("C5DAC252-7961-4638-BFBE-8291EF99D3C7"), "Shared with Client"),
+                Date = DateTime.Today,
+                Document = selectedFile.FileName,
+                FileSize = (long)selectedFile.Size,
+                AppliedActions = [],
+                AvailableActions = []
+            };
+            await _documentService.AddAsync(document, CancellationToken.None);
+        }        
         window.Close(true);
     }
 
@@ -123,9 +149,17 @@ public partial class UploadReviewViewModel : ObservableObject
 
     private async Task InitializeAsync()
     {
-        SelectedFiles.CollectionChanged += (sender, args) => HasFiles = SelectedFiles.Any();
-        // SelectedFiles.Add(new FileItemViewModel { FileName = "file1.pdf", Size = 10000000 });
+        SelectedFiles.CollectionChanged += (sender, args) =>
+        {
+            HasFiles = SelectedFiles.Any();
+            OnPropertyChanged(nameof(CanUpload));
+        };
         await LoadReferencesAsync();
+    }
+    
+    partial void OnSelectedClientChanged(ClientDto value)
+    {
+        OnPropertyChanged(nameof(CanUpload));
     }
 
     private async Task LoadReferencesAsync()

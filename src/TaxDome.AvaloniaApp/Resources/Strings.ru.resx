@@ -97,6 +97,9 @@
         <value>Открыть файлы</value>
     </data>
     <data name="UploadFiles_Upload" xml:space="preserve">
-        <value>Загрузить файлы</value>
+        <value>Загрузить {0} файл(а)</value>
+    </data>
+    <data name="UploadFiles_FooterHint" xml:space="preserve">
+        <value>Действия, такие как запросы подписи, утверждения и привязка, будут доступны после загрузки.</value>
     </data>
 </root>

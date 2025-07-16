@@ -240,6 +240,15 @@ namespace TaxDome.AvaloniaApp.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Actions like signature requests, approvals, and linking will be available after upload..
+        /// </summary>
+        internal static string UploadFiles_FooterHint {
+            get {
+                return ResourceManager.GetString("UploadFiles_FooterHint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Open Files.
         /// </summary>
         internal static string UploadFiles_OpenFiles {
@@ -294,7 +303,7 @@ namespace TaxDome.AvaloniaApp.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Upload Files.
+        ///   Looks up a localized string similar to Upload {0} Files.
         /// </summary>
         internal static string UploadFiles_Upload {
             get {
