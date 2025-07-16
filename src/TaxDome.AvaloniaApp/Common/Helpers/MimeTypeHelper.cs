@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 
-namespace TaxDome.AvaloniaApp.Common;
+namespace TaxDome.AvaloniaApp.Common.Helpers;
 
 public static class MimeTypeHelper
 {

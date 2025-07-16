@@ -292,5 +292,14 @@ namespace TaxDome.AvaloniaApp.Resources {
                 return ResourceManager.GetString("UploadFiles_Title", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Загрузить файлы.
+        /// </summary>
+        internal static string UploadFiles_Upload {
+            get {
+                return ResourceManager.GetString("UploadFiles_Upload", resourceCulture);
+            }
+        }
     }
 }

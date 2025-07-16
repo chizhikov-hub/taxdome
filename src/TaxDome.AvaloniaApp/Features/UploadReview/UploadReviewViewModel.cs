@@ -10,6 +10,7 @@ using CommunityToolkit.Mvvm.Input;
 using TaxDome.Application.DTOs;
 using TaxDome.Application.Services;
 using TaxDome.AvaloniaApp.Common;
+using TaxDome.AvaloniaApp.Common.Helpers;
 using TaxDome.AvaloniaApp.Common.Localization;
 
 namespace TaxDome.AvaloniaApp.Features.UploadReview;
@@ -82,7 +83,8 @@ public partial class UploadReviewViewModel : ObservableObject
             {
                 FileName = storageFile.Name,
                 Size = properties.Size ?? 0,
-                MimeType = MimeTypeHelper.GetMimeType(storageFile.Name)
+                MimeType = MimeTypeHelper.GetMimeType(storageFile.Name),
+                Icon = IconHelper.GetFileIcon(storageFile.Name)
             };
             SelectedFiles.Add(fileItemViewModel);
         }

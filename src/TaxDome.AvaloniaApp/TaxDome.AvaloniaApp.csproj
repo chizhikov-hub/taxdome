@@ -25,6 +25,7 @@
     <PackageReference Include="Semi.Avalonia" Version="11.2.1.9" />
     <PackageReference Include="Semi.Avalonia.AvaloniaEdit" Version="11.2.0.1" />
     <PackageReference Include="Semi.Avalonia.DataGrid" Version="11.2.1.9" />
+    <PackageReference Include="System.Drawing.Common" Version="9.0.7" />
     <PackageReference Include="Xaml.Behaviors.Interactions" Version="11.3.2" />
   </ItemGroup>
 

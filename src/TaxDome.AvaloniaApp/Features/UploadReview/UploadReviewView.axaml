@@ -110,6 +110,7 @@
                                         <ListBox.ItemTemplate>
                                             <DataTemplate>
                                                 <StackPanel Orientation="Horizontal" Spacing="8">
+                                                    <Image Source="{Binding Icon}" Width="24" Height="24"/>
                                                     <TextBlock Text="{Binding FileName}" VerticalAlignment="Center"/>
                                                     <TextBlock Text="{Binding Size, Converter={StaticResource FileSizeConverter}}" 
                                                                Foreground="#6e7681"
@@ -187,11 +188,12 @@
                 Content="{Binding Path=[UploadFiles_Cancel], Source={x:Static l:LocalizedStrings.Instance}}" 
                 Width="160"
                 Command="{Binding CancelCommand}" CommandParameter="{Binding ElementName=UploadFilesWindow}"/>
-            <!-- Content="{Binding UploadButtonText}" IsEnabled="{Binding CanUpload}" -->
+            <!-- IsEnabled="{Binding CanUpload}" -->
             <Button 
-                Background="#3B82F6" 
-                Foreground="White" 
+                Classes="Primary" 
+                Theme="{DynamicResource SolidButton}" 
                 Width="200"
+                Content="{Binding [UploadFiles_Upload], Source={x:Static l:LocalizedStrings.Instance}}"
                 Command="{Binding CloseAndUploadCommand}" CommandParameter="{Binding ElementName=UploadFilesWindow}"/>
         </StackPanel>
     </Grid>

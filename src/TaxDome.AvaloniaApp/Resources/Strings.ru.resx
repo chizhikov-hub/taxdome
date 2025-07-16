@@ -96,4 +96,7 @@
     <data name="UploadFiles_OpenFiles" xml:space="preserve">
         <value>Открыть файлы</value>
     </data>
+    <data name="UploadFiles_Upload" xml:space="preserve">
+        <value>Загрузить файлы</value>
+    </data>
 </root>
