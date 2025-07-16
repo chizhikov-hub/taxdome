@@ -213,6 +213,24 @@ namespace TaxDome.AvaloniaApp.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Предварительный просмотр.
+        /// </summary>
+        internal static string UploadFiles_Preview {
+            get {
+                return ResourceManager.GetString("UploadFiles_Preview", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Выбрано файлов ({0}).
+        /// </summary>
+        internal static string UploadFiles_SelectedFiles {
+            get {
+                return ResourceManager.GetString("UploadFiles_SelectedFiles", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Шаг 1: Выберите клиента, чтобы продолжить.
         /// </summary>
         internal static string UploadFiles_Step1 {

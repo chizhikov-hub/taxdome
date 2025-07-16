@@ -78,4 +78,10 @@
     <data name="UploadFiles_Cancel" xml:space="preserve">
         <value>Cancel</value>
     </data>
+    <data name="UploadFiles_SelectedFiles" xml:space="preserve">
+        <value>Selected Files ({0})</value>
+    </data>
+    <data name="UploadFiles_Preview" xml:space="preserve">
+        <value>Preview</value>
+    </data>
 </root>

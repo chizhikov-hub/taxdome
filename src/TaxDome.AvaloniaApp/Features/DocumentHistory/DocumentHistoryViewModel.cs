@@ -124,7 +124,10 @@ public partial class DocumentHistoryViewModel : ObservableObject
     [RelayCommand]
     private async Task OpenUploadPreview(Window window)
     {
-        var view = new UploadReviewView();
+        var view = new UploadReviewView
+        {
+            DataContext = App.Services.GetService(typeof(UploadReviewViewModel))
+        };
         await view.ShowDialog(window);
     }
 

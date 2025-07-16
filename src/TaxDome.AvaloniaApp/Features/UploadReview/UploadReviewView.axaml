@@ -8,7 +8,8 @@
         Height="800" Width="1100" CanResize="False"
         x:Class="TaxDome.AvaloniaApp.Features.UploadReview.UploadReviewView"
         x:DataType="vm:UploadReviewViewModel" WindowStartupLocation="CenterOwner" ShowInTaskbar="False"
-        Title="{Binding Path=[Application_Name], Source={x:Static l:LocalizedStrings.Instance}}">
+        Title="{Binding Path=[Application_Name], Source={x:Static l:LocalizedStrings.Instance}}"
+        Name="UploadFilesWindow">
     <Window.Styles>
         <Style Selector="TextBlock.Step">
             <Setter Property="Foreground" Value="#487cee"/>
@@ -41,14 +42,16 @@
                             FontWeight="Bold"
                             VerticalAlignment="Center"
                             Margin="0 0 10 0"/>
-                        <TextBox 
+                        <AutoCompleteBox 
                             x:Name="Search"
-                            Grid.Column="1" 
-                            Watermark="{Binding Path=[UploadFiles_ClientWatermark], Source={x:Static l:LocalizedStrings.Instance}}">
-                            <TextBox.InnerLeftContent>
+                            Grid.Column="1"
+                            Watermark="{Binding Path=[UploadFiles_ClientWatermark], Source={x:Static l:LocalizedStrings.Instance}}"
+                            ItemsSource="{Binding Clients}"
+                            ValueMemberBinding="{ReflectionBinding Name}">
+                            <AutoCompleteBox.InnerLeftContent>
                                 <PathIcon Data="{StaticResource SemiIconSearch}" Width="14" Height="14" Opacity="0.6" />
-                            </TextBox.InnerLeftContent>
-                        </TextBox>
+                            </AutoCompleteBox.InnerLeftContent>
+                        </AutoCompleteBox>
                     </Grid>
                 </StackPanel>    
             </Border>
@@ -99,8 +102,12 @@
         
         <!-- Footer -->
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Spacing="10">
-            <Button Content="{Binding Path=[UploadFiles_Cancel], Source={x:Static l:LocalizedStrings.Instance}}" Command="{Binding CancelCommand}" Width="160"/>
-            <Button Content="{Binding UploadButtonText}" Command="{Binding UploadCommand}" IsEnabled="{Binding CanUpload}" Background="#3B82F6" Foreground="White" Width="200"/>
+            <Button 
+                Content="{Binding Path=[UploadFiles_Cancel], Source={x:Static l:LocalizedStrings.Instance}}" 
+                Width="160"
+                Command="{Binding CancelCommand}" CommandParameter="{Binding ElementName=UploadFilesWindow}"/>
+            <!-- Content="{Binding UploadButtonText}" Command="{Binding UploadCommand}" IsEnabled="{Binding CanUpload}" -->
+            <Button Background="#3B82F6" Foreground="White" Width="200"/>
         </StackPanel>
     </Grid>
 </Window>

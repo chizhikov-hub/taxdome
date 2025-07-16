@@ -78,4 +78,10 @@
     <data name="UploadFiles_Cancel" xml:space="preserve">
         <value>Отмена</value>
     </data>
+    <data name="UploadFiles_SelectedFiles" xml:space="preserve">
+        <value>Выбрано файлов ({0})</value>
+    </data>
+    <data name="UploadFiles_Preview" xml:space="preserve">
+        <value>Предварительный просмотр</value>
+    </data>
 </root>
