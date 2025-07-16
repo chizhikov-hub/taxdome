@@ -22,7 +22,7 @@ public class DocumentRepositoryStub : IDocumentRepository
     
     public async Task<IReadOnlyCollection<Document>> GetAllAsync(CancellationToken cancellationToken)
     {
-        await Task.Delay(3000, cancellationToken);
+        // await Task.Delay(3000, cancellationToken);
 
         var result = new List<Document>();
         for (int i = 0; i < 1000; i++)

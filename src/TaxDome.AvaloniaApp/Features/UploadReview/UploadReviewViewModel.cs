@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Avalonia.Controls;
@@ -34,6 +35,9 @@ public partial class UploadReviewViewModel : ObservableObject
     public ObservableCollection<FileItemViewModel> SelectedFiles { get; } = new();
     
     [ObservableProperty]
+    private bool _hasFiles;
+    
+    [ObservableProperty]
     private FileItemViewModel _selectedPreview;
     
     [ObservableProperty]
@@ -66,6 +70,8 @@ public partial class UploadReviewViewModel : ObservableObject
     
     private async Task InitializeAsync()
     {
+        SelectedFiles.CollectionChanged += (sender, args) => HasFiles = SelectedFiles.Any();
+        // SelectedFiles.Add(new FileItemViewModel { FileName = "file1.pdf", Size = 10000000 });
         await LoadReferencesAsync();
     }
 

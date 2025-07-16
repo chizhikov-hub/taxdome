@@ -4,6 +4,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:l="clr-namespace:TaxDome.AvaloniaApp.Common.Localization"
         xmlns:vm="clr-namespace:TaxDome.AvaloniaApp.Features.UploadReview"
+        xmlns:c="clr-namespace:TaxDome.AvaloniaApp.Common.Converters"
         mc:Ignorable="d" d:DesignWidth="750" d:DesignHeight="400" 
         Height="800" Width="1200" CanResize="False"
         x:Class="TaxDome.AvaloniaApp.Features.UploadReview.UploadReviewView"
@@ -11,6 +12,9 @@
         Icon="/Assets/Icons/favicon.ico"
         Title="{Binding Path=[Application_Name], Source={x:Static l:LocalizedStrings.Instance}}"
         Name="UploadFilesWindow">
+    <Window.Resources>
+        <c:FileSizeConverter x:Key="FileSizeConverter" />
+    </Window.Resources>
     <Window.Styles>
         <Style Selector="TextBlock.Step">
             <Setter Property="Foreground" Value="#487cee"/>
@@ -79,37 +83,77 @@
             <Border Grid.Row="1" BorderBrush="LightGray" BorderThickness="0 0 0 1" Margin="0 0 0 10">
                 <Grid ColumnDefinitions="3*,2*" Margin="0,0 0 10">
                     <!-- Left: File list -->
-                    <StackPanel Grid.Column="0">
-                        <TextBlock Text="{Binding Path=[UploadFiles_Step2], Source={x:Static l:LocalizedStrings.Instance}}" Classes="Step"/>
-                        <ItemsControl ItemsSource="{Binding SelectedFiles}">
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate>
-                                    <Border Background="White" CornerRadius="6" Margin="0,5,0,5"
-                                            BorderBrush="LightGray" BorderThickness="1" Padding="10">
-                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                            <Image Source="{Binding Icon}" Width="24" Height="24"/>
-                                            <StackPanel Margin="10,0">
-                                                <TextBlock Text="{Binding FileName}" FontWeight="Bold"/>
-                                                <TextBlock Text="{Binding SizeText}" FontSize="11" Foreground="Gray"/>
-                                            </StackPanel>
-                                            <Button Content="🗑"
-                                                    HorizontalAlignment="Right"/>
-                                            <!-- <Button Content="🗑"  -->
-                                            <!--         Command="{Binding DataContext.DeleteFileCommand, RelativeSource={RelativeSource AncestorType=Window}}"  -->
-                                            <!--         CommandParameter="{Binding}" HorizontalAlignment="Right"/> -->
+                    <ContentControl Grid.Column="0" Content="{Binding}">
+                        <ContentControl.DataTemplates>
+                            <DataTemplate x:DataType="vm:UploadReviewViewModel">
+                                <Panel>
+                                    <Button 
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            IsVisible="{Binding !HasFiles}">
+                                        <StackPanel Orientation="Horizontal" Spacing="8">
+                                            <!-- <PathIcon Data="{StaticResource UploadIcon}"/> -->
+                                            <TextBlock Text="Choose files"/>
                                         </StackPanel>
-                                    </Border>
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
-                    </StackPanel>
+                                    </Button>
+
+                                    <ListBox IsVisible="{Binding HasFiles}"
+                                             ItemsSource="{Binding SelectedFiles}">
+                                        <ListBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal" Spacing="8">
+                                                    <TextBlock Text="{Binding FileName}" VerticalAlignment="Center"/>
+                                                    <TextBlock Text="{Binding Size, Converter={StaticResource FileSizeConverter}}" 
+                                                               Foreground="#6e7681"
+                                                               FontSize="12"
+                                                               VerticalAlignment="Center"/>
+                                                    <!-- <Button Command="{Binding $parent[ListBox].((vm:UploadReviewViewModel)DataContext).DeleteFileCommand}" -->
+                                                    <!--         CommandParameter="{Binding}" -->
+                                                    <!--         Classes="Icon" -->
+                                                    <!--         VerticalAlignment="Center"> -->
+                                                    <!--     <PathIcon Data="{StaticResource DeleteIcon}" -->
+                                                    <!--               Width="14" -->
+                                                    <!--               Height="14"/> -->
+                                                    <!-- </Button> -->
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </ListBox.ItemTemplate>
+                                    </ListBox>
+                                </Panel>
+                            </DataTemplate>
+                        </ContentControl.DataTemplates>
+                    </ContentControl>
+                    <!-- <StackPanel Grid.Column="0"> -->
+                    <!--     <TextBlock Text="{Binding Path=[UploadFiles_Step2], Source={x:Static l:LocalizedStrings.Instance}}" Classes="Step"/> -->
+                    <!--     <ItemsControl ItemsSource="{Binding SelectedFiles}"> -->
+                    <!--         <ItemsControl.ItemTemplate> -->
+                    <!--             <DataTemplate> -->
+                    <!--                 <Border Background="White" CornerRadius="6" Margin="0,5,0,5" -->
+                    <!--                         BorderBrush="LightGray" BorderThickness="1" Padding="10"> -->
+                    <!--                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center"> -->
+                    <!--                         <Image Source="{Binding Icon}" Width="24" Height="24"/> -->
+                    <!--                         <StackPanel Margin="10,0"> -->
+                    <!--                             <TextBlock Text="{Binding FileName}" FontWeight="Bold"/> -->
+                    <!--                             <TextBlock Text="{Binding SizeText}" FontSize="11" Foreground="Gray"/> -->
+                    <!--                         </StackPanel> -->
+                    <!--                         <Button Content="🗑" -->
+                    <!--                                 HorizontalAlignment="Right"/> -->
+                    <!--                         <Button Content="🗑" -->
+                    <!--                                 Command="{Binding DataContext.DeleteFileCommand, RelativeSource={RelativeSource AncestorType=Window}}" -->
+                    <!--                                 CommandParameter="{Binding}" HorizontalAlignment="Right"/> -->
+                    <!--                     </StackPanel> -->
+                    <!--                 </Border> -->
+                    <!--             </DataTemplate> -->
+                    <!--         </ItemsControl.ItemTemplate> -->
+                    <!--     </ItemsControl> -->
+                    <!-- </StackPanel> -->
 
                     <!-- Right: Preview -->
                     <Border Grid.Column="1" Background="White" BorderBrush="#DDD" BorderThickness="1" CornerRadius="6" Padding="20" Margin="20,0">
                         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10">
                             <Image Source="{Binding SelectedPreview.Icon}" Width="48" Height="48"/>
                             <TextBlock Text="{Binding SelectedPreview.FileName}" FontSize="14" FontWeight="Bold" />
-                            <TextBlock Text="{Binding SelectedPreview.SizeText}" FontSize="12" />
+                            <TextBlock Text="{Binding SelectedPreview.Size, Converter={StaticResource FileSizeConverter}}" FontSize="12" />
                             <TextBlock Text="{Binding SelectedPreview.MimeType}" FontSize="12" Foreground="Gray"/>
                             <TextBlock Text="PDF preview will be available after upload"
                                        Foreground="Blue" FontSize="11"/>

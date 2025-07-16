@@ -2,7 +2,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:converters="clr-namespace:TaxDome.AvaloniaApp.Common.Converters"
+        xmlns:c="clr-namespace:TaxDome.AvaloniaApp.Common.Converters"
         xmlns:localization="clr-namespace:TaxDome.AvaloniaApp.Common.Localization"
         xmlns:vm="clr-namespace:TaxDome.AvaloniaApp.Features.DocumentHistory"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450" 
@@ -12,8 +12,8 @@
         Icon="/Assets/Icons/favicon.ico"
         Title="{Binding Path=[Application_Name], Source={x:Static localization:LocalizedStrings.Instance}}">
     <Window.Resources>
-        <converters:FileSizeConverter x:Key="FileSizeConverter" />
-        <converters:SelectDocumentConverter x:Key="SelectDocumentConverter" />
+        <c:FileSizeConverter x:Key="FileSizeConverter" />
+        <c:SelectDocumentConverter x:Key="SelectDocumentConverter" />
     </Window.Resources>
     <Window.Styles>
         <Style Selector="TextBlock.AppliedAction">

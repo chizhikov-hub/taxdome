@@ -8,7 +8,6 @@ public class FileItemViewModel : ObservableObject
     public string FileName { get; set; } = "";
     public long Size { get; set; }
     public string MimeType { get; set; } = "application/octet-stream";
-    public string SizeText => $"{Size / 1024.0:F1} KB";
 
     public Bitmap Icon => GetIconForMime(MimeType);
 
