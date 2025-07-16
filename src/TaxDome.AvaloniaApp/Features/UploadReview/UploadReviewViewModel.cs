@@ -21,7 +21,6 @@ public partial class UploadReviewViewModel : ObservableObject
         // {
         //     SelectedFiles.Remove(file);
         // });
-        // UploadCommand = new RelayCommand(() => { /* Загрузить файлы */ });
     }
     
     #region Fields
@@ -50,10 +49,15 @@ public partial class UploadReviewViewModel : ObservableObject
     [RelayCommand]
     private void Cancel(Window window)
     {
-        window.Close();
+        window.Close(false);
     }
-    
-    // public ICommand UploadCommand { get; }
+
+    [RelayCommand]
+    private void Upload(Window window)
+    {
+        window.Close(true);
+    }
+
     // public ICommand DeleteFileCommand { get; }
     
     #endregion

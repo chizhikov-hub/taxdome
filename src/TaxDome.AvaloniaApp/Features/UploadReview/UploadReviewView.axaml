@@ -135,8 +135,12 @@
                 Content="{Binding Path=[UploadFiles_Cancel], Source={x:Static l:LocalizedStrings.Instance}}" 
                 Width="160"
                 Command="{Binding CancelCommand}" CommandParameter="{Binding ElementName=UploadFilesWindow}"/>
-            <!-- Content="{Binding UploadButtonText}" Command="{Binding UploadCommand}" IsEnabled="{Binding CanUpload}" -->
-            <Button Background="#3B82F6" Foreground="White" Width="200"/>
+            <!-- Content="{Binding UploadButtonText}" IsEnabled="{Binding CanUpload}" -->
+            <Button 
+                Background="#3B82F6" 
+                Foreground="White" 
+                Width="200"
+                Command="{Binding UploadCommand}" CommandParameter="{Binding ElementName=UploadFilesWindow}"/>
         </StackPanel>
     </Grid>
 </Window>

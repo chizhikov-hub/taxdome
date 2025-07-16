@@ -128,7 +128,8 @@ public partial class DocumentHistoryViewModel : ObservableObject
         {
             DataContext = App.Services.GetService(typeof(UploadReviewViewModel))
         };
-        await view.ShowDialog(window);
+        var result = await view.ShowDialog<bool>(window);
+        if (result) await LoadDocumentsAsync();
     }
 
     [RelayCommand]
