@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Avalonia.Controls;
+using Avalonia.Input;
 using Avalonia.Platform.Storage;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -21,12 +22,6 @@ public partial class UploadReviewViewModel : ObservableObject
     {
         _clientService = clientService;
         _ = InitializeAsync();
-
-        // // Заполнить данные
-        // DeleteFileCommand = new RelayCommand<FileItemViewModel>(file =>
-        // {
-        //     SelectedFiles.Remove(file);
-        // });
     }
 
     #region Fields
@@ -89,8 +84,38 @@ public partial class UploadReviewViewModel : ObservableObject
             SelectedFiles.Add(fileItemViewModel);
         }
     }
+    
+    [RelayCommand]
+    private void DragEnter(DragEventArgs e)
+    {
+        e.DragEffects = e.DragEffects & (DragDropEffects.Copy | DragDropEffects.Link);
+        e.Handled = true;
+    }
 
-    // public ICommand DeleteFileCommand { get; }
+    [RelayCommand]
+    private async Task Drop(DragEventArgs e)
+    {
+        if (e.Data.Contains(DataFormats.Files))
+        {
+            var files = e.Data.GetFiles();
+            if (files is null) return;
+
+            foreach (var file in files)
+            {
+                if (file is not IStorageFile storageFile) continue;
+            
+                var properties = await storageFile.GetBasicPropertiesAsync();
+                var fileItemViewModel = new FileItemViewModel
+                {
+                    FileName = storageFile.Name,
+                    Size = properties.Size ?? 0,
+                    MimeType = MimeTypeHelper.GetMimeType(storageFile.Name),
+                    Icon = IconHelper.GetFileIcon(storageFile.Name)
+                };
+                SelectedFiles.Add(fileItemViewModel);
+            }
+        }
+    }
 
     #endregion
 
@@ -160,7 +185,4 @@ public partial class UploadReviewViewModel : ObservableObject
     }
 
     #endregion
-
-    // public string UploadButtonText => $"Upload {SelectedFiles.Count} Files";
-    // public bool CanUpload => SelectedFiles.Any();
 }
