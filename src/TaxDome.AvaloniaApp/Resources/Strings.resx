@@ -84,4 +84,7 @@
     <data name="UploadFiles_Preview" xml:space="preserve">
         <value>Preview</value>
     </data>
+    <data name="UploadFiles_ClientHint" xml:space="preserve">
+        <value>Select a client to enable folder selection for files</value>
+    </data>
 </root>

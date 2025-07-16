@@ -84,4 +84,7 @@
     <data name="UploadFiles_Preview" xml:space="preserve">
         <value>Предварительный просмотр</value>
     </data>
+    <data name="UploadFiles_ClientHint" xml:space="preserve">
+        <value>Выберите клиента, чтобы включить выбор папки для файлов</value>
+    </data>
 </root>

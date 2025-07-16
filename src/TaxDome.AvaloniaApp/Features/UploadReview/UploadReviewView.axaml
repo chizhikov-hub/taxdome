@@ -5,9 +5,10 @@
         xmlns:l="clr-namespace:TaxDome.AvaloniaApp.Common.Localization"
         xmlns:vm="clr-namespace:TaxDome.AvaloniaApp.Features.UploadReview"
         mc:Ignorable="d" d:DesignWidth="750" d:DesignHeight="400" 
-        Height="800" Width="1100" CanResize="False"
+        Height="800" Width="1200" CanResize="False"
         x:Class="TaxDome.AvaloniaApp.Features.UploadReview.UploadReviewView"
         x:DataType="vm:UploadReviewViewModel" WindowStartupLocation="CenterOwner" ShowInTaskbar="False"
+        Icon="/Assets/Icons/favicon.ico"
         Title="{Binding Path=[Application_Name], Source={x:Static l:LocalizedStrings.Instance}}"
         Name="UploadFilesWindow">
     <Window.Styles>
@@ -15,8 +16,20 @@
             <Setter Property="Foreground" Value="#487cee"/>
             <Setter Property="FontWeight" Value="Bold"/>
         </Style>
+        
+        <Style Selector="TextBlock.Hint">
+            <Setter Property="Foreground" Value="#9a9fa9"/>
+            <Setter Property="FontSize" Value="12"/>
+        </Style>
+        
+        <Style Selector="PathIcon.Hint">
+            <Setter Property="Foreground" Value="#9a9fa9"/>
+            <Setter Property="Width" Value="12"/>
+            <Setter Property="Height" Value="12"/>
+            <Setter Property="Margin" Value="0 0 5 0"/>
+        </Style>
     </Window.Styles>    
-    <Grid RowDefinitions="Auto, * ,Auto" Margin="10">
+    <Grid RowDefinitions="Auto, * ,Auto" Margin="20">
         <!-- Header -->
         <StackPanel Grid.Row="0">
             <TextBlock DockPanel.Dock="Left" 
@@ -45,6 +58,7 @@
                         <AutoCompleteBox 
                             x:Name="Search"
                             Grid.Column="1"
+                            Classes="Bordered"
                             Watermark="{Binding Path=[UploadFiles_ClientWatermark], Source={x:Static l:LocalizedStrings.Instance}}"
                             ItemsSource="{Binding Clients}"
                             ValueMemberBinding="{ReflectionBinding Name}">
@@ -53,6 +67,11 @@
                             </AutoCompleteBox.InnerLeftContent>
                         </AutoCompleteBox>
                     </Grid>
+                    
+                    <StackPanel Orientation="Horizontal">
+                        <PathIcon Data="{StaticResource SemiIconIssueStroked}" Classes="Hint"/>
+                        <TextBlock Text="{Binding Path=[UploadFiles_ClientHint], Source={x:Static l:LocalizedStrings.Instance}}" Classes="Hint"/>    
+                    </StackPanel>
                 </StackPanel>    
             </Border>
 
@@ -99,6 +118,16 @@
                 </Grid>
             </Border>
         </Grid>
+        
+        <Panel Grid.Row="1" Margin="0 10"
+               IsVisible="{Binding IsLoading}">
+            <Panel Background="Black" Opacity="0.1"/>
+            <ProgressBar IsIndeterminate="True"
+                         Width="200"
+                         Height="20"
+                         VerticalAlignment="Center"
+                         HorizontalAlignment="Center"/>
+        </Panel>
         
         <!-- Footer -->
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Spacing="10">

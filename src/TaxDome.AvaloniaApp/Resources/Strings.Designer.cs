@@ -204,6 +204,15 @@ namespace TaxDome.AvaloniaApp.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Select a client to enable folder selection for files.
+        /// </summary>
+        internal static string UploadFiles_ClientHint {
+            get {
+                return ResourceManager.GetString("UploadFiles_ClientHint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Search and select client....
         /// </summary>
         internal static string UploadFiles_ClientWatermark {

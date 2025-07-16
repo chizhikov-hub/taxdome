@@ -6,7 +6,7 @@
         xmlns:localization="clr-namespace:TaxDome.AvaloniaApp.Common.Localization"
         xmlns:vm="clr-namespace:TaxDome.AvaloniaApp.Features.DocumentHistory"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450" 
-        Height="900" Width="1200"
+        Height="900" Width="1300"
         x:Class="TaxDome.AvaloniaApp.Features.DocumentHistory.DocumentHistoryView"
         x:DataType="vm:DocumentHistoryViewModel"
         Icon="/Assets/Icons/favicon.ico"
@@ -43,7 +43,7 @@
             <Setter Property="Foreground" Value="#6e7681" />
         </Style>
     </Window.Styles>
-    <Grid Margin="10" RowDefinitions="Auto Auto *">
+    <Grid Margin="20" RowDefinitions="Auto Auto *">
         <DockPanel Grid.Row="0" Margin="0,0,0,10" LastChildFill="False">
             <TextBlock DockPanel.Dock="Left" 
                        Text="{Binding Path=[DocumentHistory_Title], Source={x:Static localization:LocalizedStrings.Instance}}" 
@@ -75,7 +75,7 @@
             <TextBox 
                 Watermark="{Binding [DocumentHistory_SearchTextWatermark], Source={x:Static localization:LocalizedStrings.Instance}}"
                 Text="{Binding SearchText}"
-                Classes="clearButton"
+                Classes="ClearButton Bordered"
                 MinWidth="400">
                 <TextBox.InnerLeftContent>
                     <PathIcon Data="{StaticResource SemiIconSearch}" Width="14" Height="14" Opacity="0.6" />
@@ -87,7 +87,7 @@
                 ItemsSource="{Binding Clients}"
                 DisplayMemberBinding="{Binding Name}"
                 SelectedItem="{Binding SelectedClient}"
-                Classes="ClearButton"
+                Classes="ClearButton Bordered"
                 Margin="10 0 0 0" 
                 Width="250"/>
             
@@ -96,7 +96,7 @@
                 ItemsSource="{Binding DocumentActions}"
                 DisplayMemberBinding="{Binding Name}"
                 SelectedItem="{Binding SelectedAppliedAction}"
-                Classes="ClearButton"
+                Classes="ClearButton Bordered"
                 Margin="10 0 0 0" 
                 Width="250"/>
             
@@ -105,7 +105,7 @@
                 ItemsSource="{Binding Folders}"
                 DisplayMemberBinding="{Binding Name}"
                 SelectedItem="{Binding SelectedFolder}"
-                Classes="ClearButton"
+                Classes="ClearButton Bordered"
                 Margin="10 0 0 0"
                 Width="250"/>
         </StackPanel>
@@ -280,7 +280,7 @@
 
         <Panel Grid.Row="2"
                IsVisible="{Binding IsLoading}">
-            <Panel Background="Black" Opacity="0.2"/>
+            <Panel Background="Black" Opacity="0.1"/>
             <ProgressBar IsIndeterminate="True"
                         Width="200"
                         Height="20"
