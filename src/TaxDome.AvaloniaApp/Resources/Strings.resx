@@ -87,4 +87,13 @@
     <data name="UploadFiles_ClientHint" xml:space="preserve">
         <value>Select a client to enable folder selection for files</value>
     </data>
+    <data name="UploadFiles_DragAndDropFiles" xml:space="preserve">
+        <value>Drag and drop files or choose manually</value>
+    </data>
+    <data name="UploadFiles_ChooseFiles" xml:space="preserve">
+        <value>Choose Files</value>
+    </data>
+    <data name="UploadFiles_OpenFiles" xml:space="preserve">
+        <value>Open Files</value>
+    </data>
 </root>

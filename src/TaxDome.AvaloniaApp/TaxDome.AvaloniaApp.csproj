@@ -77,6 +77,5 @@
 
   <ItemGroup>
     <Folder Include="Assets\Icons\" />
-    <Folder Include="Common\" />
   </ItemGroup>
 </Project>

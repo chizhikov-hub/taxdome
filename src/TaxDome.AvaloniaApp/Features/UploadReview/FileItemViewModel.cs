@@ -6,7 +6,7 @@ namespace TaxDome.AvaloniaApp.Features.UploadReview;
 public class FileItemViewModel : ObservableObject
 {
     public string FileName { get; set; } = "";
-    public long Size { get; set; }
+    public ulong Size { get; set; }
     public string MimeType { get; set; } = "application/octet-stream";
 
     public Bitmap Icon => GetIconForMime(MimeType);

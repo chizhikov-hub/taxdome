@@ -87,4 +87,13 @@
     <data name="UploadFiles_ClientHint" xml:space="preserve">
         <value>Выберите клиента, чтобы включить выбор папки для файлов</value>
     </data>
+    <data name="UploadFiles_DragAndDropFiles" xml:space="preserve">
+        <value>Перетащите файлы или выберите вручную</value>
+    </data>
+    <data name="UploadFiles_ChooseFiles" xml:space="preserve">
+        <value>Выбрать файлы</value>
+    </data>
+    <data name="UploadFiles_OpenFiles" xml:space="preserve">
+        <value>Открыть файлы</value>
+    </data>
 </root>

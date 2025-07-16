@@ -195,6 +195,15 @@ namespace TaxDome.AvaloniaApp.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Выбрать файлы.
+        /// </summary>
+        internal static string UploadFiles_ChooseFiles {
+            get {
+                return ResourceManager.GetString("UploadFiles_ChooseFiles", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Клиент:.
         /// </summary>
         internal static string UploadFiles_Client {
@@ -218,6 +227,24 @@ namespace TaxDome.AvaloniaApp.Resources {
         internal static string UploadFiles_ClientWatermark {
             get {
                 return ResourceManager.GetString("UploadFiles_ClientWatermark", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Перетащите файлы или выберите вручную.
+        /// </summary>
+        internal static string UploadFiles_DragAndDropFiles {
+            get {
+                return ResourceManager.GetString("UploadFiles_DragAndDropFiles", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Открыть файлы.
+        /// </summary>
+        internal static string UploadFiles_OpenFiles {
+            get {
+                return ResourceManager.GetString("UploadFiles_OpenFiles", resourceCulture);
             }
         }
         

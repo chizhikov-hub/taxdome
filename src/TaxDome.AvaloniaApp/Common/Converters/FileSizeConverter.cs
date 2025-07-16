@@ -8,11 +8,17 @@ public class FileSizeConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        if (value is long fileSize)
-        {
+        ulong? fileSize = null;
+        if (value is ulong size)
+            fileSize = size;
+        if (value is long longSize)
+            fileSize = (ulong) longSize;
+        
+        if (fileSize.HasValue)
+        {            
             string[] sizes = { "B", "KB", "MB", "GB", "TB" };
             int order = 0;
-            double len = fileSize;
+            double len = fileSize.Value;
 
             while (len >= 1024 && order < sizes.Length - 1)
             {
