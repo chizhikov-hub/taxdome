@@ -60,4 +60,22 @@
     <data name="DocumentHistory_HideSelectionDocuments" xml:space="preserve">
         <value>Hide Selection</value>
     </data>
+    <data name="UploadFiles_Step1" xml:space="preserve">
+        <value>Step 1: Select a client to proceed</value>
+    </data>
+    <data name="UploadFiles_Title" xml:space="preserve">
+        <value>Upload Review</value>
+    </data>
+    <data name="UploadFiles_Step2" xml:space="preserve">
+        <value>Step 2: Configure files and folders</value>
+    </data>
+    <data name="UploadFiles_Client" xml:space="preserve">
+        <value>Client:</value>
+    </data>
+    <data name="UploadFiles_ClientWatermark" xml:space="preserve">
+        <value>Search and select client...</value>
+    </data>
+    <data name="UploadFiles_Cancel" xml:space="preserve">
+        <value>Cancel</value>
+    </data>
 </root>

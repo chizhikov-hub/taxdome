@@ -184,5 +184,59 @@ namespace TaxDome.AvaloniaApp.Resources {
                 return ResourceManager.GetString("DocumentHistory_UploadFiles", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cancel.
+        /// </summary>
+        internal static string UploadFiles_Cancel {
+            get {
+                return ResourceManager.GetString("UploadFiles_Cancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Client:.
+        /// </summary>
+        internal static string UploadFiles_Client {
+            get {
+                return ResourceManager.GetString("UploadFiles_Client", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Search and select client....
+        /// </summary>
+        internal static string UploadFiles_ClientWatermark {
+            get {
+                return ResourceManager.GetString("UploadFiles_ClientWatermark", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Step 1: Select a client to proceed.
+        /// </summary>
+        internal static string UploadFiles_Step1 {
+            get {
+                return ResourceManager.GetString("UploadFiles_Step1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Step 2: Configure files and folders.
+        /// </summary>
+        internal static string UploadFiles_Step2 {
+            get {
+                return ResourceManager.GetString("UploadFiles_Step2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Upload Review.
+        /// </summary>
+        internal static string UploadFiles_Title {
+            get {
+                return ResourceManager.GetString("UploadFiles_Title", resourceCulture);
+            }
+        }
     }
 }
