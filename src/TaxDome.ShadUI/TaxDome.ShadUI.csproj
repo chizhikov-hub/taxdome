@@ -89,6 +89,15 @@
       <ProjectReference Include="..\TaxDome.Infrastructure\TaxDome.Infrastructure.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Reference Include="Xaml.Behaviors.Interactions">
+        <HintPath>..\..\..\..\.nuget\packages\xaml.behaviors.interactions\11.3.2\lib\net8.0\Xaml.Behaviors.Interactions.dll</HintPath>
+      </Reference>
+      <Reference Include="Xaml.Behaviors.Interactivity">
+        <HintPath>..\..\..\..\.nuget\packages\xaml.behaviors.interactivity\11.3.2\lib\net8.0\Xaml.Behaviors.Interactivity.dll</HintPath>
+      </Reference>
+    </ItemGroup>
+
     <Target Name="GenerateXamlTextCopies" BeforeTargets="PrepareForRun">
         <ItemGroup>
             <XamlFiles Include="Views\**\*.axaml"/>

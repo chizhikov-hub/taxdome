@@ -202,20 +202,6 @@
                     </DataGridTemplateColumn.Header>
                 </DataGridTemplateColumn>
                 
-                <!-- <DataGridCheckBoxColumn -->
-                <!--     x:DataType="vm:DocumentViewModel" -->
-                <!--     Binding="{Binding IsSelected}" -->
-                <!--     IsVisible="{Binding $parent[Window].((vm:DocumentHistoryViewModel)DataContext).AllowSelectDocuments}"> -->
-                <!--     <DataGridCheckBoxColumn.Header> -->
-                <!--         <CheckBox -->
-                <!--             x:Name="SelectToggler" -->
-                <!--             x:DataType="vm:DocumentHistoryViewModel" -->
-                <!--             Command="{Binding ToggleSelectionCommand}" -->
-                <!--             CommandParameter="{Binding #SelectToggler.IsChecked}" -->
-                <!--             IsChecked="{Binding SelectAll}" /> -->
-                <!--     </DataGridCheckBoxColumn.Header> -->
-                <!-- </DataGridCheckBoxColumn> -->
-                
                 <DataGridTemplateColumn
                     Header="{Binding [DocumentHistory_Column_Document], Source={x:Static localization:LocalizedStrings.Instance}}"
                     Width="1.5*">
@@ -294,14 +280,7 @@
                             </ItemsControl>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-
-
-                <!-- <DataGridTextColumn -->
-                <!--     Header="DateGroup" -->
-                <!--     Binding="{Binding DateGroup}" -->
-                <!-- /> -->
-
+                </DataGridTemplateColumn>             
             </DataGrid.Columns>
         </DataGrid>
 

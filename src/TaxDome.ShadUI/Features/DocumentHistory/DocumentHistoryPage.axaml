@@ -6,11 +6,11 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:shadui="clr-namespace:ShadUI;assembly=ShadUI"    
-    xmlns:documentHistory="clr-namespace:TaxDome.ShadUI.Features.DocumentHistory"
+    xmlns:vm="clr-namespace:TaxDome.ShadUI.Features.DocumentHistory"
     xmlns:l="clr-namespace:TaxDome.ShadUI.Common.Localization"
     xmlns:c="clr-namespace:TaxDome.ShadUI.Converters"
     d:DesignWidth="800"
-    x:DataType="documentHistory:DocumentHistoryViewModel"
+    x:DataType="vm:DocumentHistoryViewModel"
     mc:Ignorable="d">
     <UserControl.Resources>
         <c:SelectDocumentConverter x:Key="SelectDocumentConverter"/>
@@ -53,7 +53,7 @@
                 </StackPanel>
             </Grid>
             
-            <StackPanel Grid.Row="1" Margin="0,16,0,10" Orientation="Horizontal">
+            <StackPanel Margin="0,16,0,10" Orientation="Horizontal">
                 <TextBox 
                     Watermark="{Binding [DocumentHistory_SearchTextWatermark], Source={x:Static l:LocalizedStrings.Instance}}"
                     Text="{Binding SearchText}"
@@ -88,13 +88,240 @@
                     Margin="10 0 0 0"
                     Width="250"/>
             </StackPanel>
+            
+            <DataGrid 
+                  ItemsSource="{Binding FilteredItems}"
+                  CanUserReorderColumns="True"
+                  CanUserResizeColumns="True"
+                  CanUserSortColumns="False"
+                  SelectionMode="Single"
+                  GridLinesVisibility="None"
+                  AreRowGroupHeadersFrozen="True">
+            <DataGrid.Styles>
+                <Style Selector="DataGridRow">
+                    <Setter Property="Height" Value="70" />
+                </Style>
+                
+                <Style Selector="DataGridCell">
+                    <Setter Property="Padding" Value="10" />
+                </Style>
+                
+                <Style Selector="DataGridColumnHeader">
+                    <Setter Property="BorderThickness" Value="0" />
+                    <Setter Property="Background" Value="Transparent" />
+                    <Setter Property="SeparatorBrush" Value="Transparent" />
+                </Style>
+                
+                <Style Selector="DataGrid">
+                    <Setter Property="HorizontalGridLinesBrush" Value="Transparent" />
+                    <Setter Property="VerticalGridLinesBrush" Value="Transparent" />
+                </Style>
+                
+                <!-- Стиль для строки при наведении -->
+                <Style Selector="DataGridRow:pointerover /template/ Rectangle#BackgroundRectangle">
+                    <Setter Property="Fill" Value="#15000000"/>
+                </Style>
+        
+                <!-- Стиль для выбранной строки -->
+                <Style Selector="DataGridRow:selected /template/ Rectangle#BackgroundRectangle">
+                    <Setter Property="Fill" Value="#200078D4"/>
+                </Style>
+        
+                <!-- Стиль для выбранной строки при наведении -->
+                <Style Selector="DataGridRow:selected:pointerover /template/ Rectangle#BackgroundRectangle">
+                    <Setter Property="Fill" Value="#300078D4"/>
+                </Style>
+                
+                <Style Selector="DataGridCell">
+                    <Setter Property="Background" Value="Transparent"/>
+                    <Setter Property="BorderThickness" Value="0"/>
+                    <Setter Property="Template">
+                        <ControlTemplate>
+                            <Grid Background="{TemplateBinding Background}">
+                                <ContentPresenter Margin="{TemplateBinding Padding}"
+                                                  Content="{TemplateBinding Content}"
+                                                  ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter>
+                </Style>
+            </DataGrid.Styles>
+            <DataGrid.Columns>
+                <DataGridTemplateColumn
+                    x:DataType="vm:DocumentViewModel"
+                    IsVisible="{Binding $parent[Window].((vm:DocumentHistoryViewModel)DataContext).AllowSelectDocuments}">
+                    <DataTemplate x:DataType="vm:DocumentViewModel">
+                        <Grid Background="Transparent">
+                            <CheckBox                                
+                                IsChecked="{Binding IsSelected, Mode=OneWay}"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"/>
+                            <Interaction.Behaviors>
+                                <EventTriggerBehavior EventName="Tapped">
+                                    <InvokeCommandAction Command="{Binding ToggleSelectionCommand}" PassEventArgsToCommand="True"/>
+                                </EventTriggerBehavior>
+                            </Interaction.Behaviors>
+                        </Grid>
+                    </DataTemplate>
+                    <DataGridTemplateColumn.Header>
+                        <CheckBox
+                            x:Name="SelectToggler"
+                            x:DataType="vm:DocumentHistoryViewModel"
+                            Command="{Binding ToggleSelectionCommand}"
+                            CommandParameter="{Binding #SelectToggler.IsChecked}"
+                            IsChecked="{Binding SelectAll}" />
+                    </DataGridTemplateColumn.Header>
+                </DataGridTemplateColumn>
+                
+                <DataGridTemplateColumn
+                    Header="{Binding [DocumentHistory_Column_Document], Source={x:Static l:LocalizedStrings.Instance}}"
+                    Width="1.5*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <TextBlock x:DataType="vm:DocumentViewModel"
+                                           Text="{Binding Document}"
+                                           Classes="Document" />
+                                <TextBlock x:DataType="vm:DocumentViewModel"
+                                           Text="{Binding FileSize, Converter={StaticResource FileSizeConverter}}"
+                                           Classes="FileSize" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn
+                    Header="{Binding [DocumentHistory_Column_ClientAndFolder], Source={x:Static l:LocalizedStrings.Instance}}"
+                    Width="*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <TextBlock x:DataType="vm:DocumentViewModel" 
+                                           Text="{Binding Client.Name}"
+                                           Classes="Client" />
+                                <TextBlock x:DataType="vm:DocumentViewModel"
+                                           Text="{Binding Folder.Name}"
+                                           Classes="Folder" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn
+                    Header="{Binding [DocumentHistory_Column_AppliedActions], Source={x:Static l:LocalizedStrings.Instance}}"
+                    Width="*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <ItemsControl x:DataType="vm:DocumentViewModel"
+                                          ItemsSource="{Binding AppliedActions}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <WrapPanel Orientation="Horizontal"/>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Name}" 
+                                                   Classes="AppliedAction"/>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn
+                    Header="{Binding [DocumentHistory_Column_AvailableActions], Source={x:Static l:LocalizedStrings.Instance}}"
+                    Width="*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <ItemsControl x:DataType="vm:DocumentViewModel"
+                                          ItemsSource="{Binding AvailableActions}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <WrapPanel Orientation="Horizontal"/>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Name}" 
+                                                   Classes="AvailableAction"/>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>             
+            </DataGrid.Columns>
+        </DataGrid>
         </StackPanel>
-        <ScrollViewer>
-            <StackPanel
-                MaxWidth="{StaticResource PageMaxWidth}"
-                Margin="{StaticResource PageMargin}"
-                Spacing="32">
-            </StackPanel>
-        </ScrollViewer>
+        <!-- <ScrollViewer> -->
+        <!--     <StackPanel -->
+        <!--         MaxWidth="{StaticResource PageMaxWidth}" -->
+        <!--         Margin="{StaticResource PageMargin}" -->
+        <!--         Spacing="32"> -->
+        <!--         <TextBlock>11111111111</TextBlock> -->
+        <!--         <TextBlock>11111111111</TextBlock> -->
+        <!--         <TextBlock>11111111111</TextBlock> -->
+        <!--         <TextBlock>11111111111</TextBlock> -->
+        <!--         <TextBlock>11111111111</TextBlock> -->
+        <!--         <TextBlock>11111111111</TextBlock> -->
+        <!--         <TextBlock>11111111111</TextBlock> -->
+        <!--         <TextBlock>11111111111</TextBlock> -->
+        <!--         <TextBlock>11111111111</TextBlock> -->
+        <!--         <TextBlock>11111111111</TextBlock> -->
+        <!--         <TextBlock>11111111111</TextBlock> -->
+        <!--         <TextBlock>11111111111</TextBlock> -->
+        <!--         <TextBlock>11111111111</TextBlock> -->
+        <!--         <TextBlock>11111111111</TextBlock> -->
+        <!--         <TextBlock>11111111111</TextBlock> -->
+        <!--         <TextBlock>11111111111</TextBlock> -->
+        <!--         <TextBlock>11111111111</TextBlock> -->
+        <!--         <TextBlock>11111111111</TextBlock> -->
+        <!--         <TextBlock>11111111111</TextBlock> -->
+        <!--         <TextBlock>11111111111</TextBlock> -->
+        <!--         <TextBlock>11111111111</TextBlock> -->
+        <!--         <TextBlock>11111111111</TextBlock> -->
+        <!--         <TextBlock>11111111111</TextBlock> -->
+        <!--         <TextBlock>11111111111</TextBlock> -->
+        <!--         <TextBlock>11111111111</TextBlock> -->
+        <!--         <TextBlock>11111111111</TextBlock> -->
+        <!--         <TextBlock>11111111111</TextBlock> -->
+        <!--         <TextBlock>11111111111</TextBlock> -->
+        <!--         <TextBlock>11111111111</TextBlock> -->
+        <!--         <TextBlock>11111111111</TextBlock> -->
+        <!--         <TextBlock>11111111111</TextBlock> -->
+        <!--         <TextBlock>11111111111</TextBlock> -->
+        <!--         <TextBlock>11111111111</TextBlock> -->
+        <!--         <TextBlock>11111111111</TextBlock> -->
+        <!--         <TextBlock>11111111111</TextBlock> -->
+        <!--         <TextBlock>11111111111</TextBlock> -->
+        <!--         <TextBlock>11111111111</TextBlock> -->
+        <!--         <TextBlock>11111111111</TextBlock> -->
+        <!--         <TextBlock>11111111111</TextBlock> -->
+        <!--         <TextBlock>11111111111</TextBlock> -->
+        <!--         <TextBlock>11111111111</TextBlock> -->
+        <!--         <TextBlock>11111111111</TextBlock> -->
+        <!--         <TextBlock>11111111111</TextBlock> -->
+        <!--         <TextBlock>11111111111</TextBlock> -->
+        <!--         <TextBlock>11111111111</TextBlock> -->
+        <!--         <TextBlock>11111111111</TextBlock> -->
+        <!--         <TextBlock>11111111111</TextBlock> -->
+        <!--         <TextBlock>11111111111</TextBlock> -->
+        <!--         <TextBlock>11111111111</TextBlock> -->
+        <!--         <TextBlock>11111111111</TextBlock> -->
+        <!--         <TextBlock>11111111111</TextBlock> -->
+        <!--         <TextBlock>11111111111</TextBlock> -->
+        <!--         <TextBlock>11111111111</TextBlock> -->
+        <!--         <TextBlock>11111111111</TextBlock> -->
+        <!--         <TextBlock>11111111111</TextBlock> -->
+        <!--         <TextBlock>11111111111</TextBlock> -->
+        <!--         <TextBlock>11111111111</TextBlock> -->
+        <!--         <TextBlock>11111111111</TextBlock> -->
+        <!--         <TextBlock>11111111111</TextBlock> -->
+        <!--     </StackPanel> -->
+        <!-- </ScrollViewer> -->
     </DockPanel>
 </UserControl>

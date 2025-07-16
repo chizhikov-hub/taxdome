@@ -152,6 +152,32 @@ public sealed partial class DocumentHistoryViewModel : ObservableObject, INaviga
         _pageManager.Navigate<DashboardViewModel>();
     }
     
+    [RelayCommand]
+    private async Task ToggleSelection(bool? selectAll)
+    {
+        foreach (var item in _originalItems)
+        {
+            item.PropertyChanged -= OnItemsChanged;
+        }
+        
+        foreach (var item in FilteredItems.OfType<DocumentViewModel>())
+        {
+            item.IsSelected = selectAll ?? false;
+        }
+        
+        foreach (var item in _originalItems)
+        {
+            item.PropertyChanged += OnItemsChanged;
+        }
+        
+        UpdateSelectAllStatus();
+            
+        await Avalonia.Threading.Dispatcher.UIThread.InvokeAsync(() =>
+        {
+            OnPropertyChanged(nameof(FilteredItems));
+        });
+    }
+    
     #endregion
 
     #region Methods
@@ -210,7 +236,7 @@ public sealed partial class DocumentHistoryViewModel : ObservableObject, INaviga
             var documents = new ObservableCollection<DocumentViewModel>(
                 dtos.Select(DocumentViewModel.FromDto).OrderByDescending(x => x.Date)
             );
-    
+
             await Avalonia.Threading.Dispatcher.UIThread.InvokeAsync(() =>
             {
                 _originalItems.Clear();
@@ -218,8 +244,13 @@ public sealed partial class DocumentHistoryViewModel : ObservableObject, INaviga
                 {
                     _originalItems.Add(doc);
                 }
+
                 foreach (var i in _originalItems) i.PropertyChanged += OnItemsChanged;
             });
+        }
+        catch (Exception e)
+        {
+            
         }
         finally
         {
@@ -268,17 +299,17 @@ public sealed partial class DocumentHistoryViewModel : ObservableObject, INaviga
             });
         }
         
-        if (SelectedClient != null)
+        if (SelectedClient != null && SelectedClient.Id != Guid.Empty)
         {
             filtered = filtered.Where(doc => doc.Client.Id == SelectedClient.Id);
         }
     
-        if (SelectedFolder != null)
+        if (SelectedFolder != null && SelectedFolder.Id != Guid.Empty)
         {
             filtered = filtered.Where(doc => doc.Folder.Id == SelectedFolder.Id);
         }
     
-        if (SelectedAppliedAction != null)
+        if (SelectedAppliedAction != null && SelectedAppliedAction.Id != Guid.Empty)
         {
             filtered = filtered.Where(doc => 
                 doc.AppliedActions.Any(action => action.Id == SelectedAppliedAction.Id));
