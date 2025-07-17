@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using Avalonia.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using TaxDome.Application.DTOs;
+using TaxDome.ShadUI.Common.Localization;
 
 namespace TaxDome.ShadUI.Features.DocumentHistory;
 
@@ -48,8 +50,8 @@ public partial class DocumentViewModel : ObservableObject
             AvailableActions = dto.AvailableActions,
             Group = dto.Date switch
             {
-                var d when d.Date == today => "Today",
-                var d when d.Date == yesterday => "Yesterday",
+                var d when d.Date == today => LocalizedStrings.Instance["DocumentHistory_Today"],
+                var d when d.Date == yesterday => LocalizedStrings.Instance["DocumentHistory_Yesterday"],
                 var d => d.ToString("yyyy-MM-dd")
             }
         };

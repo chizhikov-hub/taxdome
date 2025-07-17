@@ -102,4 +102,10 @@
     <data name="UploadFiles_FooterHint" xml:space="preserve">
         <value>Actions like signature requests, approvals, and linking will be available after upload.</value>
     </data>
+    <data name="DocumentHistory_Today" xml:space="preserve">
+        <value>Today</value>
+    </data>
+    <data name="DocumentHistory_Yesterday" xml:space="preserve">
+        <value>Yesterday</value>
+    </data>
 </root>

@@ -177,11 +177,29 @@ namespace TaxDome.AvaloniaApp.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Today.
+        /// </summary>
+        internal static string DocumentHistory_Today {
+            get {
+                return ResourceManager.GetString("DocumentHistory_Today", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Upload Files.
         /// </summary>
         internal static string DocumentHistory_UploadFiles {
             get {
                 return ResourceManager.GetString("DocumentHistory_UploadFiles", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Yesterday.
+        /// </summary>
+        internal static string DocumentHistory_Yesterday {
+            get {
+                return ResourceManager.GetString("DocumentHistory_Yesterday", resourceCulture);
             }
         }
         

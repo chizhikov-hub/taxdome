@@ -102,4 +102,10 @@
     <data name="UploadFiles_FooterHint" xml:space="preserve">
         <value>Действия, такие как запросы подписи, утверждения и привязка, будут доступны после загрузки.</value>
     </data>
+    <data name="DocumentHistory_Today" xml:space="preserve">
+        <value>Сегодня</value>
+    </data>
+    <data name="DocumentHistory_Yesterday" xml:space="preserve">
+        <value>Вчера</value>
+    </data>
 </root>
